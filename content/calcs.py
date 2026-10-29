@@ -292,3 +292,6 @@ CALCS = [
 "related": [],
 },
 ]
+
+from content.calcs_more import MORE as _MORE  # noqa: E402
+CALCS += _MORE

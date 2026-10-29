@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stromkosten-Rechner: Verbrauch &amp; Kosten pro Gerät berechnen | Rechenklarheit</title>
+<meta name="description" content="Stromkosten berechnen: Verbrauch in kWh und Kosten pro Tag, Monat und Jahr für jedes Gerät – mit Standby-Kosten, Energielabel-Modus und Rechenweg.">
+<link rel="canonical" href="https://rechenklarheit.de/stromkosten-rechner.html">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rechenklarheit">
+<meta property="og:title" content="Stromkosten-Rechner: Verbrauch &amp; Kosten pro Gerät berechnen | Rechenklarheit">
+<meta property="og:description" content="Stromkosten berechnen: Verbrauch in kWh und Kosten pro Tag, Monat und Jahr für jedes Gerät – mit Standby-Kosten, Energielabel-Modus und Rechenweg.">
+<meta property="og:url" content="https://rechenklarheit.de/stromkosten-rechner.html">
+<meta property="og:locale" content="de_AT">
+<meta name="theme-color" content="#2647C6">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/style.css?v=20261029b">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/stromkosten-rechner.html", "name": "Stromkosten-Rechner", "position": 2}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Stromkosten-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/stromkosten-rechner.html"}</script>
+<script src="/assets/consent.js?v=20261029b" defer></script><script src="/assets/calc.js?v=20261029b" defer></script>
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
+  <nav class="nav" aria-label="Hauptmenü">
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+</div></header>
+<main id="inhalt">
+<nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Stromkosten-Rechner</span></nav>
+<section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
+  <div><h1>Stromkosten-Rechner</h1><p class="lead">Wie viel kostet der Fernseher, der Router oder der Heizlüfter im Jahr? Leistung in Watt, Nutzungsdauer und Strompreis eingeben – oder den Jahresverbrauch vom Energielabel.</p><p class="formula">kWh = Watt × Stunden ÷ 1.000 · Kosten = kWh × Preis</p></div>
+  <div class="sheet"><form data-calc="strom" id="f-strom" novalidate><div class="fields"><label class="f">Ich kenne …<select name="mode"><option value="watt" selected>die Leistung in Watt</option><option value="label">den Jahresverbrauch (Energielabel)</option></select></label><div data-show-when="mode=watt" class="fields sub"><label class="f">Beispielgerät<select name="preset"><option value="">eigene Werte</option><option value="10|24">WLAN-Router (10 W, 24 h)</option><option value="100|4" selected>Fernseher (100 W, 4 h)</option><option value="2000|0.17">Wasserkocher (2.000 W, 10 min)</option><option value="50|6">Laptop (50 W, 6 h)</option><option value="200|4">Gaming-PC (200 W, 4 h)</option><option value="150|2">Spielkonsole (150 W, 2 h)</option><option value="2000|1">Heizlüfter (2.000 W, 1 h)</option><option value="5|24">Gerät im Standby (5 W, 24 h)</option></select></label><label class="f"><span data-l="watt">Leistung (Watt)</span><input name="watt" inputmode="decimal" value="100" autocomplete="off" ></label><label class="f"><span data-l="hours">Stunden pro Tag</span><input name="hours" inputmode="decimal" value="4" autocomplete="off" ></label><label class="f"><span data-l="days">Tage pro Jahr</span><input name="days" inputmode="numeric" value="365" autocomplete="off" ></label></div><div data-show-when="mode=label" class="fields sub"><label class="f"><span data-l="kwh">Verbrauch laut Label (kWh/Jahr)</span><input name="kwh" inputmode="decimal" value="150" autocomplete="off" ></label></div><label class="f"><span data-l="price">Strompreis (Cent pro kWh)</span><input name="price" inputmode="decimal" value="30" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
+</div></section>
+<div class="wrap"><div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div></div>
+<div class="wrap layout">
+  <div class="prose" style="max-width:none"><div class="prose">
+<h2>So rechnest du Stromkosten aus</h2>
+<p>Strom wird in Kilowattstunden (kWh) abgerechnet. Eine Kilowattstunde ist das, was ein Gerät mit 1.000 Watt in einer Stunde verbraucht. Die Rechnung hat deshalb immer drei Schritte:</p>
+<ol><li><strong>Leistung × Zeit:</strong> Watt mal Stunden ergibt Wattstunden.</li><li><strong>Durch 1.000:</strong> aus Wattstunden werden Kilowattstunden.</li><li><strong>Mal Strompreis:</strong> Kilowattstunden mal Preis pro kWh ergibt die Kosten.</li></ol>
+<div class="example"><strong>Beispiel Wasserkocher:</strong> 2.000 W, jeden Tag 10 Minuten. Pro Tag: 2.000 × 1/6 h ÷ 1.000 = 0,333 kWh. Pro Jahr: 121,7 kWh. Bei 30 Cent pro kWh kostet das 36,50 € im Jahr.</div>
+<h2>Standby: kleine Leistung, lange Laufzeit</h2>
+<p>Geräte, die rund um die Uhr laufen, fallen stärker ins Gewicht, als ihre Wattzahl vermuten lässt. Schon 10 Watt Dauerbetrieb ergeben 87,6 kWh im Jahr, bei 30 Cent also 26,28 €. Ein Wasserkocher mit der 200-fachen Leistung kostet im Jahr ähnlich viel – weil er nur wenige Minuten am Tag läuft.</p>
+<p>Ob ein Gerät im Standby Strom zieht, zeigt ein Strommessgerät aus dem Baumarkt am zuverlässigsten. Steckerleisten mit Schalter trennen mehrere Geräte auf einmal vom Netz.</p>
+<h2>Kühlschrank, Waschmaschine & Co.: das Energielabel nutzen</h2>
+<p>Bei Geräten, die nicht durchgehend mit voller Leistung laufen, hilft die Wattzahl wenig: Ein Kühlschrank-Kompressor schaltet sich ständig ein und aus. Hier ist der Jahresverbrauch vom EU-Energielabel die bessere Grundlage. Wähle oben „den Jahresverbrauch (Energielabel)“ und trage die kWh-Angabe ein. Bei Waschmaschinen und Geschirrspülern bezieht sich das Label auf 100 Programmdurchläufe – dann den Wert entsprechend umrechnen.</p>
+<h2>Welchen Strompreis eingeben?</h2>
+<p>Am genauesten ist der <strong>Arbeitspreis</strong> aus deiner Stromrechnung, in Cent pro kWh brutto. Die Grundgebühr gehört nicht dazu: Sie fällt unabhängig davon an, wie viel du verbrauchst, und ändert sich durch ein einzelnes Gerät nicht. Die 30 Cent im Rechner sind nur ein Startwert.</p>
+<div class="warn"><strong>Richtwerte:</strong> Die Beispielgeräte nutzen typische Größenordnungen. Die tatsächliche Leistung steht auf dem Typenschild oder im Datenblatt deines Geräts.</div>
+</div>
+  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
+  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div></aside>
+</div>
+</main>
+<footer class="foot"><div class="wrap">
+  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand Oktober 2026.</div>
+  <nav aria-label="Rechtliches"><a href="/about.html">Über uns</a><a href="/imprint.html">Impressum</a><a href="/privacy.html">Datenschutz</a><button class="linkbtn" type="button" data-privacy-settings>Datenschutz-Einstellungen</button></nav>
+</div></footer>
+</body>
+</html>

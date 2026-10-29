@@ -60,7 +60,8 @@
     }
     const int = k - paid;
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Jahr</th><th>Eingezahlt</th><th>Zinsen gesamt</th><th>Kapital</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${eur(r[1])}</td><td>${eur(r[2])}</td><td>${eur(r[3])}</td></tr>`).join("")}</tbody></table></div>`;
-    return { result: eur(k), label: `nach ${nf(n, 0)} Jahren`, steps: [line(`Monatszins = ${pc(p)} ÷ 12 = ${pc(p / 12, 4)}`), line(`Jeden Monat: Kapital × ${nf(1 + i, 6)} + ${eur(rate)} Sparrate`), line(`Eingezahlt: ${eur(paid)} · davon Zinsen: <mark>${eur(int)}</mark>`), line(`Zinsen machen ${pc(paid ? int / k * 100 : 0, 1)} des Endkapitals aus.`)], extra: table };
+    const ch = chart(rows.map(r => ({ label: r[0], a: r[1], b: Math.max(r[2], 0) })), ["a", "b"], ["var(--pen)", "var(--marker-strong)"], ["Eingezahlt", "Zinsen"]);
+    return { result: eur(k), label: `nach ${nf(n, 0)} Jahren`, pre: ch, steps: [line(`Monatszins = ${pc(p)} ÷ 12 = ${pc(p / 12, 4)}`), line(`Jeden Monat: Kapital × ${nf(1 + i, 6)} + ${eur(rate)} Sparrate`), line(`Eingezahlt: ${eur(paid)} · davon Zinsen: <mark>${eur(int)}</mark>`), line(`Zinsen machen ${pc(paid ? int / k * 100 : 0, 1)} des Endkapitals aus.`)], extra: table };
   };
 
   C.kredit = f => {
@@ -76,7 +77,8 @@
       rows.push([y, zi, ti, Math.max(rest, 0)]);
     }
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Jahr</th><th>Zinsen</th><th>Tilgung</th><th>Restschuld</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${eur(r[1])}</td><td>${eur(r[2])}</td><td>${eur(r[3])}</td></tr>`).join("")}</tbody></table></div>`;
-    return { result: eur(a), label: "Monatsrate", steps: [line(`Monatszins i = ${pc(p)} ÷ 12 = ${nf(i * 100, 4)} %`), line(`Rate = Kredit × i ÷ (1 − (1 + i)<sup>−${m}</sup>)`), line(`= <mark>${eur(a)}</mark> pro Monat, ${m} Raten`), line(`Zurückgezahlt gesamt: ${eur(total)} · Zinskosten: <b>${eur(interest)}</b>`), line(`Ohne Gebühren gerechnet. Der Effektivzins im Angebot enthält zusätzlich Kosten wie Bearbeitungsgebühren.`)], extra: table };
+    const ch = chart(rows.map(r => ({ label: r[0], a: r[2], b: r[1] })), ["a", "b"], ["var(--pen)", "var(--red)"], ["Tilgung", "Zinsen"]);
+    return { result: eur(a), label: "Monatsrate", pre: ch, steps: [line(`Monatszins i = ${pc(p)} ÷ 12 = ${nf(i * 100, 4)} %`), line(`Rate = Kredit × i ÷ (1 − (1 + i)<sup>−${m}</sup>)`), line(`= <mark>${eur(a)}</mark> pro Monat, ${m} Raten`), line(`Zurückgezahlt gesamt: ${eur(total)} · Zinskosten: <b>${eur(interest)}</b>`), line(`Ohne Gebühren gerechnet. Der Effektivzins im Angebot enthält zusätzlich Kosten wie Bearbeitungsgebühren.`)], extra: table };
   };
 
   C.inflation = f => {
@@ -174,16 +176,107 @@
     return { result: eur(mon), label: `brutto pro Monat (${salaries}×)`, steps: [line(`Jahresstunden = ${nf(hours, 2)} × 52 = ${nf(hpy, 1)} (≈ ${nf(hpm, 1)} pro Monat)`), line(`Jahresbrutto = ${eur(amount)} × ${nf(hpy, 1)} = ${eur(year)}`), line(`Monatsgehalt = ${eur(year)} ÷ ${salaries} = <mark>${eur(mon)}</mark>`)] };
   };
 
+  /* ---------- Balkendiagramm (gestapelt), barrierearm mit Tabelle darunter */
+  const chart = (rows, keys, colors, names, fmt = eur) => {
+    if (!rows.length) return "";
+    const W = 640, H = 220, P = 52, n = rows.length, bw = (W - P - 8) / n;
+    const max = Math.max(...rows.map(r => keys.reduce((a, k) => a + r[k], 0))) || 1;
+    const step = Math.ceil(n / 10);
+    let g = "";
+    rows.forEach((r, i) => { let y = H - 22; keys.forEach((k, j) => { const h = r[k] / max * (H - 40); y -= h; g += `<rect x="${(P + i * bw + bw * .12).toFixed(1)}" y="${y.toFixed(1)}" width="${(bw * .76).toFixed(1)}" height="${Math.max(h, 0).toFixed(1)}" fill="${colors[j]}"><title>${r.label}: ${names[j]} ${fmt(r[k])}</title></rect>`; });
+      if (i % step === 0 || i === n - 1) g += `<text x="${(P + i * bw + bw / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${r.label}</text>`; });
+    const ax = [0, .5, 1].map(f => `<text x="${P - 4}" y="${(H - 22 - f * (H - 40) + 4).toFixed(1)}" text-anchor="end">${new Intl.NumberFormat("de-DE", { notation: "compact", maximumFractionDigits: 1 }).format(max * f)}</text><line x1="${P}" x2="${W}" y1="${(H - 22 - f * (H - 40)).toFixed(1)}" y2="${(H - 22 - f * (H - 40)).toFixed(1)}" />`).join("");
+    const leg = names.map((nm, j) => `<span><i style="background:${colors[j]}"></i>${nm}</span>`).join("");
+    return `<figure class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Diagramm: ${names.join(" und ")} pro Jahr">${ax}${g}</svg><figcaption class="legend">${leg}</figcaption></figure>`;
+  };
+
+  C.strom = f => {
+    const mode = sel(f, "mode"), price = val(f, "price");
+    const pre = f.elements.preset;
+    if (pre && pre.value && pre.dataset.applied !== pre.value) { const [w, h] = pre.value.split("|"); f.elements.watt.value = w.replace(".", ","); f.elements.hours.value = h.replace(".", ","); pre.dataset.applied = pre.value; }
+    if (!Number.isFinite(price) || price < 0) return bad("Bitte den Strompreis in Cent pro kWh eingeben.");
+    const ct = price / 100;
+    if (mode === "label") {
+      const kwh = val(f, "kwh"); if (!Number.isFinite(kwh) || kwh < 0) return bad("Bitte den Jahresverbrauch in kWh eingeben.");
+      return { result: eur(kwh * ct), label: "Stromkosten pro Jahr", steps: [line(`${nf(kwh, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(kwh * ct)}</mark> pro Jahr`), line(`Pro Monat: ${eur(kwh * ct / 12)} · pro Tag: ${eur(kwh * ct / 365)}`), line(`Spart ein neues Gerät 30 % ein, sind das ${eur(kwh * ct * .3)} im Jahr.`)] };
+    }
+    const w = val(f, "watt"), h = val(f, "hours"), d = val(f, "days");
+    if (![w, h, d].every(Number.isFinite) || h > 24 || d > 366 || w < 0) return bad("Leistung, Stunden pro Tag (bis 24) und Tage pro Jahr eingeben.");
+    const day = w * h / 1000, year = day * d;
+    return { result: eur(year * ct), label: "Stromkosten pro Jahr", steps: [line(`Pro Tag: ${nf(w, 1)} W × ${nf(h, 2)} h ÷ 1.000 = ${nf(day, 3)} kWh`), line(`Pro Jahr: ${nf(day, 3)} kWh × ${nf(d, 0)} Tage = ${nf(year, 1)} kWh`), line(`${nf(year, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(year * ct)}</mark>`), line(`Pro Monat ${eur(year * ct / 12)} · pro Betriebsstunde ${eur(w / 1000 * ct)}`)] };
+  };
+
+  C.fahrt = f => {
+    const ev = sel(f, "fuel") === "ev";
+    const lc = $("[data-l=cons]", f), lp = $("[data-l=price]", f);
+    if (lc) lc.textContent = ev ? "Verbrauch (kWh/100 km)" : "Verbrauch (l/100 km)";
+    if (lp) lp.textContent = ev ? "Strompreis (€/kWh)" : "Preis (€/l)";
+    if (f.dataset.fuel !== sel(f, "fuel")) { if (f.dataset.fuel) { f.elements.cons.value = ev ? "18" : "6,5"; f.elements.price.value = ev ? "0,30" : "1,70"; } f.dataset.fuel = sel(f, "fuel"); }
+    const km = val(f, "km"), t = num(sel(f, "trip")), c = val(f, "cons"), p = val(f, "price"), n = Math.max(1, Math.round(val(f, "people") || 1));
+    if (![km, c, p].every(Number.isFinite)) return bad("Strecke, Verbrauch und Preis eingeben.");
+    const dist = km * t, q = dist * c / 100, cost = q * p, u = ev ? "kWh" : "l";
+    return { result: eur(cost / n), label: n > 1 ? `pro Person (${n} Personen)` : "Kosten der Fahrt", steps: [line(`Strecke: ${nf(km, 1)} km${t === 2 ? " × 2 (hin und zurück)" : ""} = ${nf(dist, 1)} km`), line(`Verbrauch: ${nf(dist, 1)} km × ${nf(c, 2)} ${u} ÷ 100 = ${nf(q, 2)} ${u}`), line(`Kosten: ${nf(q, 2)} ${u} × ${eur(p)} = ${n > 1 ? eur(cost) : `<mark>${eur(cost)}</mark>`}`), ...(n > 1 ? [line(`Pro Person: ${eur(cost)} ÷ ${n} = <mark>${eur(cost / n)}</mark>`)] : []), line(`Das sind ${nf(cost / dist * 100, 2)} € pro 100 km.`)] };
+  };
+
+  C.tip = f => {
+    const b = val(f, "bill"), p = num(sel(f, "pct")), r = num(sel(f, "round")), n = Math.max(1, Math.round(val(f, "people") || 1));
+    if (!Number.isFinite(b) || b <= 0) return bad("Bitte den Rechnungsbetrag eingeben.");
+    const tip = b * p / 100, raw = b + tip, tot = r > 0 ? Math.ceil(raw / r - 1e-9) * r : raw, eff = (tot - b) / b * 100;
+    const st = [line(`Trinkgeld: ${eur(b)} × ${nf(p, 0)} % = ${eur(tip)}`), line(`Zusammen: ${eur(raw)}${r > 0 ? ` → aufgerundet auf ${eur(tot)}` : ""}`)];
+    if (r > 0) st.push(line(`Tatsächliches Trinkgeld: ${eur(tot - b)} (${pc(eff, 1)})`));
+    st.push(n > 1 ? line(`Pro Person: ${eur(tot)} ÷ ${n} = <mark>${eur(tot / n)}</mark>`) : line(`Zu zahlen: <mark>${eur(tot)}</mark>`));
+    return { result: eur(n > 1 ? tot / n : tot), label: n > 1 ? `pro Person (gesamt ${eur(tot)})` : "Gesamtbetrag", steps: st };
+  };
+
+  C.marge = f => {
+    const mode = sel(f, "mode"), ek = val(f, "ek"), b = val(f, "b"), vat = num(sel(f, "vat"));
+    const lb = $("[data-l=b]", f); if (lb) lb.textContent = { ekvk: "Verkaufspreis netto (€)", auf: "Aufschlag (%)", span: "Zielmarge (%)" }[mode];
+    if (f.dataset.mode !== mode) { if (f.dataset.mode) f.elements.b.value = { ekvk: "100", auf: "50", span: "40" }[mode]; f.dataset.mode = mode; }
+    if (!Number.isFinite(ek) || !Number.isFinite(b) || ek <= 0) return bad("Einkaufspreis und zweiten Wert eingeben.");
+    let vk; const st = [];
+    if (mode === "ekvk") vk = b;
+    else if (mode === "auf") { vk = ek * (1 + b / 100); st.push(line(`Verkaufspreis = ${eur(ek)} × (1 + ${nf(b, 2)} %) = ${eur(vk)}`)); }
+    else { if (b >= 100) return bad("Eine Marge von 100 % oder mehr ist nicht möglich."); vk = ek / (1 - b / 100); st.push(line(`Verkaufspreis = ${eur(ek)} ÷ (1 − ${nf(b, 2)} %) = ${eur(vk)}`)); }
+    if (vk <= 0) return bad("Der Verkaufspreis muss größer als 0 sein.");
+    const g = vk - ek, auf = g / ek * 100, sp = g / vk * 100;
+    st.push(line(`Rohgewinn: ${eur(vk)} − ${eur(ek)} = ${eur(g)}`), line(`Aufschlag (auf den Einkauf): ${eur(g)} ÷ ${eur(ek)} = <mark>${pc(auf)}</mark>`), line(`Handelsspanne (vom Verkauf): ${eur(g)} ÷ ${eur(vk)} = <mark>${pc(sp)}</mark>`));
+    if (vat > 0) st.push(line(`Bruttopreis mit ${nf(vat, 0)} % USt: ${eur(vk * (1 + vat / 100))}`));
+    if (g < 0) st.push(line(`<b>Achtung:</b> Der Verkaufspreis liegt unter dem Einkaufspreis.`));
+    return { result: mode === "ekvk" ? pc(sp) : eur(vk), label: mode === "ekvk" ? "Handelsspanne (Marge)" : "Verkaufspreis netto", steps: st };
+  };
+
   function run(form) {
     const fn = C[form.dataset.calc]; if (!fn) return;
     let r; try { r = fn(form); } catch (e) { r = bad("Bitte die Eingaben prüfen."); }
     const out = $(`[data-out="${form.id}"]`) || form.querySelector("[data-out]"); if (!out || !r) return;
     if (!r.result) { out.innerHTML = `<p class="hint">${r.note}</p>`; return; }
-    out.innerHTML = `<div class="res"><span class="res-label">${r.label || "Ergebnis"}</span><output class="res-val">${r.result}</output></div><h3 class="way-h">Rechenweg</h3><ol class="way">${r.steps.join("")}</ol>${r.extra || ""}`;
+    out.innerHTML = `<div class="res"><span class="res-label">${r.label || "Ergebnis"}</span><output class="res-val">${r.result}</output></div><h3 class="way-h">Rechenweg</h3><ol class="way">${r.steps.join("")}</ol>${r.pre || ""}${r.extra || ""}<p class="share no-print"><button type="button" class="linkbtn" data-share>Link zu dieser Rechnung kopieren</button></p>`;
   }
+
+  function params(f) {
+    const q = new URLSearchParams();
+    [...f.elements].forEach(el => { if (el.name && !el.closest("[hidden]") && el.name !== "preset") q.set(el.name, el.value); });
+    return q;
+  }
+  function restore(f) {
+    const q = new URLSearchParams(location.search); if (![...q.keys()].length) return;
+    ["mode", "fuel", "cat", "dir"].forEach(k => { if (q.has(k) && f.elements[k]) f.elements[k].value = q.get(k); });
+    if (f.elements.cat) run(f); // Einheiten-Optionen aufbauen
+    if (f.dataset.calc === "fahrt") f.dataset.fuel = sel(f, "fuel");
+    if (f.dataset.calc === "marge") f.dataset.mode = sel(f, "mode");
+    if (f.elements.preset) { f.elements.preset.value = ""; }
+    q.forEach((v, k) => { const el = f.elements[k]; if (el && !(el instanceof RadioNodeList)) el.value = v; });
+  }
+  document.addEventListener("click", async e => {
+    const b = e.target.closest("[data-share]"); if (!b) return;
+    const f = b.closest("form"); const url = `${location.origin}${location.pathname}?${params(f)}`;
+    try { await navigator.clipboard.writeText(url); b.textContent = "Link kopiert ✓"; } catch { b.outerHTML = `<input class="sharelink" readonly value="${url}" onfocus="this.select()">`; }
+    history.replaceState(null, "", url);
+  });
 
   function init() {
     $$("form[data-calc]").forEach(f => {
+      restore(f);
       f.addEventListener("input", () => run(f));
       f.addEventListener("change", () => run(f));
       f.addEventListener("submit", e => { e.preventDefault(); run(f); });
