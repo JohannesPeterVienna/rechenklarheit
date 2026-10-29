@@ -294,5 +294,6 @@
       f.elements.mode.addEventListener("change", upd); upd();
     });
   }
+  window.RK_CALC = C; // für automatische Tests
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", init) : init();
 })();
