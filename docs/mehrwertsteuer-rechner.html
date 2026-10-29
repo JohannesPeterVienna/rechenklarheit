@@ -16,10 +16,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029b">
+<link rel="stylesheet" href="/assets/style.css?v=20261029c">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/mehrwertsteuer-rechner.html", "name": "Mehrwertsteuer-Rechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Mehrwertsteuer-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/mehrwertsteuer-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261029b" defer></script><script src="/assets/calc.js?v=20261029b" defer></script>
+<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -49,6 +49,18 @@
 <div class="warn"><strong>Typischer Fehler:</strong> 120 € minus 20 % ergibt 96,00 € – das ist um 4,00 € zu wenig, weil die 20 % auf den Nettobetrag gerechnet werden, nicht auf den Bruttobetrag.</div>
 <h2>Faustregel für den Steueranteil</h2>
 <p>Bei 20 % steckt im Bruttobetrag immer genau ein Sechstel Steuer, bei 19 % sind es 19/119, also rund 15,97 %, bei 10 % ein Elftel und bei 7 % 7/107, rund 6,54 %.</p>
+
+<h2>Der klassische Fehler beim Herausrechnen</h2>
+<p>Wer von 119 € einfach 19 % abzieht, bekommt 96,39 € – und liegt falsch. Die 19 % wurden auf den Nettopreis aufgeschlagen, nicht auf den Bruttopreis. Richtig ist: 119 € ÷ 1,19 = 100 €. Der Rechner nimmt dir diese Division ab.</p>
+<h2>Wie viel Steuer steckt im Bruttopreis?</h2>
+<p>Für den schnellen Überblick hilft der Anteil der Steuer am Bruttobetrag:</p>
+<ul><li>20 % USt (Österreich): 16,67 % des Bruttopreises sind Steuer – also ein Sechstel.</li>
+<li>19 % USt (Deutschland): 15,97 % des Bruttopreises.</li>
+<li>10 % USt: 9,09 % · 7 % USt: 6,54 % · 13 % USt: 11,5 %.</li></ul>
+<p>Bei einem Einkauf um 60 € brutto in Österreich sind also 10 € Umsatzsteuer enthalten.</p>
+<h2>Umsatzsteuer, Mehrwertsteuer, Vorsteuer</h2>
+<p>Umsatzsteuer und Mehrwertsteuer meinen im Alltag dasselbe; im Gesetz heißt sie Umsatzsteuer. Unternehmen schlagen sie auf ihre Preise auf und führen sie ans Finanzamt ab. Die Steuer, die sie selbst beim Einkauf zahlen, holen sie sich als <strong>Vorsteuer</strong> zurück. Wirtschaftlich trägt sie deshalb die Endkundin oder der Endkunde. Kleinunternehmer sind von der Umsatzsteuer befreit und weisen auf ihren Rechnungen keine aus.</p>
+<p class="small muted">Welcher Steuersatz für welche Ware oder Leistung gilt, regeln das österreichische und das deutsche Umsatzsteuergesetz. Im Zweifel hilft die Steuerberatung.</p>
 </div>
   <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
 <h2>Passend dazu</h2><ul class="cards"><li><a href="/mehrwertsteuer-herausrechnen.html"><strong>Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen</strong><span>Der häufigste Fehler bei Rechnungen – und die einfache Lösung.</span></a></li></ul>  </div>

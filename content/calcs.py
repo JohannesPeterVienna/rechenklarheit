@@ -295,3 +295,6 @@ CALCS = [
 
 from content.calcs_more import MORE as _MORE  # noqa: E402
 CALCS += _MORE
+from content.extras import EXTRAS as _EX  # noqa: E402
+for _c in CALCS:
+    _c["body"] = _c["body"] + _EX.get(_c["slug"], "")
