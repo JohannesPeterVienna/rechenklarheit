@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% import "macros.html" as m %}
+{% block main %}
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <h1><span>Rechnen,</span><span>bis es klar ist.</span></h1>
+    <p class="lead">Jeder Rechner zeigt nicht nur das Ergebnis, sondern auch den Weg dorthin – Schritt für Schritt, zum Nachvollziehen und Selberrechnen.</p>
+    <p class="muted">Prozente, Mehrwertsteuer, Rabatte, Zinsen, Kredit, Brüche, Einheiten und mehr. Kostenlos, ohne Anmeldung, für Österreich und Deutschland.</p>
+  </div>
+  <div class="sheet">{{ hero_form | safe }}</div>
+</div></section>
+<div class="wrap">{{ m.ad("billboard") }}</div>
+<div class="wrap layout">
+  <div>
+    <h2>Alle Rechner</h2>
+    {{ m.calclist(calcs) }}
+    {{ m.ad("rect") }}
+    <h2>Prozentrechnen in 60 Sekunden</h2>
+    <div class="prose">{{ intro | safe }}</div>
+    <h2>Ratgeber</h2>
+    <ul class="cards">{% for a in articles %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>
+  </div>
+  {{ m.sidebar(calcs, "") }}
+</div>
+{% endblock %}
