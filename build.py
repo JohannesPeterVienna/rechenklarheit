@@ -81,8 +81,7 @@ def main():
 <p>Angaben nach § 5 E-Commerce-Gesetz und § 25 Mediengesetz.</p>
 <h2>Grundlegende Richtung</h2><p>Rechenklarheit ist eine unabhängige Informationsseite mit Online-Rechnern und Erklärungen zu Alltagsmathematik, Steuern und Finanzen. Die Seite finanziert sich über Werbung.</p>
 <h2>Haftung</h2><p>Alle Rechner und Angaben wurden sorgfältig erstellt, erfolgen aber ohne Gewähr. Sie ersetzen keine Steuer-, Rechts- oder Finanzberatung.</p>""")
-    kk = (ROOT.parent / "kalenderkompass24" / "docs" / "privacy.html").read_text(encoding="utf-8")
-    body = kk[kk.index('<div class="prose">') + len('<div class="prose">'):kk.index("</div>\n", kk.index('<div class="prose">'))]
+    body = (ROOT / "content" / "privacy_body.html").read_text(encoding="utf-8")
     body = body.replace("Kalender, Planer und Rechner arbeiten", "Alle Rechner arbeiten").replace(
         " Damit die Seite sich dein Bundesland merkt, speichern wir es im lokalen Speicher deines Browsers (localStorage). Diese Speicherung ist für die von dir gewünschte Funktion erforderlich (§ 165 Abs. 3 TKG 2021). Du kannst sie jederzeit über die Browser-Einstellungen löschen.", " Wir speichern keine Eingaben.")
     assert "Bundesland" not in body
