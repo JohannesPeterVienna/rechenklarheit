@@ -1,10 +1,29 @@
 /* Werbung und Statistik — beides läuft über Googles zertifizierte Einwilligungsverwaltung (TCF 2.2).
-   Google Analytics wird erst geladen, wenn im Google-Dialog Zweck 1 (Speichern) und Google als Anbieter
-   erlaubt wurden. Signals und Werbepersonalisierung sind in Analytics deaktiviert. */
+   Messregel für Google Analytics (beide Bedingungen nötig):
+     · TCF-Daten: Zweck 1 (Speichern) und Anbieter 755 (Google) zugestimmt,
+     · Consent Mode der Google-CMP: analyticsStoragePurposeConsentStatus === GRANTED.
+   UNKNOWN, fehlende Werte oder ein offener Dialog = keine Messung. Gilt die DSGVO laut CMP nicht und
+   wurde die Statistik nicht abgelehnt, wird gemessen. Ablehnung/Widerruf → consent update "denied",
+   ga-disable-Schalter, keine weiteren Treffer. Signals und Werbepersonalisierung sind deaktiviert. */
 (() => {
   const PUB = "ca-pub-7811071715414905";
   const GA = "G-T00HRG2YVF";
   const GOOGLE_VENDOR = 755;
+  const CM_GRANTED = 1, CM_DENIED = 2;
+
+  // Consent-Mode-Grundwerte vor jedem Google-Skript (auch vor adsbygoogle.js)
+  const dl = window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ dl.push(arguments); };
+  window[`ga-disable-${GA}`] = true;
+  window.gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    wait_for_update: 500
+  });
+  const fc = window.googlefc = window.googlefc || {};
+  fc.callbackQueue = fc.callbackQueue || [];
 
   // Anzeigenblöcke: Block-IDs werden nach der AdSense-Freigabe hier eingetragen.
   const SLOTS = { billboard: "", rect: "", half: "", superbanner: "", sky: "" };
@@ -39,17 +58,56 @@
     });
   }
 
-  let gaLoaded = false;
-  function loadGA(){
-    if (gaLoaded || gpc) return; gaLoaded = true;
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function(){ dataLayer.push(arguments); };
-    gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "granted" });
-    gtag("js", new Date());
+  /** Reine Entscheidung: true = messen, false = nicht messen, null = noch offen */
+  function freigabe(tc, cmStatus){
+    if (gpc || cmStatus === CM_DENIED) return false;
+    if (!tc) return null;
+    if (tc.gdprApplies === false) return true;          // außerhalb von EWR/UK/CH
+    const fertig = tc.eventStatus === "tcloaded" || tc.eventStatus === "useractioncomplete";
+    if (!fertig) return null;
+    const zweck1 = Boolean(tc.purpose?.consents?.[1]);
+    const google = Boolean(tc.vendor?.consents?.[GOOGLE_VENDOR]);
+    return zweck1 && google && cmStatus === CM_GRANTED;
+  }
+
+  function analyticsStatus(){
+    try {
+      const v = typeof fc.getGoogleConsentModeValues === "function" ? fc.getGoogleConsentModeValues() : null;
+      return v && typeof v.analyticsStoragePurposeConsentStatus === "number" ? v.analyticsStoragePurposeConsentStatus : 0;
+    } catch (_) { return 0; }
+  }
+
+  let tcStand = null;
+  let messung = "aus-default";   // "an" | "aus" | "aus-default"
+  let gaGeladen = false;
+
+  function messungAn(){
+    window[`ga-disable-${GA}`] = false;
+    gtag("consent", "update", { analytics_storage: "granted" });
+    if (!gaGeladen){
+      gaGeladen = true;
+      gtag("js", new Date());
+      const s = document.createElement("script"); s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
+      document.head.appendChild(s);
+    }
     gtag("config", GA, { allow_google_signals: false, allow_ad_personalization_signals: false });
-    const s = document.createElement("script"); s.async = true;
-    s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`;
-    document.head.appendChild(s);
+    messung = "an";
+  }
+
+  function messungAus(){
+    window[`ga-disable-${GA}`] = true;
+    const update = { analytics_storage: "denied" };
+    if (!tcStand?.purpose?.consents?.[1]) Object.assign(update, { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
+    gtag("consent", "update", update);
+    messung = "aus";
+  }
+
+  function abgleich(){
+    const f = freigabe(tcStand, analyticsStatus());
+    if (f === true) { if (messung !== "an") messungAn(); }
+    else if (f === false) { if (messung !== "aus") messungAus(); }
+    else if (messung === "an") messungAus();               // Widerruf: Dialog offen, Einwilligung gelöscht
   }
 
   function watchConsent(tries = 0){
@@ -59,20 +117,18 @@
     }
     window.__tcfapi("addEventListener", 2, (tc, ok) => {
       if (!ok || !tc) return;
-      // Außerhalb von EWR/UK/CH gilt die DSGVO-Einwilligung nicht – Statistik dann direkt starten.
-      if (tc.gdprApplies === false) { loadGA(); return; }
-      if (tc.eventStatus !== "tcloaded" && tc.eventStatus !== "useractioncomplete") return;
-      const p1 = tc.purpose && tc.purpose.consents && tc.purpose.consents[1];
-      const v = tc.vendor && tc.vendor.consents && tc.vendor.consents[GOOGLE_VENDOR];
-      if (p1 && v) loadGA();
+      tcStand = tc;
+      abgleich();
+      if (tc.eventStatus !== "cmpuishown") setTimeout(abgleich, 300);   // CM-Werte ziehen ggf. nach
     });
   }
+  fc.callbackQueue.push({ CONSENT_MODE_DATA_READY: abgleich });
 
   // Link „Datenschutz-Einstellungen" im Seitenfuß öffnet den Google-Dialog erneut
   document.addEventListener("click", e => {
     if (!e.target.closest("[data-privacy-settings]")) return;
-    window.googlefc = window.googlefc || {}; window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
-    window.googlefc.callbackQueue.push(() => window.googlefc.showRevocationMessage());
+    e.preventDefault();
+    fc.callbackQueue.push(() => { if (typeof fc.showRevocationMessage === "function") fc.showRevocationMessage(); });
   });
 
   loadAds();

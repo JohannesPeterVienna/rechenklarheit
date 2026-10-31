@@ -7,7 +7,7 @@ from content.calcs import CALCS, PERCENT_FORM
 from content.articles import ARTICLES
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261031a"; UPDATED = "Oktober 2026"
+SITE = "https://rechenklarheit.de"; V = "20261031b"; UPDATED = "Oktober 2026"
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit")]
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True, trim_blocks=True, lstrip_blocks=True)
