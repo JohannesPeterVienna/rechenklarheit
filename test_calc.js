@@ -23,4 +23,13 @@ for (const [k, v, exp] of cases) {
   const r = C[k](form(v)); const got = num(r.result);
   if (Math.abs(got - exp) > 0.011) { console.error("FEHLER", k, v, "erwartet", exp, "erhalten", r.result); bad++; }
 }
-if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle OK`);
+// Unsinnige Eingaben müssen abgelehnt werden (Ergebnis mit error-Flag statt Zahl)
+const rejects = [
+  ["kredit", { amount: -5, rate: 4.5, years: 5 }],
+  ["fahrt", { fuel: "fuel", km: -5, trip: 1, cons: 6.5, price: 1.7, people: 1 }],
+  ["zins", { start: -100, monthly: 50, rate: 3, years: 10 }],
+  ["inflation", { amount: -1000, rate: 2, years: 10 }],
+  ["lohn", { dir: "m2h", amount: -3000, hours: 38.5, salaries: 14 }],
+];
+for (const [k, v] of rejects) { const r = C[k](form(v)); if (!r || r.result !== null) { console.error("FEHLER: nicht abgelehnt", k, v, r && r.result); bad++; } }
+if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen OK`);

@@ -91,7 +91,7 @@ def main():
 <h2>Fehler gefunden?</h2><p>Schreib uns an <a href="mailto:office@adstern.com">office@adstern.com</a>. Wir prüfen jeden Hinweis.</p>""")
     write("imprint.html", "page.html", title="Impressum | Rechenklarheit", description="Impressum von Rechenklarheit.", h1="Impressum",
           ads=False, robots="noindex,follow", body=f"""<h2>Medieninhaber und Herausgeber</h2><p>{LEGAL_ADDR}</p>
-<h2>Unternehmensangaben</h2><p>Unternehmensgegenstand: Werbeagentur<br>UID-Nummer: ATU54682507<br>Gewerbebehörde: Magistratisches Bezirksamt für den 1. Bezirk, Wien</p>
+<h2>Unternehmensangaben</h2><p>Unternehmensgegenstand: Werbeagentur<br>UID-Nummer: ATU54682507<br>Gewerbebehörde: Magistratisches Bezirksamt für den 1. und 8. Bezirk, Wien<br>Kammerzugehörigkeit: Wirtschaftskammer Wien, Fachgruppe Werbung und Marktkommunikation<br>Berufsbezeichnung: Werbeagentur (Gewerbe, verliehen in Österreich)<br>Anwendbare Rechtsvorschriften: Gewerbeordnung, abrufbar unter <a href="https://www.ris.bka.gv.at" rel="noopener">www.ris.bka.gv.at</a></p>
 <p>Angaben nach § 5 E-Commerce-Gesetz und § 25 Mediengesetz.</p>
 <h2>Grundlegende Richtung</h2><p>Rechenklarheit ist eine unabhängige Informationsseite mit Online-Rechnern und Erklärungen zu Alltagsmathematik, Steuern und Finanzen. Die Seite finanziert sich über Werbung.</p>
 <h2>Haftung</h2><p>Alle Rechner und Angaben wurden sorgfältig erstellt, erfolgen aber ohne Gewähr. Sie ersetzen keine Steuer-, Rechts- oder Finanzberatung.</p>""")

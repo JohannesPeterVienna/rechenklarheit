@@ -53,6 +53,7 @@
   C.zins = f => {
     const k0 = val(f, "start") || 0, rate = val(f, "monthly") || 0, p = val(f, "rate"), n = val(f, "years");
     if (!Number.isFinite(p) || !Number.isFinite(n) || n <= 0 || n > 80) return bad("Zinssatz und Laufzeit (1–80 Jahre) eingeben.");
+    if (k0 < 0 || rate < 0) return bad("Startkapital und Sparrate dürfen nicht negativ sein.");
     const i = p / 100 / 12; let k = k0, paid = k0; const rows = [];
     for (let y = 1; y <= n; y++) {
       for (let m = 0; m < 12; m++) { k = k * (1 + i) + rate; paid += rate; }
@@ -67,6 +68,7 @@
   C.kredit = f => {
     const K = val(f, "amount"), p = val(f, "rate"), n = val(f, "years");
     if (!Number.isFinite(K) || !Number.isFinite(p) || !Number.isFinite(n) || n <= 0 || n > 50) return bad("Betrag, Sollzins und Laufzeit (bis 50 Jahre) eingeben.");
+    if (K <= 0 || p < 0) return bad("Der Kreditbetrag muss größer als 0 sein, der Sollzins darf nicht negativ sein.");
     const m = Math.round(n * 12), i = p / 100 / 12;
     const a = i === 0 ? K / m : K * i / (1 - Math.pow(1 + i, -m));
     const total = a * m, interest = total - K;
@@ -84,6 +86,7 @@
   C.inflation = f => {
     const a = val(f, "amount"), r = val(f, "rate"), n = val(f, "years");
     if (!Number.isFinite(a) || !Number.isFinite(r) || !Number.isFinite(n)) return bad("Betrag, Inflationsrate und Jahre eingeben.");
+    if (a < 0 || n < 0 || r <= -100) return bad("Betrag und Jahre dürfen nicht negativ sein.");
     const q = Math.pow(1 + r / 100, n);
     return { result: eur(a / q), label: `Kaufkraft von ${eur(a)} in ${nf(n, 0)} Jahren`, steps: [line(`Preisfaktor = (1 + ${nf(r / 100, 4)})<sup>${nf(n, 0)}</sup> = ${nf(q, 4)}`), line(`Was heute ${eur(a)} kostet, kostet dann ${eur(a * q)}.`), line(`Kaufkraft = ${eur(a)} ÷ ${nf(q, 4)} = <mark>${eur(a / q)}</mark>`), line(`Verlust an Kaufkraft: ${pc((1 - 1 / q) * 100, 1)}`)] };
   };
@@ -167,6 +170,7 @@
   C.lohn = f => {
     const dir = sel(f, "dir"), hours = val(f, "hours"), amount = val(f, "amount"), salaries = num(sel(f, "salaries"));
     if (![hours, amount, salaries].every(Number.isFinite) || hours <= 0) return bad("Betrag und Wochenstunden eingeben.");
+    if (amount < 0 || hours > 80) return bad("Der Betrag darf nicht negativ sein, die Wochenstunden höchstens 80.");
     const hpy = hours * 52, hpm = hpy / 12;
     if (dir === "m2h") {
       const year = amount * salaries, h = year / hpy;
@@ -214,6 +218,7 @@
     if (f.dataset.fuel !== sel(f, "fuel")) { if (f.dataset.fuel) { f.elements.cons.value = ev ? "18" : "6,5"; f.elements.price.value = ev ? "0,30" : "1,70"; } f.dataset.fuel = sel(f, "fuel"); }
     const km = val(f, "km"), t = num(sel(f, "trip")), c = val(f, "cons"), p = val(f, "price"), n = Math.max(1, Math.round(val(f, "people") || 1));
     if (![km, c, p].every(Number.isFinite)) return bad("Strecke, Verbrauch und Preis eingeben.");
+    if (km <= 0 || c < 0 || p < 0) return bad("Strecke muss größer als 0 sein, Verbrauch und Preis dürfen nicht negativ sein.");
     const dist = km * t, q = dist * c / 100, cost = q * p, u = ev ? "kWh" : "l";
     return { result: eur(cost / n), label: n > 1 ? `pro Person (${n} Personen)` : "Kosten der Fahrt", steps: [line(`Strecke: ${nf(km, 1)} km${t === 2 ? " × 2 (hin und zurück)" : ""} = ${nf(dist, 1)} km`), line(`Verbrauch: ${nf(dist, 1)} km × ${nf(c, 2)} ${u} ÷ 100 = ${nf(q, 2)} ${u}`), line(`Kosten: ${nf(q, 2)} ${u} × ${eur(p)} = ${n > 1 ? eur(cost) : `<mark>${eur(cost)}</mark>`}`), ...(n > 1 ? [line(`Pro Person: ${eur(cost)} ÷ ${n} = <mark>${eur(cost / n)}</mark>`)] : []), line(`Das sind ${nf(cost / dist * 100, 2)} € pro 100 km.`)] };
   };
