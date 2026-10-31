@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029c">
+<link rel="stylesheet" href="/assets/style.css?v=20261031a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/mehrwertsteuer-herausrechnen.html", "name": "Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "Redaktion Rechenklarheit", "url": "https://rechenklarheit.de/about.html"}, "dateModified": "2026-10-29", "datePublished": "2026-10-29", "description": "Mehrwertsteuer aus dem Bruttobetrag herausrechnen: warum man durch 1,2 bzw. 1,19 teilt, mit Beispielen f\u00fcr \u00d6sterreich und Deutschland.", "headline": "Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen", "inLanguage": "de", "publisher": {"@type": "Organization", "name": "AdStern"}}</script>
-<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
+<script src="/assets/consent.js?v=20261031a" defer></script><script src="/assets/calc.js?v=20261031a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -43,6 +43,33 @@
 <div class="example"><strong>Beispiel Österreich:</strong> Eine Rechnung über 360 € brutto mit 20 % enthält 360 ÷ 1,2 = 300,00 € netto und 60,00 € Steuer.</div>
 <div class="example"><strong>Beispiel Deutschland:</strong> 238 € brutto mit 19 % ergeben 238 ÷ 1,19 = 200,00 € netto und 38,00 € Steuer.</div>
 <p>Schneller geht es mit dem <a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a>.</p>
+
+<h2>Schnelle Tabelle: Wie viel Steuer steckt im Betrag?</h2>
+<table class="tbl"><thead><tr><th>Brutto</th><th>Steuer bei 20 %</th><th>Steuer bei 19 %</th><th>Steuer bei 10 %</th><th>Steuer bei 7 %</th></tr></thead><tbody>
+<tr><td>10,00 €</td><td>1,67 €</td><td>1,60 €</td><td>0,91 €</td><td>0,65 €</td></tr><tr><td>50,00 €</td><td>8,33 €</td><td>7,98 €</td><td>4,55 €</td><td>3,27 €</td></tr><tr><td>100,00 €</td><td>16,67 €</td><td>15,97 €</td><td>9,09 €</td><td>6,54 €</td></tr><tr><td>500,00 €</td><td>83,33 €</td><td>79,83 €</td><td>45,45 €</td><td>32,71 €</td></tr><tr><td>1.000,00 €</td><td>166,67 €</td><td>159,66 €</td><td>90,91 €</td><td>65,42 €</td></tr>
+</tbody></table>
+<h2>Durchgerechnet: Handwerkerrechnung</h2>
+<div class="example"><strong>Österreich:</strong> Eine Malerrechnung lautet auf 1.548,00 € brutto mit 20 %. Netto: 1.548 ÷ 1,2 = 1.290,00 €. Steuer: 258,00 €. Gegenprobe: 1.290,00 € × 1,2 = 1.548,00 €.</div>
+<div class="example"><strong>Deutschland:</strong> Dieselbe Leistung kostet 1.547,00 € brutto mit 19 %. Netto: 1.547 ÷ 1,19 = 1.300,00 €. Steuer: 247,00 €.</div>
+<p>Die Gegenprobe lohnt sich immer: Netto mal Teiler muss wieder den Bruttobetrag ergeben, höchstens mit einem Cent Rundungsdifferenz.</p>
+<h2>Rundung: pro Position oder auf die Summe?</h2>
+<p>Ein Kassenbon mit fünf Artikeln zu 20 % (1,99 €, 2,49 €, 0,89 €, 3,29 €, 1,19 €) ergibt eine Bruttosumme von 9,85 €. Rechnest du die Steuer aus der Summe heraus, sind es 1,64 €. Rundest du bei jedem Artikel einzeln auf Cent und addierst, kommst du auf 1,65 €. Kleine Abweichungen von ein, zwei Cent sind deshalb normal und kein Rechenfehler – entscheidend ist der Betrag, der auf der Rechnung ausgewiesen ist.</p>
+<h2>Kleinbetragsrechnungen in Deutschland</h2>
+<p>Bei Rechnungen bis 250 € darf in Deutschland statt Netto und Steuer getrennt auch das Entgelt samt Steuer in einer Summe stehen, zusammen mit dem Steuersatz. Wer die Vorsteuer daraus braucht, muss sie selbst herausrechnen – genau mit dem Teiler aus der Tabelle oben. Quelle: <a href="https://www.gesetze-im-internet.de/ustdv_1980/__33.html" rel="noopener">§ 33 UStDV</a> (Stand: Oktober 2026).</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Mit 0,8 malnehmen:</strong> Brutto × 0,8 ist dasselbe wie 20 % abziehen und deshalb falsch. Richtig ist Brutto × 0,8333… oder eben ÷ 1,2.</div>
+<div class="warn"><strong>Den falschen Satz verwenden:</strong> Eine deutsche Rechnung mit 19 % lässt sich nicht mit dem österreichischen Teiler 1,2 zerlegen. Maßgeblich ist immer der Satz, der auf der Rechnung steht.</div>
+<h2>Grenzen</h2>
+<p>Das Herausrechnen funktioniert nur, wenn ein einziger Steuersatz auf den ganzen Betrag angewendet wurde. Enthält eine Rechnung Positionen mit verschiedenen Sätzen, musst du jede Gruppe getrennt herausrechnen. Bei steuerfreien Leistungen oder Rechnungen von Kleinunternehmern gibt es nichts herauszurechnen.</p>
+<h2>Häufige Fragen</h2>
+<h3>Was mache ich mit einem Kassenbon mit mehreren Steuersätzen?</h3>
+<p>Die Beträge nach Steuersatz gruppieren und jede Gruppe mit ihrem Teiler herausrechnen. Auf österreichischen Kassenbons sind die Sätze meist mit Buchstaben gekennzeichnet und unten zusammengefasst.</p>
+<h3>Warum ist die Steuer bei 20 % ein Sechstel des Bruttobetrags?</h3>
+<p>Weil der Bruttobetrag aus sechs Fünfteln des Nettobetrags besteht: 100 % netto plus 20 % Steuer = 120 %. Die Steuer ist 20 von 120, also ein Sechstel.</p>
+<h3>Kann ich die Steuer auch mit einem Prozentsatz vom Bruttobetrag berechnen?</h3>
+<p>Ja: Steuer = Brutto × Satz ÷ (100 + Satz). Bei 19 % sind das 15,97 % des Bruttobetrags.</p>
+<h3>Wie rechne ich netto in brutto um?</h3>
+<p>Netto mal 1 plus Steuersatz: 100 € netto × 1,2 = 120 € brutto in Österreich, × 1,19 = 119 € in Deutschland.</p>
 </div>
 <h2>Weiterlesen</h2><ul class="cards"><li><a href="/prozent-oder-prozentpunkte.html"><strong>Prozent oder Prozentpunkte? Der Unterschied mit Beispielen</strong><span>Von 2 auf 3 % sind ein Prozentpunkt – aber 50 Prozent mehr.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li></ul>  </article>
 <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside></div>

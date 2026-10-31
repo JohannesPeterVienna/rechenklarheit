@@ -94,7 +94,7 @@ CALCS = [
 "body": f"""
 <h2>Steuersätze in Österreich und Deutschland</h2>
 <table class="tbl text"><thead><tr><th>Land</th><th>Normalsatz</th><th>Ermäßigt</th></tr></thead><tbody>
-<tr><td>Österreich</td><td>20 %</td><td>10 % (z. B. viele Lebensmittel), 13 % und seit 1. Juli 2026 4,9 % für ausgewählte Grundnahrungsmittel wie Brot, Milch, Butter und Eier</td></tr>
+<tr><td>Österreich</td><td>20 %</td><td>10 %, 13 % und 4,9 % (seit Juli 2026)</td></tr>
 <tr><td>Deutschland</td><td>19 %</td><td>7 % (z. B. viele Lebensmittel)</td></tr></tbody></table>
 <p class="small muted">Welcher Satz für eine bestimmte Ware oder Leistung gilt, regeln das österreichische Umsatzsteuergesetz und das deutsche Umsatzsteuergesetz. Im Zweifel gilt die Rechnung oder die Auskunft des Finanzamts.</p>
 <h2>Mehrwertsteuer herausrechnen – so geht es richtig</h2>
@@ -299,5 +299,6 @@ CALCS = [
 from content.calcs_more import MORE as _MORE  # noqa: E402
 CALCS += _MORE
 from content.extras import EXTRAS as _EX  # noqa: E402
+from content.deepen import DEEP as _DEEP  # noqa: E402
 for _c in CALCS:
-    _c["body"] = _c["body"] + _EX.get(_c["slug"], "")
+    _c["body"] = _c["body"] + _EX.get(_c["slug"], "") + _DEEP.get(_c["slug"], "")

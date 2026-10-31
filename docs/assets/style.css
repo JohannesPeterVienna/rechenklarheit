@@ -54,6 +54,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--pen);outline:none;box
 .tbl th:first-child,.tbl td:first-child{text-align:left}
 .tbl th{font-size:.8rem;color:var(--muted);background:var(--soft);font-weight:600}
 .tbl tr:last-child td{border-bottom:0}
+.tbl td,.tbl th{overflow-wrap:anywhere}
 .tbl.text td,.tbl.text th{text-align:left}
 .scroll{overflow-x:auto}
 

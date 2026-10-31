@@ -111,3 +111,7 @@ ARTICLES = [
 """,
 },
 ]
+
+from content.deepen import DEEP as _DEEP  # noqa: E402
+for _a in ARTICLES:
+    _a["body"] = _a["body"] + _DEEP.get(_a["slug"], "")

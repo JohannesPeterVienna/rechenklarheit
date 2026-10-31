@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029c">
+<link rel="stylesheet" href="/assets/style.css?v=20261031a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/zinseszins-und-72er-regel.html", "name": "Zinseszins und 72er-Regel: Wann sich Geld verdoppelt", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "Redaktion Rechenklarheit", "url": "https://rechenklarheit.de/about.html"}, "dateModified": "2026-10-29", "datePublished": "2026-10-29", "description": "Die 72er-Regel erkl\u00e4rt: In wie vielen Jahren sich Geld durch Zinseszins verdoppelt, wie genau die Faustformel ist und wie sie bei Inflation hilft.", "headline": "Zinseszins und 72er-Regel: Wann sich Geld verdoppelt", "inLanguage": "de", "publisher": {"@type": "Organization", "name": "AdStern"}}</script>
-<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
+<script src="/assets/consent.js?v=20261031a" defer></script><script src="/assets/calc.js?v=20261031a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -43,6 +43,34 @@
 <p>Die Regel funktioniert auch rückwärts: Bei 3 % Inflation halbiert sich die Kaufkraft von Geld in rund 24 Jahren. Den genauen Wert zeigt der <a href="/inflationsrechner.html">Inflationsrechner</a>.</p>
 <h2>Warum gerade 72?</h2>
 <p>Exakt wäre die Verdopplungszeit ln(2) ÷ ln(1 + p). Für kleine Zinssätze ist das ungefähr 69,3 ÷ p. Die 72 ist etwas größer, gleicht die Ungenauigkeit bei üblichen Zinssätzen aus und ist durch viele Zahlen teilbar – 2, 3, 4, 6, 8, 9 und 12.</p>
+
+<h2>Verwandte Faustregeln</h2>
+<ul><li><strong>69er- oder 70er-Regel:</strong> 70 ÷ p ist bei kleinen Sätzen und stetiger Verzinsung genauer. Bei 2 % ergibt sie 35 Jahre, exakt sind es 35.</li>
+<li><strong>Verdreifachung (114er-Regel):</strong> 114 ÷ p. Bei 6 % ergibt das 19 Jahre, exakt sind es 18,9.</li>
+<li><strong>Vervierfachung:</strong> zweimal verdoppeln, also 144 ÷ p.</li></ul>
+<h2>Durchgerechnet mit echten Inflationsraten</h2>
+<div class="example"><strong>Deutschland:</strong> Destatis meldet für 2025 eine Inflationsrate von 2,2 %. Bliebe sie so, hätte sich die Kaufkraft nach 72 ÷ 2,2 = 32,7 Jahren halbiert, exakt nach 31,9 Jahren. Quelle: <a href="https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/01/PD26_019_611.html" rel="noopener">Destatis, Pressemitteilung Nr. 019 vom 16. Januar 2026</a> (Stand: Oktober 2026).</div>
+<div class="example"><strong>Österreich:</strong> Statistik Austria meldet für 2025 3,6 %. Bei dieser Rate halbiert sich die Kaufkraft nach 72 ÷ 3,6 = 20 Jahren, exakt nach 19,6 Jahren. Quelle: <a href="https://www.statistik.at/fileadmin/announcement/2026/01/20260119VPIJahr2025.pdf" rel="noopener">Statistik Austria, VPI Jahresdurchschnitt 2025</a> (Stand: Oktober 2026).</div>
+<p>Die Beispiele sind Gedankenspiele: Inflationsraten ändern sich von Jahr zu Jahr. Sie zeigen aber, wie stark ein Unterschied von gut einem Prozentpunkt über Jahrzehnte wirkt.</p>
+<h2>Zinseszins in Zahlen</h2>
+<table class="tbl"><thead><tr><th>Startbetrag 10.000 €</th><th>nach 10 Jahren</th><th>nach 20 Jahren</th><th>nach 30 Jahren</th></tr></thead><tbody>
+<tr><td>1 % p. a.</td><td>11.046,22 €</td><td>12.201,90 €</td><td>13.478,49 €</td></tr><tr><td>3 % p. a.</td><td>13.439,16 €</td><td>18.061,11 €</td><td>24.272,62 €</td></tr><tr><td>5 % p. a.</td><td>16.288,95 €</td><td>26.532,98 €</td><td>43.219,42 €</td></tr>
+</tbody></table>
+<p>Bei 5 % ist der Betrag nach 30 Jahren mehr als vervierfacht – genau so, wie die Regel mit 72 ÷ 5 ≈ 14,4 Jahren pro Verdopplung erwarten lässt.</p>
+<h2>Sparplan statt Einmalbetrag</h2>
+<p>Für regelmäßige Einzahlungen gilt die 72er-Regel nicht direkt, weil jede Rate unterschiedlich lange verzinst wird. Ein Beispiel: 100 € im Monat, 18 Jahre, 4 % mit monatlicher Gutschrift. Eingezahlt sind 21.600,00 €, am Ende stehen 31.664,44 € auf dem Konto. Nur die allerersten Raten haben sich verdoppelt; die späten Raten hatten kaum Zeit zu wachsen. Durchschnittlich ist das Geld also deutlich kürzer angelegt als 18 Jahre. Den genauen Verlauf zeigt der <a href="/zinseszins-rechner.html">Zinseszins-Rechner</a>.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Regel ohne Zinseszins anwenden:</strong> Werden Zinsen jedes Jahr ausgezahlt statt angelegt, gibt es keinen Zinseszins. Dann verdoppelt sich das Kapital bei 4 % erst nach 100 ÷ 4 = 25 Jahren.</div>
+<div class="warn"><strong>Steuern und Kosten vergessen:</strong> Die Regel braucht den Zinssatz nach Abzug von Kosten und Steuern. Bleiben von 4 % nach Abzügen nur 3 %, dauert die Verdopplung rund 24 statt 18 Jahre.</div>
+<h2>Grenzen</h2>
+<p>Die Regel setzt einen gleichbleibenden Zinssatz voraus. Bei Aktien oder Fonds schwankt die Rendite; eine Durchschnittsrendite ergibt nur ein Szenario. Bei sehr hohen Sätzen über 20 % wird die Faustformel spürbar ungenau.</p>
+<h2>Häufige Fragen</h2>
+<h3>Gilt die 72er-Regel auch für monatliche Verzinsung?</h3>
+<p>Ja, wenn du den effektiven Jahreszins einsetzt. Mit dem nominalen Satz unterschätzt sie das Wachstum bei monatlicher Gutschrift leicht.</p>
+<h3>Funktioniert die Regel mit negativen Zinsen?</h3>
+<p>Mit einem negativen Satz gibt sie näherungsweise an, wann sich ein Betrag halbiert – genau so wie bei der Inflation.</p>
+<h3>Wie rechne ich die Verdopplungszeit exakt?</h3>
+<p>Mit dem Logarithmus: Jahre = ln(2) ÷ ln(1 + p ÷ 100). Der Zinseszins-Rechner zeigt das Ergebnis auch ohne Formel.</p>
 </div>
 <h2>Weiterlesen</h2><ul class="cards"><li><a href="/prozent-oder-prozentpunkte.html"><strong>Prozent oder Prozentpunkte? Der Unterschied mit Beispielen</strong><span>Von 2 auf 3 % sind ein Prozentpunkt – aber 50 Prozent mehr.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li></ul>  </article>
 <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside></div>

@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029c">
+<link rel="stylesheet" href="/assets/style.css?v=20261031a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/rabatte-kombinieren.html", "name": "Rabatte kombinieren: Was 30 % + 20 % wirklich bringen", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Organization", "name": "Redaktion Rechenklarheit", "url": "https://rechenklarheit.de/about.html"}, "dateModified": "2026-10-29", "datePublished": "2026-10-29", "description": "Mehrere Rabatte richtig berechnen: warum 30 % plus 20 % nur 44 % Ersparnis ergeben und wie man die echte Gesamtersparnis schnell ausrechnet.", "headline": "Rabatte kombinieren: Was 30 % + 20 % wirklich bringen", "inLanguage": "de", "publisher": {"@type": "Organization", "name": "AdStern"}}</script>
-<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
+<script src="/assets/consent.js?v=20261031a" defer></script><script src="/assets/calc.js?v=20261031a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -42,6 +42,40 @@
 <h2>Was Händler damit meinen</h2>
 <p>„Zusätzlich 20 % auf bereits reduzierte Ware“ ist eine korrekte Formulierung. Irreführend wäre es, die Summe der Rabatte als Gesamtersparnis zu bewerben.</p>
 <p>Der <a href="/rabatt-rechner.html">Rabatt-Rechner</a> verrechnet bis zu zwei Rabatte und Skonto und zeigt die echte Ersparnis.</p>
+
+<h2>Die allgemeine Formel</h2>
+<p>Für beliebig viele Rabatte r₁, r₂, r₃ … gilt: Endpreis = Preis × (1 − r₁) × (1 − r₂) × (1 − r₃) … Die Reihenfolge der Prozent-Rabatte spielt dabei keine Rolle, weil sich Faktoren vertauschen lassen.</p>
+<div class="example"><strong>Österreich – Rabattpickerl im Supermarkt:</strong> Ein Produkt um 3,49 € mit einem −25-%-Pickerl kostet 3,49 × 0,75 = 2,62 €. Gibt es in derselben Woche zusätzlich 10 % auf das ganze Sortiment, sind es 2,36 € – insgesamt eine Ersparnis von 32,5 %, nicht 35 %.</div>
+<div class="example"><strong>Deutschland – Prozent plus Gutschein:</strong> Ein Mantel um 249 € mit 20 % Rabatt und einem 20-€-Gutschein. Wird zuerst der Prozent-Rabatt abgezogen, zahlst du 179,20 €; wird zuerst der Gutschein abgezogen, 183,20 €. Welche Reihenfolge gilt, steht in den Gutscheinbedingungen.</div>
+<h2>Aktionen in Prozent umrechnen</h2>
+<p>Mengenaktionen sind oft schwerer zu durchschauen als ein Prozent-Rabatt. So viel sparst du pro Stück, wenn du die volle Aktionsmenge kaufst:</p>
+<table class="tbl text"><thead><tr><th>Aktion</th><th>Ersparnis pro Stück</th></tr></thead><tbody>
+<tr><td>3 zum Preis von 2</td><td>33,3 %</td></tr>
+<tr><td>2. Artikel −50 %</td><td>25 %</td></tr>
+<tr><td>4 zum Preis von 3</td><td>25 %</td></tr>
+<tr><td>3. Artikel gratis bei 3 verschiedenen Preisen</td><td>abhängig vom günstigsten Artikel</td></tr>
+</tbody></table>
+<p>„2. Artikel −50 %“ klingt nach der Hälfte, entspricht aber nur einem Viertel Ersparnis – und nur, wenn du wirklich zwei Stück brauchst.</p>
+<h2>Welcher Rabatt fehlt noch bis zum Wunschpreis?</h2>
+<p>Steht ein Artikel bereits mit 20 % Rabatt und du willst insgesamt 40 % sparen, brauchst du noch einen zweiten Rabatt von 1 − 0,6 ÷ 0,8 = 25 % – nicht 20 %.</p>
+<h2>Rabatt und Mehrwertsteuer</h2>
+<p>Ein Prozent-Rabatt wirkt auf Netto- und Bruttopreis gleich stark. 20 % Rabatt auf 120 € brutto ergeben 96 € brutto; netto sind es in Österreich 100 € → 80,00 €, also ebenfalls genau 20 % weniger. Für Unternehmen, die mit Nettopreisen rechnen, und für Privatkundinnen mit Bruttopreisen ist die Ersparnis in Prozent deshalb dieselbe. Anders ist es bei einem festen Euro-Rabatt: 20 € auf 120 € brutto sind 16,7 % Ersparnis, auf 100 € netto gerechnet aber 20 %.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Rabatte addieren:</strong> 50 % + 50 % sind keine 100 %, also kein Gratisartikel, sondern 75 % Ersparnis.</div>
+<div class="warn"><strong>Den Streichpreis ungeprüft übernehmen:</strong> Die Ersparnis ist nur so viel wert wie der Ausgangspreis. In Deutschland muss ein Händler bei einer Preisermäßigung für Waren den niedrigsten Gesamtpreis der letzten 30 Tage angeben (mit Ausnahmen, etwa für schnell verderbliche Ware). Quelle: <a href="https://www.gesetze-im-internet.de/pangv_2022/__11.html" rel="noopener">§ 11 Preisangabenverordnung</a> (Stand: Oktober 2026).</div>
+<h2>Rückwärts: Was kostete der Artikel ursprünglich?</h2>
+<p>Zahlst du nach zwei Rabatten von 30 % und 10 % noch 50,40 €, war der Ausgangspreis 50,40 ÷ (0,7 × 0,9) = 80,00 €. Wer stattdessen 40 % auf 50,40 € aufschlägt, kommt auf 70,56 € und liegt deutlich zu niedrig – derselbe Grundwert-Fehler wie bei einem einzelnen Rabatt.</p>
+<h2>Grenzen</h2>
+<p>Die Rechnung zeigt den Preis, nicht den Nutzen. Eine Mengenaktion spart nur, wenn du die zusätzliche Menge auch verbrauchst. Versandkosten, Mindestbestellwerte und Rückgabebedingungen ändern die echte Ersparnis zusätzlich.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wie berechne ich den Rabatt in Prozent aus zwei Preisen?</h3>
+<p>(alter Preis − neuer Preis) ÷ alter Preis × 100. Von 79,90 € auf 59,90 € sind das rund 25 %.</p>
+<h3>Ist es egal, welcher Prozent-Rabatt zuerst kommt?</h3>
+<p>Ja. Zwei Prozent-Rabatte ergeben in jeder Reihenfolge denselben Endpreis. Nur bei einem festen Euro-Betrag (Gutschein) zählt die Reihenfolge.</p>
+<h3>Wie viel Prozent spare ich bei 30 % + 30 %?</h3>
+<p>Du zahlst 0,7 × 0,7 = 0,49 des Preises und sparst 51 %.</p>
+<h3>Gilt Skonto auch als zusätzlicher Rabatt?</h3>
+<p>Rechnerisch ja: Skonto wird vom bereits rabattierten Rechnungsbetrag abgezogen und wirkt wie ein weiterer Faktor in der Formel.</p>
 </div>
 <h2>Weiterlesen</h2><ul class="cards"><li><a href="/prozent-oder-prozentpunkte.html"><strong>Prozent oder Prozentpunkte? Der Unterschied mit Beispielen</strong><span>Von 2 auf 3 % sind ein Prozentpunkt – aber 50 Prozent mehr.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li><li><a href="/mehrwertsteuer-herausrechnen.html"><strong>Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen</strong><span>Der häufigste Fehler bei Rechnungen – und die einfache Lösung.</span></a></li></ul>  </article>
 <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside></div>

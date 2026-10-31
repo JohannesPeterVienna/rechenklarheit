@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029c">
+<link rel="stylesheet" href="/assets/style.css?v=20261031a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/einheitenrechner.html", "name": "Einheitenrechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Einheitenrechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/einheitenrechner.html"}</script>
-<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
+<script src="/assets/consent.js?v=20261031a" defer></script><script src="/assets/calc.js?v=20261031a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -58,6 +58,32 @@
 <li>100 km/h sind 27,8 Meter pro Sekunde – bei einer Sekunde Reaktionszeit fährt man also knapp 28 Meter ungebremst weiter.</li></ul>
 <h2>Fahrenheit im Kopf umrechnen</h2>
 <p>Für eine grobe Schätzung reicht: °C × 2 + 30. 20 °C ergeben so 70 °F (genau: 68 °F). In die andere Richtung: (°F − 30) ÷ 2. Für Rezepte aus den USA ist der genaue Wert wichtiger – 350 °F sind 177 °C.</p>
+
+<h2>Der häufigste Fehler: Flächen und Volumen</h2>
+<p>Bei Längen ist der Faktor zwischen Meter und Zentimeter 100. Bei Flächen wird er quadriert, bei Volumen hoch drei genommen:</p>
+<table class="tbl text"><thead><tr><th>Größe</th><th>Umrechnung</th><th>Faktor</th></tr></thead><tbody>
+<tr><td>Länge</td><td>1 m = 100 cm</td><td>100</td></tr><tr><td>Fläche</td><td>1 m² = 10.000 cm²</td><td>100²</td></tr>
+<tr><td>Volumen</td><td>1 m³ = 1.000.000 cm³ = 1.000 l</td><td>100³</td></tr><tr><td>Volumen</td><td>1 l = 1 dm³ = 1.000 cm³</td><td>10³</td></tr></tbody></table>
+<div class="example"><strong>Beispiel Estrich:</strong> Ein Raum mit 4,2 × 3,5 m hat 14,7 m². Eine 5 cm dicke Schicht sind 14,7 × 0,05 = 0,735 m³, also 735 Liter. Wer stattdessen 5 cm mit 100 statt mit 0,05 verrechnet, liegt um ein Vielfaches daneben.</div>
+<h2>Mengen beim Wirt und in der Küche</h2>
+<p>In Österreich bestellt man Wein oft als <strong>Achterl</strong> (⅛ Liter = 125 ml) oder <strong>Vierterl</strong> (250 ml), Bier als <strong>Seidl</strong> (meist 0,3 l) oder <strong>Krügerl</strong> (meist 0,5 l). In Deutschland ist für Wein der <strong>Schoppen</strong> geläufig, dessen Menge regional schwankt. Maßgeblich ist immer die Angabe auf der Karte oder der Eichstrich am Glas.</p>
+<p>Löffelangaben in Rezepten sind Richtwerte: Ein Esslöffel fasst rund 15 ml, ein Teelöffel rund 5 ml. Bei Mehl oder Zucker entspricht ein Volumen nicht einem festen Gewicht – 250 ml Mehl wiegen deutlich weniger als 250 ml Zucker.</p>
+<h2>Geschwindigkeiten im Ausland</h2>
+<p>130 km/h entsprechen 80,8 Meilen pro Stunde (mph). Umgekehrt sind 70 mph 112,7 km/h. Wer im Ausland ein Mietauto fährt, sollte wissen, in welcher Einheit Tacho und Schilder anzeigen.</p>
+<h2>Vorsätze für große und kleine Zahlen</h2>
+<table class="tbl text"><thead><tr><th>Vorsatz</th><th>Zeichen</th><th>Faktor</th></tr></thead><tbody>
+<tr><td>Giga</td><td>G</td><td>1.000.000.000</td></tr><tr><td>Mega</td><td>M</td><td>1.000.000</td></tr><tr><td>Kilo</td><td>k</td><td>1.000</td></tr>
+<tr><td>Milli</td><td>m</td><td>0,001</td></tr><tr><td>Mikro</td><td>µ</td><td>0,000001</td></tr></tbody></table>
+<div class="warn"><strong>Sprachfalle Billion:</strong> Das englische „billion“ ist eine deutsche Milliarde (10⁹). Eine deutsche Billion sind 10¹², auf Englisch „trillion“. Bei übersetzten Zahlen also genau hinsehen.</div>
+<h2>Grenzen</h2>
+<p>Manche Angaben sind Nennmaße und keine exakten Längen: Ein „28-Zoll“-Fahrradreifen ist nicht genau 71,1 cm groß, und Bildschirmdiagonalen werden gerundet angegeben. Historische Einheiten wie das Joch oder der Schoppen hatten je nach Region und Zeit unterschiedliche Werte. Der Rechner verwendet die heute gebräuchliche Definition.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wie rechne ich Quadratmeter in Quadratfuß um?</h3>
+<p>1 m² sind rund 10,76 Quadratfuß, weil 1 Fuß 0,3048 m lang ist und der Faktor quadriert wird.</p>
+<h3>Wie viel ist ein Deka?</h3>
+<p>Ein Dekagramm sind 10 Gramm. 25 dag Butter sind 250 g.</p>
+<h3>Warum gibt es bei Gallonen zwei Werte?</h3>
+<p>Die US-Gallone hat 3,79 Liter, die britische (imperiale) 4,55 Liter. Achte darauf, aus welchem Land die Angabe stammt.</p>
 </div>
   <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
   </div>

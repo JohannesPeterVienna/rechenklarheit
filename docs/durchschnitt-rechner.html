@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029c">
+<link rel="stylesheet" href="/assets/style.css?v=20261031a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/durchschnitt-rechner.html", "name": "Durchschnitt \u0026 Notenschnitt", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Durchschnitt und Notenschnitt", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/durchschnitt-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
+<script src="/assets/consent.js?v=20261031a" defer></script><script src="/assets/calc.js?v=20261031a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -50,6 +50,32 @@
 <p>Steigt ein Wert ein Jahr um 10 % und fällt im nächsten um 10 %, ist der Durchschnitt nicht 0 %. Aus 100 werden 110, dann 99. Für Renditen über mehrere Jahre nimmt man deshalb das <strong>geometrische Mittel</strong>: (1,1 × 0,9)<sup>1/2</sup> − 1 = -0,5 % pro Jahr.</p>
 <h2>Wann der Median die bessere Wahl ist</h2>
 <p>Bei Einkommen, Mieten oder Hauspreisen ziehen wenige sehr hohe Werte den Mittelwert nach oben. Der Median – der Wert in der Mitte – beschreibt dann besser, was „typisch“ ist. Deshalb berichten Statistikämter beim Einkommen meist den Median.</p>
+
+<h2>Gewichteter Durchschnitt im Alltag: der Tankpreis</h2>
+<div class="example">Du tankst einmal 40 Liter zu 1,55 € und einmal 20 Liter zu 1,75 €. Der einfache Mittelwert der Preise ist 1,65 €. Bezahlt hast du aber im Schnitt 1,62 € pro Liter, weil die größere Menge billiger war. Gewicht ist hier die Literzahl. Trag dafür die Preise als Werte und die Liter als Gewichte ein.</div>
+<h2>Notenschnitt in Österreich und Deutschland</h2>
+<div class="example"><strong>Österreich (Skala 1 bis 5):</strong> Ein Zeugnis mit den Noten 1, 2, 2, 3, 1, 2 hat einen Schnitt von 1,83.</div>
+<div class="example"><strong>Deutschland (Skala 1 bis 6):</strong> Die Noten 2, 3, 2, 4, 1, 3 ergeben 2,5. Zählen die ersten zwei Fächer doppelt, wird daraus (2×2 + 3×2 + 2 + 4 + 1 + 3) ÷ 8 = 2,5.</div>
+<p>Wie Schulen, Hochschulen oder Behörden einen Schnitt tatsächlich berechnen und runden, steht in der jeweiligen Prüfungsordnung. Der Rechner zeigt den rechnerischen Wert ungerundet.</p>
+<h2>Mittelwert, Median und Modus an einem Beispiel</h2>
+<p>Acht Bewertungen eines Produkts: 2, 2, 3, 1, 2, 5, 2, 4.</p>
+<table class="tbl text"><thead><tr><th>Kennzahl</th><th>Ergebnis</th><th>Bedeutung</th></tr></thead><tbody>
+<tr><td>Mittelwert</td><td>2,625</td><td>Summe ÷ Anzahl</td></tr>
+<tr><td>Median</td><td>2</td><td>Mitte der sortierten Liste (1 2 2 2 2 3 4 5)</td></tr>
+<tr><td>Modus</td><td>2</td><td>der häufigste Wert</td></tr></tbody></table>
+<p>Bei einer geraden Anzahl gibt es keinen einzelnen mittleren Wert. Der Median ist dann der Mittelwert der beiden mittleren Zahlen.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Durchschnitt von Durchschnitten:</strong> Eine Klasse mit 24 Kindern hat einen Schnitt von 2,1, eine mit 12 Kindern 3. Der Gesamtschnitt ist nicht 2,55, sondern (24 × 2,1 + 12 × 3) ÷ 36 = 2,4. Die größere Gruppe zählt mehr.</div>
+<div class="warn"><strong>Leere Werte als Null zählen:</strong> Fehlt eine Note, gehört sie nicht als 0 in die Liste – das würde den Schnitt verfälschen.</div>
+<h2>Grenzen</h2>
+<p>Schulnoten sind eine Rangfolge, keine Messgröße: Der Abstand zwischen 1 und 2 ist nicht unbedingt gleich groß wie zwischen 4 und 5. Ein Notenschnitt ist deshalb eine praktische Vereinbarung, kein exaktes Maß. Bei sehr wenigen Werten sagt jeder Durchschnitt wenig aus.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wann nehme ich den Median statt des Mittelwerts?</h3>
+<p>Wenn einzelne Ausreißer das Bild verzerren würden – etwa bei Einkommen, Mieten oder Lieferzeiten.</p>
+<h3>Wie viele Werte kann ich eingeben?</h3>
+<p>Beliebig viele, getrennt mit Leerzeichen oder Strichpunkt. Kommazahlen schreibst du mit Komma oder Punkt.</p>
+<h3>Müssen sich die Gewichte auf 100 summieren?</h3>
+<p>Nein. Der Rechner teilt durch die Summe der Gewichte. 2-2-1 und 40-40-20 ergeben denselben Schnitt.</p>
 </div>
   <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
   </div>

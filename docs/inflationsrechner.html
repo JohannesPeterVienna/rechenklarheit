@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261029c">
+<link rel="stylesheet" href="/assets/style.css?v=20261031a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/inflationsrechner.html", "name": "Inflationsrechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Inflationsrechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/inflationsrechner.html"}</script>
-<script src="/assets/consent.js?v=20261029c" defer></script><script src="/assets/calc.js?v=20261029c" defer></script>
+<script src="/assets/consent.js?v=20261031a" defer></script><script src="/assets/calc.js?v=20261031a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -50,6 +50,30 @@
 <p>Der Realzins zeigt, ob Erspartes tatsächlich mehr wert wird. Näherungsweise ist er der Zins minus die Inflation. Genauer: (1 + Zins) ÷ (1 + Inflation) − 1. Bei 3 % Zinsen und 2 % Inflation bleiben real 0,98 % – nach Steuern entsprechend weniger.</p>
 <h2>Persönliche Inflation</h2>
 <p>Die offizielle Inflationsrate beruht auf einem durchschnittlichen Warenkorb. Wer überdurchschnittlich viel für Energie, Miete oder Lebensmittel ausgibt, erlebt eine andere, „persönliche“ Teuerung. Für eigene Überlegungen kann es sinnvoll sein, mit einer etwas höheren Rate zu rechnen als dem offiziellen Wert.</p>
+
+<h2>Die Inflationsraten der letzten Jahre</h2>
+<table class="tbl"><thead><tr><th>Jahr</th><th>Deutschland (VPI)</th><th>Österreich (VPI)</th></tr></thead><tbody>
+<tr><td>2021</td><td>3,1 %</td><td>–</td></tr><tr><td>2022</td><td>6,9 %</td><td>–</td></tr><tr><td>2023</td><td>5,9 %</td><td>–</td></tr><tr><td>2024</td><td>2,2 %</td><td>2,9 %</td></tr><tr><td>2025</td><td>2,2 %</td><td>3,6 %</td></tr>
+</tbody></table>
+<p class="small muted">Jahresdurchschnitte. Quellen: <a href="https://www.destatis.de/DE/Presse/Pressemitteilungen/2026/01/PD26_019_611.html" rel="noopener">Destatis, Pressemitteilung Nr. 019 vom 16. Januar 2026</a> (Stand: Oktober 2026); <a href="https://www.statistik.at/fileadmin/announcement/2026/01/20260119VPIJahr2025.pdf" rel="noopener">Statistik Austria, VPI Jahresdurchschnitt 2025</a> (Stand: Oktober 2026). Für die österreichischen Jahre vor 2024 sind hier nur Werte angegeben, die wir in der verlinkten Quelle geprüft haben.</p>
+<h2>Durchgerechnet: Was sind 1.000 € von 2020 heute wert?</h2>
+<div class="example"><strong>Deutschland:</strong> Die Preise sind von 2021 bis 2025 insgesamt um (1,031 × 1,069 × 1,059 × 1,022 × 1,022 − 1) = 21,9 % gestiegen. Was 2020 1.000 € kostete, kostet 2025 im Schnitt 1.219,09 €. Umgekehrt haben 1.000 € nur noch die Kaufkraft von 820,29 €.</div>
+<div class="example"><strong>Österreich:</strong> Über 2024 und 2025 zusammen ergibt sich 1,029 × 1,036 − 1 = 6,6 % Teuerung, nicht 2,9 + 3,6 = 6,5 %.</div>
+<h2>Wertsicherung mit dem Index berechnen</h2>
+<p>Mieten, Unterhaltszahlungen oder Verträge sind oft an den Verbraucherpreisindex gebunden. Gerechnet wird dann nicht mit Raten, sondern mit Indexständen: neuer Betrag = alter Betrag × Index neu ÷ Index alt.</p>
+<div class="example">Der österreichische VPI (Basis 2020 = 100) lag im Jahresdurchschnitt 2024 bei 123,8 und 2025 bei 128,2. Eine Miete von 800 € auf Basis 2024 wäre angepasst 828,43 €. Welcher Monat, welche Indexbasis und welche Schwelle gelten, steht im Vertrag.</div>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Raten addieren:</strong> In Deutschland ergibt die Summe der Raten 2021 bis 2025 20,3 %, die tatsächliche Teuerung aber 21,9 %. Raten werden multipliziert, weil jedes Jahr auf das höhere Preisniveau aufbaut.</div>
+<div class="warn"><strong>Indizes verwechseln:</strong> Neben dem nationalen VPI gibt es den harmonisierten HVPI für EU-Vergleiche. In Deutschland lag er 2025 bei 2,3 %, der VPI bei 2,2 %. Für Verträge zählt der Index, der im Vertrag steht.</div>
+<h2>Grenzen</h2>
+<p>Vergangene Raten sagen nichts Sicheres über die Zukunft. Für Planungen über viele Jahre ist eine Spanne – etwa 2 % und 3 % – aussagekräftiger als ein einzelner Wert. Der Rechner nimmt eine gleichbleibende Rate an.</p>
+<h2>Häufige Fragen</h2>
+<h3>Welche Rate soll ich für die nächsten zehn Jahre eingeben?</h3>
+<p>Es gibt keine sichere Zahl. Das Inflationsziel der EZB von 2 % ist ein üblicher Ausgangswert; rechne zusätzlich mit einer höheren Rate, um ein vorsichtiges Szenario zu sehen.</p>
+<h3>Was ist der Unterschied zwischen Inflationsrate und Index?</h3>
+<p>Die Rate ist die prozentuale Veränderung zum Vorjahr. Der Index zeigt das Preisniveau im Vergleich zu einem Basisjahr, das auf 100 gesetzt ist.</p>
+<h3>Kann ich auch eine Deflation berechnen?</h3>
+<p>Rechnerisch ja: Sinkende Preise erhöhen die Kaufkraft. Der Rechner ist auf positive Raten ausgelegt, weil Deflation in Österreich und Deutschland selten ist.</p>
 </div>
   <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
 <h2>Passend dazu</h2><ul class="cards"><li><a href="/zinseszins-und-72er-regel.html"><strong>Zinseszins und 72er-Regel: Wann sich Geld verdoppelt</strong><span>Eine Faustformel, die man im Kopf rechnen kann.</span></a></li></ul>  </div>
