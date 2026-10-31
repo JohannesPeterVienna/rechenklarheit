@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="google-adsense-account" content="ca-pub-7811071715414905">
 <title>Mehrwertsteuer-Rechner Österreich &amp; Deutschland: netto ↔ brutto | Rechenklarheit</title>
-<meta name="description" content="Mehrwertsteuer berechnen: netto in brutto und brutto in netto umrechnen, mit 20, 13 und 10 % für Österreich sowie 19 und 7 % für Deutschland.">
+<meta name="description" content="Mehrwertsteuer berechnen: netto in brutto und brutto in netto umrechnen, mit 20, 13, 10 und 4,9 % für Österreich sowie 19 und 7 % für Deutschland.">
 <link rel="canonical" href="https://rechenklarheit.de/mehrwertsteuer-rechner.html">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Rechenklarheit">
 <meta property="og:title" content="Mehrwertsteuer-Rechner Österreich &amp; Deutschland: netto ↔ brutto | Rechenklarheit">
-<meta property="og:description" content="Mehrwertsteuer berechnen: netto in brutto und brutto in netto umrechnen, mit 20, 13 und 10 % für Österreich sowie 19 und 7 % für Deutschland.">
+<meta property="og:description" content="Mehrwertsteuer berechnen: netto in brutto und brutto in netto umrechnen, mit 20, 13, 10 und 4,9 % für Österreich sowie 19 und 7 % für Deutschland.">
 <meta property="og:url" content="https://rechenklarheit.de/mehrwertsteuer-rechner.html">
 <meta property="og:locale" content="de_AT">
 <meta name="theme-color" content="#2647C6">
@@ -33,14 +33,14 @@
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Mehrwertsteuer-Rechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
   <div><h1>Mehrwertsteuer-Rechner</h1><p class="lead">Brutto aus netto oder netto aus brutto – mit den Steuersätzen für Österreich und Deutschland und dem richtigen Rechenweg zum Herausrechnen.</p><p class="formula">Netto = Brutto ÷ (1 + Steuersatz)</p></div>
-  <div class="sheet"><form data-calc="mwst" id="f-mwst" novalidate><div class="fields"><label class="f">Richtung<select name="dir"><option value="b2n" selected>Brutto → netto (Steuer herausrechnen)</option><option value="n2b">Netto → brutto (Steuer aufschlagen)</option></select></label><label class="f"><span data-l="amount">Betrag (€)</span><input name="amount" inputmode="decimal" value="120" autocomplete="off" ></label><label class="f">Steuersatz<select name="rate"><option value="20" selected>Österreich 20 % (Normalsatz)</option><option value="13">Österreich 13 %</option><option value="10">Österreich 10 %</option><option value="19">Deutschland 19 % (Regelsatz)</option><option value="7">Deutschland 7 %</option><option value="custom">eigener Satz</option></select></label><label class="f" data-show-when="rate=custom">Eigener Satz (%)<input name="custom" inputmode="decimal" value="8.1"></label></div><div data-out aria-live="polite"></div></form></div>
+  <div class="sheet"><form data-calc="mwst" id="f-mwst" novalidate><div class="fields"><label class="f">Richtung<select name="dir"><option value="b2n" selected>Brutto → netto (Steuer herausrechnen)</option><option value="n2b">Netto → brutto (Steuer aufschlagen)</option></select></label><label class="f"><span data-l="amount">Betrag (€)</span><input name="amount" inputmode="decimal" value="120" autocomplete="off" ></label><label class="f">Steuersatz<select name="rate"><option value="20" selected>Österreich 20 % (Normalsatz)</option><option value="13">Österreich 13 %</option><option value="10">Österreich 10 %</option><option value="4.9">Österreich 4,9 % (ausgewählte Grundnahrungsmittel)</option><option value="19">Deutschland 19 % (Regelsatz)</option><option value="7">Deutschland 7 %</option><option value="custom">eigener Satz</option></select></label><label class="f" data-show-when="rate=custom">Eigener Satz (%)<input name="custom" inputmode="decimal" value="8.1"></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap"><div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div></div>
 <div class="wrap layout">
   <div class="prose" style="max-width:none"><div class="prose">
 <h2>Steuersätze in Österreich und Deutschland</h2>
 <table class="tbl text"><thead><tr><th>Land</th><th>Normalsatz</th><th>Ermäßigt</th></tr></thead><tbody>
-<tr><td>Österreich</td><td>20 %</td><td>10 % (z. B. viele Lebensmittel) und 13 %</td></tr>
+<tr><td>Österreich</td><td>20 %</td><td>10 % (z. B. viele Lebensmittel), 13 % und seit 1. Juli 2026 4,9 % für ausgewählte Grundnahrungsmittel wie Brot, Milch, Butter und Eier</td></tr>
 <tr><td>Deutschland</td><td>19 %</td><td>7 % (z. B. viele Lebensmittel)</td></tr></tbody></table>
 <p class="small muted">Welcher Satz für eine bestimmte Ware oder Leistung gilt, regeln das österreichische Umsatzsteuergesetz und das deutsche Umsatzsteuergesetz. Im Zweifel gilt die Rechnung oder die Auskunft des Finanzamts.</p>
 <h2>Mehrwertsteuer herausrechnen – so geht es richtig</h2>
@@ -49,7 +49,10 @@
 <div class="example"><strong>Deutschland:</strong> 119 € brutto ÷ 1,19 = 100,00 € netto. Enthaltene Steuer: 19,00 €.</div>
 <div class="warn"><strong>Typischer Fehler:</strong> 120 € minus 20 % ergibt 96,00 € – das ist um 4,00 € zu wenig, weil die 20 % auf den Nettobetrag gerechnet werden, nicht auf den Bruttobetrag.</div>
 <h2>Faustregel für den Steueranteil</h2>
-<p>Bei 20 % steckt im Bruttobetrag immer genau ein Sechstel Steuer, bei 19 % sind es 19/119, also rund 15,97 %, bei 10 % ein Elftel und bei 7 % 7/107, rund 6,54 %.</p>
+<p>Bei 20 % steckt im Bruttobetrag immer genau ein Sechstel Steuer, bei 19 % sind es 19/119, also rund 15,97 %, bei 10 % ein Elftel, bei 7 % 7/107, rund 6,54 %, und bei 4,9 % rund 4,67 %.</p>
+<h2>Neu seit Juli 2026: 4,9 % auf Grundnahrungsmittel in Österreich</h2>
+<p>Seit 1. Juli 2026 gilt in Österreich für ausgewählte Grundnahrungsmittel – laut Wirtschaftskammer etwa Brot, Milch, Butter, Eier und bestimmte heimische Obst- und Gemüsesorten – ein Umsatzsteuersatz von 4,9 % statt 10 %. Auf einem Kassenbon können deshalb drei Sätze nebeneinander stehen: 4,9 % für das Brot, 10 % für andere Lebensmittel und 20 % für Drogerieartikel. Rechne jeden Satz getrennt heraus. Beispiel: 5,00 € brutto mit 4,9 % enthalten 5,00 ÷ 1,049 = 4,77 € netto und 0,23 € Steuer.</p>
+<p class="small muted">Welche Waren genau darunter fallen, legt das Umsatzsteuergesetz fest; eine Übersicht bietet die <a href="https://www.wko.at/oe/oesterreich/oesterreich-isst-informiert-mehrwertsteuer-auf-lebensmittel" rel="noopener">Wirtschaftskammer Österreich</a>. Stand: Oktober 2026.</p>
 
 <h2>Der klassische Fehler beim Herausrechnen</h2>
 <p>Wer von 119 € einfach 19 % abzieht, bekommt 96,39 € – und liegt falsch. Die 19 % wurden auf den Nettopreis aufgeschlagen, nicht auf den Bruttopreis. Richtig ist: 119 € ÷ 1,19 = 100 €. Der Rechner nimmt dir diese Division ab.</p>

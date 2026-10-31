@@ -79,22 +79,22 @@ CALCS = [
 },
 {
 "slug": "mehrwertsteuer-rechner", "short": "Mehrwertsteuer-Rechner", "sym": "USt",
-"teaser": "Netto und brutto für Österreich (20/13/10 %) und Deutschland (19/7 %).",
+"teaser": "Netto und brutto für Österreich (20/13/10/4,9 %) und Deutschland (19/7 %).",
 "title": "Mehrwertsteuer-Rechner Österreich & Deutschland: netto ↔ brutto",
 "h1": "Mehrwertsteuer-Rechner",
 "lead": "Brutto aus netto oder netto aus brutto – mit den Steuersätzen für Österreich und Deutschland und dem richtigen Rechenweg zum Herausrechnen.",
-"description": "Mehrwertsteuer berechnen: netto in brutto und brutto in netto umrechnen, mit 20, 13 und 10 % für Österreich sowie 19 und 7 % für Deutschland.",
+"description": "Mehrwertsteuer berechnen: netto in brutto und brutto in netto umrechnen, mit 20, 13, 10 und 4,9 % für Österreich sowie 19 und 7 % für Deutschland.",
 "formula": "Netto = Brutto ÷ (1 + Steuersatz)",
 "form": form("mwst",
     select("dir", "Richtung", [("b2n", "Brutto → netto (Steuer herausrechnen)"), ("n2b", "Netto → brutto (Steuer aufschlagen)")], "b2n")
     + inp("amount", "Betrag (€)", "120")
-    + select("rate", "Steuersatz", [("20", "Österreich 20 % (Normalsatz)"), ("13", "Österreich 13 %"), ("10", "Österreich 10 %"),
+    + select("rate", "Steuersatz", [("20", "Österreich 20 % (Normalsatz)"), ("13", "Österreich 13 %"), ("10", "Österreich 10 %"), ("4.9", "Österreich 4,9 % (ausgewählte Grundnahrungsmittel)"),
              ("19", "Deutschland 19 % (Regelsatz)"), ("7", "Deutschland 7 %"), ("custom", "eigener Satz")], "20")
     + '<label class="f" data-show-when="rate=custom">Eigener Satz (%)<input name="custom" inputmode="decimal" value="8.1"></label>'),
 "body": f"""
 <h2>Steuersätze in Österreich und Deutschland</h2>
 <table class="tbl text"><thead><tr><th>Land</th><th>Normalsatz</th><th>Ermäßigt</th></tr></thead><tbody>
-<tr><td>Österreich</td><td>20 %</td><td>10 % (z. B. viele Lebensmittel) und 13 %</td></tr>
+<tr><td>Österreich</td><td>20 %</td><td>10 % (z. B. viele Lebensmittel), 13 % und seit 1. Juli 2026 4,9 % für ausgewählte Grundnahrungsmittel wie Brot, Milch, Butter und Eier</td></tr>
 <tr><td>Deutschland</td><td>19 %</td><td>7 % (z. B. viele Lebensmittel)</td></tr></tbody></table>
 <p class="small muted">Welcher Satz für eine bestimmte Ware oder Leistung gilt, regeln das österreichische Umsatzsteuergesetz und das deutsche Umsatzsteuergesetz. Im Zweifel gilt die Rechnung oder die Auskunft des Finanzamts.</p>
 <h2>Mehrwertsteuer herausrechnen – so geht es richtig</h2>
@@ -103,7 +103,10 @@ CALCS = [
 <div class="example"><strong>Deutschland:</strong> 119 € brutto ÷ 1,19 = {eur(_mw_n)} netto. Enthaltene Steuer: {eur(119-_mw_n)}.</div>
 <div class="warn"><strong>Typischer Fehler:</strong> 120 € minus 20 % ergibt {eur(96)} – das ist um {eur(4)} zu wenig, weil die 20 % auf den Nettobetrag gerechnet werden, nicht auf den Bruttobetrag.</div>
 <h2>Faustregel für den Steueranteil</h2>
-<p>Bei 20 % steckt im Bruttobetrag immer genau ein Sechstel Steuer, bei 19 % sind es 19/119, also rund 15,97 %, bei 10 % ein Elftel und bei 7 % 7/107, rund 6,54 %.</p>
+<p>Bei 20 % steckt im Bruttobetrag immer genau ein Sechstel Steuer, bei 19 % sind es 19/119, also rund 15,97 %, bei 10 % ein Elftel, bei 7 % 7/107, rund 6,54 %, und bei 4,9 % rund 4,67 %.</p>
+<h2>Neu seit Juli 2026: 4,9 % auf Grundnahrungsmittel in Österreich</h2>
+<p>Seit 1. Juli 2026 gilt in Österreich für ausgewählte Grundnahrungsmittel – laut Wirtschaftskammer etwa Brot, Milch, Butter, Eier und bestimmte heimische Obst- und Gemüsesorten – ein Umsatzsteuersatz von 4,9 % statt 10 %. Auf einem Kassenbon können deshalb drei Sätze nebeneinander stehen: 4,9 % für das Brot, 10 % für andere Lebensmittel und 20 % für Drogerieartikel. Rechne jeden Satz getrennt heraus. Beispiel: 5,00 € brutto mit 4,9 % enthalten 5,00 ÷ 1,049 = {eur(5/1.049)} netto und {eur(5-5/1.049)} Steuer.</p>
+<p class="small muted">Welche Waren genau darunter fallen, legt das Umsatzsteuergesetz fest; eine Übersicht bietet die <a href="https://www.wko.at/oe/oesterreich/oesterreich-isst-informiert-mehrwertsteuer-auf-lebensmittel" rel="noopener">Wirtschaftskammer Österreich</a>. Stand: Oktober 2026.</p>
 """,
 "related": ["mehrwertsteuer-herausrechnen"],
 },

@@ -67,7 +67,7 @@ ARTICLES = [
 <p>Die Steuer wird auf den Nettobetrag aufgeschlagen. 100 € netto plus 20 % ergeben 120 € brutto. Ziehst du von 120 € wieder 20 % ab, rechnest du 20 % vom größeren Betrag und landest bei 96 € – nicht bei 100 €.</p>
 <h2>Die Teiler im Überblick</h2>
 <table class="tbl text"><thead><tr><th>Steuersatz</th><th>Netto = Brutto ÷</th><th>Steueranteil im Brutto</th></tr></thead><tbody>
-{''.join(f'<tr><td>{r} %</td><td>{de(1+r/100,2)}</td><td>{de(r/(100+r)*100,2)} %</td></tr>' for r in (20,13,10,19,7))}
+{''.join(f'<tr><td>{de(r,1) if r%1 else r} %</td><td>{de(1+r/100,3 if r%1 else 2)}</td><td>{de(r/(100+r)*100,2)} %</td></tr>' for r in (20,13,10,4.9,19,7))}
 </tbody></table>
 <div class="example"><strong>Beispiel Österreich:</strong> Eine Rechnung über 360 € brutto mit 20 % enthält 360 ÷ 1,2 = {eur(300)} netto und {eur(60)} Steuer.</div>
 <div class="example"><strong>Beispiel Deutschland:</strong> 238 € brutto mit 19 % ergeben 238 ÷ 1,19 = {eur(200)} netto und {eur(38)} Steuer.</div>
