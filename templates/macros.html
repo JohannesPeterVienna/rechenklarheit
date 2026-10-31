@@ -2,5 +2,5 @@
 {% macro crumbs(items) -%}<nav class="crumbs wrap" aria-label="Brotkrumen">{% for href,label in items %}{% if not loop.last %}<a href="{{ href }}">{{ label }}</a> › {% else %}<span>{{ label }}</span>{% endif %}{% endfor %}</nav>{%- endmacro %}
 {% macro calclist(calcs) -%}<ul class="calcs">{% for c in calcs %}<li><a href="/{{ c.slug }}.html"><span class="sym" aria-hidden="true">{{ c.sym }}</span><span><strong>{{ c.short }}</strong><span class="d">{{ c.teaser }}</span></span></a></li>{% endfor %}</ul>{%- endmacro %}
 {% macro sidebar(calcs, current) -%}
-<aside class="side"><div class="box"><h3>Alle Rechner</h3><ul>{% for c in calcs if c.slug != current %}<li><a href="/{{ c.slug }}.html">{{ c.short }}</a></li>{% endfor %}</ul></div>{{ ad("half") }}</aside>
+<aside class="side"><div class="box"><h3>Alle Rechner</h3><ul>{% for c in calcs if c.slug != current %}<li><a href="/{{ c.slug }}.html">{{ c.short }}</a></li>{% endfor %}</ul></div>{{ ad("half") }}{{ ad("sky") }}</aside>
 {%- endmacro %}
