@@ -1,15 +1,20 @@
 /* Werbung und Statistik — beides läuft über Googles zertifizierte Einwilligungsverwaltung (TCF 2.2).
-   Messregel für Google Analytics (beide Bedingungen nötig):
-     · TCF-Daten: Zweck 1 (Speichern) und Anbieter 755 (Google) zugestimmt,
-     · Consent Mode der Google-CMP: analyticsStoragePurposeConsentStatus === GRANTED.
-   UNKNOWN, fehlende Werte oder ein offener Dialog = keine Messung. Gilt die DSGVO laut CMP nicht und
-   wurde die Statistik nicht abgelehnt, wird gemessen. Ablehnung/Widerruf → consent update "denied",
-   ga-disable-Schalter, keine weiteren Treffer. Signals und Werbepersonalisierung sind deaktiviert. */
+   Messregel für Google Analytics:
+     · DSGVO gilt (oder unklar): TCF Zweck 1 (Speichern) + Anbieter 755 (Google) zugestimmt UND
+       Consent Mode der Google-CMP analyticsStoragePurposeConsentStatus === GRANTED (1).
+     · DSGVO gilt laut CMP nicht: Statuswert GRANTED (1) oder NOT_APPLICABLE (3) und die CMP meldet
+       ausdrücklich keinen US-Opt-out (googlefc.usstatesoptout: DOES_NOT_APPLY 1 / NOT_OPTED_OUT 2).
+   Fehlend, UNKNOWN (0), DENIED (2), NOT_CONFIGURED (4), ein offener Dialog oder eine Ausnahme einer
+   CMP-Schnittstelle = keine Messung. Ein klares TCF-Nein sperrt sofort, bevor die Consent-Mode-
+   Schnittstelle überhaupt gefragt wird. Ablehnung/Widerruf → consent update "denied", ga-disable,
+   keine weiteren Treffer. Signals und Werbepersonalisierung sind deaktiviert.
+   Werte laut developers.google.com/funding-choices/fc-api-docs */
 (() => {
   const PUB = "ca-pub-7811071715414905";
   const GA = "G-T00HRG2YVF";
   const GOOGLE_VENDOR = 755;
-  const CM_GRANTED = 1, CM_DENIED = 2;
+  const CM_GRANTED = 1, CM_NOT_APPLICABLE = 3;
+  const US_OHNE_OPTOUT = [1, 2];   // usstatesoptout: DOES_NOT_APPLY, NOT_OPTED_OUT (3 = OPTED_OUT, 0 = UNKNOWN)
 
   // Consent-Mode-Grundwerte vor jedem Google-Skript (auch vor adsbygoogle.js)
   const dl = window.dataLayer = window.dataLayer || [];
@@ -58,16 +63,21 @@
     });
   }
 
-  /** Reine Entscheidung: true = messen, false = nicht messen, null = noch offen */
-  function freigabe(tc, cmStatus){
-    if (gpc || cmStatus === CM_DENIED) return false;
+  /** Reine Entscheidung: true = messen, false = nicht messen, null = noch offen.
+      cmStatus/usStatus sind Funktionen – sie werden erst gefragt, wenn das TCF-Signal kein Nein ist. */
+  function freigabe(tc, cmStatus, usStatus){
+    if (gpc) return false;
     if (!tc) return null;
-    if (tc.gdprApplies === false) return true;          // außerhalb von EWR/UK/CH
+    if (tc.gdprApplies === false){                     // außerhalb von EWR/UK/CH
+      const cm = cmStatus();
+      return (cm === CM_GRANTED || cm === CM_NOT_APPLICABLE) && US_OHNE_OPTOUT.includes(usStatus());
+    }
     const fertig = tc.eventStatus === "tcloaded" || tc.eventStatus === "useractioncomplete";
     if (!fertig) return null;
     const zweck1 = Boolean(tc.purpose?.consents?.[1]);
     const google = Boolean(tc.vendor?.consents?.[GOOGLE_VENDOR]);
-    return zweck1 && google && cmStatus === CM_GRANTED;
+    if (!zweck1 || !google) return false;
+    return cmStatus() === CM_GRANTED;
   }
 
   function analyticsStatus(){
@@ -75,6 +85,13 @@
       const v = typeof fc.getGoogleConsentModeValues === "function" ? fc.getGoogleConsentModeValues() : null;
       return v && typeof v.analyticsStoragePurposeConsentStatus === "number" ? v.analyticsStoragePurposeConsentStatus : 0;
     } catch (_) { return 0; }
+  }
+
+  function usStatus(){
+    try {
+      const u = fc.usstatesoptout;
+      return u && typeof u.getInitialUsStatesOptOutStatus === "function" ? u.getInitialUsStatesOptOutStatus() : 0;
+    } catch (_) { return -1; }                         // Fehler → wie Opt-out behandeln
   }
 
   let tcStand = null;
@@ -104,7 +121,7 @@
   }
 
   function abgleich(){
-    const f = freigabe(tcStand, analyticsStatus());
+    const f = freigabe(tcStand, analyticsStatus, usStatus);
     if (f === true) { if (messung !== "an") messungAn(); }
     else if (f === false) { if (messung !== "aus") messungAus(); }
     else if (messung === "an") messungAus();               // Widerruf: Dialog offen, Einwilligung gelöscht
@@ -122,7 +139,7 @@
       if (tc.eventStatus !== "cmpuishown") setTimeout(abgleich, 300);   // CM-Werte ziehen ggf. nach
     });
   }
-  fc.callbackQueue.push({ CONSENT_MODE_DATA_READY: abgleich });
+  fc.callbackQueue.push({ CONSENT_MODE_DATA_READY: abgleich, INITIAL_US_STATES_OPT_OUT_DATA_READY: abgleich });
 
   // Link „Datenschutz-Einstellungen" im Seitenfuß öffnet den Google-Dialog erneut
   document.addEventListener("click", e => {
