@@ -73,7 +73,7 @@ def main():
 
     write("about.html", "page.html", title="Über Rechenklarheit", description="Wer hinter Rechenklarheit steht und wie die Rechner arbeiten.",
           h1="Über Rechenklarheit", lead="Rechner, die zeigen, wie gerechnet wird.", priority=0.3,
-          body="""<p>Rechenklarheit wird von AdStern in Wien betrieben. Die Idee: Ein Ergebnis allein hilft wenig, wenn man nicht weiß, wie es zustande kommt. Deshalb zeigt jeder Rechner den vollständigen Rechenweg – zum Nachvollziehen, Überprüfen und Lernen.</p>
+          body="""<p>Hinter Rechenklarheit steht die Wiener Agentur AdStern. Unser Grundsatz: Ein Ergebnis allein hilft wenig, wenn man nicht weiß, wie es zustande kommt. Deshalb zeigt jeder Rechner den vollständigen Rechenweg – zum Nachvollziehen, Überprüfen und Lernen.</p>
 <h2>Was du hier findest</h2>
 <ul><li><strong>Alltag:</strong> Prozent, Rabatt, Trinkgeld, Fahrt- und Stromkosten, Einheiten</li>
 <li><strong>Geld:</strong> Mehrwertsteuer, Zinseszins und Sparplan, Kredit mit Tilgungsplan, Inflation, Stundenlohn</li>
@@ -87,8 +87,8 @@ def main():
 <p>Steuersätze und rechtliche Angaben prüfen wir anhand der Gesetze in Österreich und Deutschland. Rechner, deren Werte sich jedes Jahr ändern – etwa ein Brutto-Netto-Rechner mit Lohnsteuertarif und Sozialversicherung –, bieten wir erst an, wenn wir die amtlichen Werte des jeweiligen Jahres vollständig eingearbeitet und geprüft haben.</p>
 <h2>Grenzen</h2>
 <p>Die Ergebnisse sind Rechenhilfen und ersetzen keine Steuer-, Rechts- oder Finanzberatung. Bei Krediten und Geldanlagen zählen die Bedingungen deines konkreten Vertrags; Gebühren, Steuern und Schwankungen sind in den Rechnern nur so weit berücksichtigt, wie auf der jeweiligen Seite beschrieben.</p>
-<h2>Deine Daten</h2><p>Alle Berechnungen laufen in deinem Browser. Deine Eingaben werden nicht an uns übertragen. Teilst du einen Link zu deiner Rechnung, stehen die eingegebenen Werte in der Adresse – gib solche Links deshalb nur weiter, wenn die Zahlen nicht vertraulich sind. Werbung und Statistik laufen nur mit deiner Einwilligung; Details in der <a href="/privacy.html">Datenschutzerklärung</a>.</p>
-<h2>Fehler gefunden?</h2><p>Schreib uns an <a href="mailto:office@adstern.com">office@adstern.com</a>. Wir prüfen jeden Hinweis.</p>""")
+<h2>Deine Daten</h2><p>Alle Berechnungen laufen in deinem Browser. Deine Eingaben werden nicht an uns übertragen. Teilst du einen Link zu deiner Rechnung, stehen die eingegebenen Werte in der Adresse – gib solche Links deshalb nur weiter, wenn die Zahlen nicht vertraulich sind. Für Werbeanzeigen und Zugriffsstatistik fragen wir vorher um deine Zustimmung; die <a href="/privacy.html">Datenschutzerklärung</a> listet alle Anbieter und Zwecke auf.</p>
+<h2>Stimmt etwas nicht?</h2><p>Wenn dir ein Rechenfehler oder eine veraltete Angabe auffällt, freuen wir uns über eine Nachricht an <a href="mailto:office@adstern.com">office@adstern.com</a> – am besten mit den eingegebenen Werten, damit wir den Fall nachrechnen können.</p>""")
     write("imprint.html", "page.html", title="Impressum | Rechenklarheit", description="Impressum von Rechenklarheit.", h1="Impressum",
           ads=False, robots="noindex,follow", body=f"""<h2>Medieninhaber und Herausgeber</h2><p>{LEGAL_ADDR}</p>
 <h2>Unternehmensangaben</h2><p>Unternehmensgegenstand: Werbeagentur<br>UID-Nummer: ATU54682507<br>Gewerbebehörde: Magistratisches Bezirksamt für den 1. und 8. Bezirk, Wien<br>Kammerzugehörigkeit: Wirtschaftskammer Wien, Fachgruppe Werbung und Marktkommunikation<br>Berufsbezeichnung: Werbeagentur (Gewerbe, verliehen in Österreich)<br>Anwendbare Rechtsvorschriften: Gewerbeordnung, abrufbar unter <a href="https://www.ris.bka.gv.at" rel="noopener">www.ris.bka.gv.at</a></p>
