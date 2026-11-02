@@ -180,6 +180,10 @@
     return { result: eur(mon), label: `brutto pro Monat (${salaries}×)`, steps: [line(`Jahresstunden = ${nf(hours, 2)} × 52 = ${nf(hpy, 1)} (≈ ${nf(hpm, 1)} pro Monat)`), line(`Jahresbrutto = ${eur(amount)} × ${nf(hpy, 1)} = ${eur(year)}`), line(`Monatsgehalt = ${eur(year)} ÷ ${salaries} = <mark>${eur(mon)}</mark>`)] };
   };
 
+  /* Achsenwerte: ganze Zahlen mit Tausenderpunkt wie in den Tabellen (z. B. 4.524), ab einer Million kompakt (1,2 Mio.) */
+  const axisNum = x => x >= 1e6
+    ? new Intl.NumberFormat("de-DE", { notation: "compact", maximumFractionDigits: 1 }).format(x)
+    : new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0, useGrouping: true }).format(Math.round(x));
   /* ---------- Balkendiagramm (gestapelt), barrierearm mit Tabelle darunter */
   const chart = (rows, keys, colors, names, fmt = eur) => {
     if (!rows.length) return "";
@@ -189,7 +193,7 @@
     let g = "";
     rows.forEach((r, i) => { let y = H - 22; keys.forEach((k, j) => { const h = r[k] / max * (H - 40); y -= h; g += `<rect x="${(P + i * bw + bw * .12).toFixed(1)}" y="${y.toFixed(1)}" width="${(bw * .76).toFixed(1)}" height="${Math.max(h, 0).toFixed(1)}" fill="${colors[j]}"><title>${r.label}: ${names[j]} ${fmt(r[k])}</title></rect>`; });
       if (i % step === 0 || i === n - 1) g += `<text x="${(P + i * bw + bw / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${r.label}</text>`; });
-    const ax = [0, .5, 1].map(f => `<text x="${P - 4}" y="${(H - 22 - f * (H - 40) + 4).toFixed(1)}" text-anchor="end">${new Intl.NumberFormat("de-DE", { notation: "compact", maximumFractionDigits: 1 }).format(max * f)}</text><line x1="${P}" x2="${W}" y1="${(H - 22 - f * (H - 40)).toFixed(1)}" y2="${(H - 22 - f * (H - 40)).toFixed(1)}" />`).join("");
+    const ax = [0, .5, 1].map(f => `<text x="${P - 4}" y="${(H - 22 - f * (H - 40) + 4).toFixed(1)}" text-anchor="end">${axisNum(max * f)}</text><line x1="${P}" x2="${W}" y1="${(H - 22 - f * (H - 40)).toFixed(1)}" y2="${(H - 22 - f * (H - 40)).toFixed(1)}" />`).join("");
     const leg = names.map((nm, j) => `<span><i style="background:${colors[j]}"></i>${nm}</span>`).join("");
     return `<figure class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Diagramm: ${names.join(" und ")} pro Jahr">${ax}${g}</svg><figcaption class="legend">${leg}</figcaption></figure>`;
   };

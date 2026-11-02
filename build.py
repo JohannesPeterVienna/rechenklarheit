@@ -7,7 +7,8 @@ from content.calcs import CALCS, PERCENT_FORM
 from content.articles import ARTICLES
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261031c"; UPDATED = "Oktober 2026"
+SITE = "https://rechenklarheit.de"; V = "20261102a"; UPDATED = "November 2026"
+CHECKED = "2. November 2026"; CHECKED_ISO = "2026-11-02"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit")]
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True, trim_blocks=True, lstrip_blocks=True)
@@ -18,9 +19,14 @@ BYSLUG = {a["slug"]: a for a in ARTICLES}
 
 def write(path, template, **ctx):
     base = dict(site=SITE, v=V, updated=UPDATED, nav=NAV, active=ctx.get("active", "/" + path), jsonld=[], ads=True,
-                robots=None, og_title=None, calcs=CALCS, year=2027)
+                robots=None, og_title=None, calcs=CALCS, year=2027, checked=None)
     base.update(ctx)
     base["path"] = "/" if path == "index.html" else "/" + path
+    if template == "calc.html":
+        # Erste Anzeige erst nach dem ersten Erklärabschnitt unter dem Rechner, nicht direkt unter Formular/Ergebnis
+        body = base["body"]
+        cut = body.find("<h2", body.find("<h2") + 1) if body.count("<h2") > 1 else -1
+        base["body_first"], base["body_rest"] = (body[:cut], body[cut:]) if cut > 0 else (body, "")
     (OUT / path).write_text(env.get_template(template).render(**base), encoding="utf-8")
     if base.get("robots") is None:
         PAGES.append((base["path"], ctx.get("priority", 0.6)))
@@ -29,12 +35,6 @@ def write(path, template, **ctx):
 def crumbs_ld(items):
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": i + 1, "name": n, "item": SITE + h} for i, (h, n) in enumerate(items)]}
-
-
-def redirect(path, target):
-    (OUT / path).write_text(f'<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Weiterleitung</title>'
-                            f'<meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{target}">'
-                            f'<meta http-equiv="refresh" content="0; url={target}"></head><body><p><a href="{target}">Weiter</a></p></body></html>', encoding="utf-8")
 
 
 def main():
@@ -60,16 +60,17 @@ def main():
               "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}]
         write(c["slug"] + ".html", "calc.html", title=f"{c['title']} | Rechenklarheit", description=c["description"], h1=c["h1"],
               lead=c["lead"], formula=c.get("formula"), form=c["form"], body=c["body"], slug=c["slug"], crumbs=crumbs,
-              related=[BYSLUG[s] for s in c.get("related", []) if s in BYSLUG], jsonld=ld, priority=0.9)
+              related=[BYSLUG[s] for s in c.get("related", []) if s in BYSLUG], jsonld=ld, priority=0.9, checked=CHECKED)
 
     for a in ARTICLES:
         crumbs = [("/", "Rechner"), ("/" + a["slug"] + ".html", a["title"])]
         ld = [crumbs_ld(crumbs), {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["description"],
-              "inLanguage": "de", "datePublished": "2026-10-29", "dateModified": "2026-10-29",
+              "inLanguage": "de", "datePublished": "2026-10-29", "dateModified": CHECKED_ISO,
               "author": {"@type": "Organization", "name": "Redaktion Rechenklarheit", "url": SITE + "/about.html"},
               "publisher": {"@type": "Organization", "name": "AdStern"}}]
         write(a["slug"] + ".html", "page.html", title=f"{a['title']} | Rechenklarheit", description=a["description"], h1=a["title"],
-              lead=a["teaser"], body=a["body"], crumbs=crumbs, related=[x for x in ARTICLES if x["slug"] != a["slug"]][:3], jsonld=ld, priority=0.7)
+              lead=a["teaser"], body=a["body"], crumbs=crumbs, related=[x for x in ARTICLES if x["slug"] != a["slug"]][:3], jsonld=ld, priority=0.7,
+              checked=CHECKED)
 
     write("about.html", "page.html", title="Über Rechenklarheit", description="Wer hinter Rechenklarheit steht und wie die Rechner arbeiten.",
           h1="Über Rechenklarheit", lead="Rechner, die zeigen, wie gerechnet wird.", priority=0.3,
@@ -104,16 +105,13 @@ def main():
     write("404.html", "page.html", title="Seite nicht gefunden | Rechenklarheit", description="Diese Seite gibt es nicht.",
           h1="Diese Seite gibt es nicht", lead="Hier geht es zu allen Rechnern.", ads=False, robots="noindex",
           body="<p><a href='/'>Alle Rechner</a></p>")
-    redirect("bruchlabor.html", "/bruchrechner.html")
-    redirect("einheitenatelier.html", "/einheitenrechner.html")
-    redirect("advertise.html", "/about.html")
 
     (OUT / "assets" / "icon.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>')
     (OUT / "CNAME").write_text("rechenklarheit.de\n"); (OUT / ".nojekyll").write_text("")
     (OUT / "google9bf1079fd4bf073e.html").write_text("google-site-verification: google9bf1079fd4bf073e.html")
     (OUT / "ads.txt").write_text("google.com, pub-7811071715414905, DIRECT, f08c47fec0942fa0\n")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
-    urls = "".join(f"<url><loc>{SITE}{p}</loc><lastmod>2026-10-29</lastmod><priority>{pr}</priority></url>" for p, pr in PAGES)
+    urls = "".join(f"<url><loc>{SITE}{p}</loc><lastmod>{CHECKED_ISO}</lastmod><priority>{pr}</priority></url>" for p, pr in PAGES)
     (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     print(f"{len(PAGES)} indexierbare Seiten")
 

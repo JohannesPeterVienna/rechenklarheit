@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261031c">
+<link rel="stylesheet" href="/assets/style.css?v=20261102a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/zinseszins-rechner.html", "name": "Zinseszins- \u0026 Sparrechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Zinseszins- und Sparrechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/zinseszins-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261031c" defer></script><script src="/assets/calc.js?v=20261031c" defer></script>
+<script src="/assets/consent.js?v=20261102a" defer></script><script src="/assets/calc.js?v=20261102a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -32,39 +32,33 @@
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Zinseszins- &amp; Sparrechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Zinseszins- und Sparrechner</h1><p class="lead">Startkapital, monatliche Sparrate, Zinssatz und Laufzeit eingeben – der Rechner zeigt das Endkapital und Jahr für Jahr, wie viel davon Zinsen sind.</p><p class="formula">Kₙ = K₀ × (1 + p)ⁿ</p></div>
+  <div><h1>Zinseszins- und Sparrechner</h1><p class="lead">Startkapital, monatliche Sparrate, Zinssatz und Laufzeit eingeben – der Rechner zeigt das Endkapital und Jahr für Jahr, wie viel davon Zinsen sind.</p><p class="formula">Kₙ = K₀ × (1 + p)ⁿ</p><p class="small muted">Geprüft am 2. November 2026</p></div>
   <div class="sheet"><form data-calc="zins" id="f-zins" novalidate><div class="fields"><label class="f"><span data-l="start">Startkapital (€)</span><input name="start" inputmode="decimal" value="0" autocomplete="off" ></label><label class="f"><span data-l="monthly">Sparrate pro Monat (€)</span><input name="monthly" inputmode="decimal" value="100" autocomplete="off" ></label><label class="f"><span data-l="rate">Zinssatz p. a. (%)</span><input name="rate" inputmode="decimal" value="3" autocomplete="off" ></label><label class="f"><span data-l="years">Laufzeit (Jahre)</span><input name="years" inputmode="numeric" value="20" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
-<div class="wrap"><div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div></div>
 <div class="wrap layout">
   <div class="prose" style="max-width:none"><div class="prose">
 <h2>Was der Zinseszins bewirkt</h2>
 <p>Zinsen, die auf dem Konto bleiben, bringen im nächsten Jahr selbst Zinsen. Dadurch wächst das Kapital nicht gleichmäßig, sondern immer schneller.</p>
 <div class="example"><strong>100 € im Monat, 3 % Zinsen, 20 Jahre:</strong> Eingezahlt sind 24.000,00 €, am Ende stehen 32.830,20 € auf dem Konto. Rund 8.830,20 € davon sind Zinsen.</div>
-<h2>Die 72er-Regel</h2>
-<p>Teilst du 72 durch den Zinssatz, erhältst du ungefähr die Jahre, in denen sich ein Betrag verdoppelt. Bei 3 % sind das rund 24 Jahre, bei 6 % rund 12 Jahre. <a href="/zinseszins-und-72er-regel.html">Mehr zur 72er-Regel</a></p>
-<h2>Was der Rechner nicht berücksichtigt</h2>
-<ul><li><strong>Steuern:</strong> In Österreich fallen auf Zinsen aus Bankguthaben 25 % Kapitalertragsteuer an, auf andere Kapitalerträge meist 27,5 %. In Deutschland gilt die Abgeltungsteuer von 25 % plus Solidaritätszuschlag, mit einem Sparerpauschbetrag von 1.000 € pro Person und Jahr.</li>
-<li><strong>Inflation:</strong> Was die Summe in 20 Jahren wert ist, zeigt der <a href="/inflationsrechner.html">Inflationsrechner</a>.</li>
-<li><strong>Schwankende Erträge:</strong> Bei Aktien oder Fonds gibt es keinen festen Zinssatz. Der Rechner zeigt dann nur ein Szenario.</li></ul>
-<p class="small muted">Gerechnet wird mit monatlicher Verzinsung (Jahreszinssatz ÷ 12) und Einzahlung am Monatsende.</p>
+</div>
+  <div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div>
+<div class="prose"><h2>Die 72er-Regel</h2>
+<p>Wie lange dauert es, bis sich ein Betrag verdoppelt? Teile 72 durch den Zinssatz: Bei 3 % sind es rund 24 Jahre, bei 6 % rund 12 Jahre. Genau gerechnet sind es bei 3 % 23,4 Jahre. Mehr dazu im Ratgeber <a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a>.</p>
 
 <h2>Monatliche oder jährliche Verzinsung?</h2>
 <p>Banken nennen meist einen Jahreszinssatz. Werden die Zinsen monatlich gutgeschrieben, verzinsen sie sich schon im Laufe des Jahres mit. Aus 3 % pro Jahr werden bei monatlicher Gutschrift effektiv 3,042 %. Der Unterschied ist klein, summiert sich über Jahrzehnte aber.</p>
-<h2>Die 72er-Regel</h2>
-<p>Wie lange dauert es, bis sich ein Betrag verdoppelt? Teile 72 durch den Zinssatz: Bei 3 % sind es rund 24 Jahre, bei 6 % rund 12 Jahre. Genau gerechnet sind es bei 3 % 23,4 Jahre. Mehr dazu im Ratgeber <a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a>.</p>
 <h2>Was der Rechner nicht berücksichtigt</h2>
-<ul><li><strong>Steuern:</strong> Zinserträge sind steuerpflichtig – in Österreich über die Kapitalertragsteuer, in Deutschland über die Abgeltungsteuer. Der Rechner zeigt Werte vor Steuern.</li>
+<ul><li><strong>Steuern:</strong> Der Rechner zeigt Werte vor Steuern. In Österreich fallen auf Zinsen aus Bankguthaben 25 % Kapitalertragsteuer an, auf andere Kapitalerträge meist 27,5 %. In Deutschland gilt die Abgeltungsteuer von 25 % plus Solidaritätszuschlag, mit einem Sparerpauschbetrag von 1.000 € pro Person und Jahr.</li>
 <li><strong>Inflation:</strong> Das Endkapital ist ein Nominalbetrag. Was es in 20 Jahren wert ist, zeigt der <a href="/inflationsrechner.html">Inflationsrechner</a>.</li>
-<li><strong>Schwankungen:</strong> Bei Aktien oder Fonds gibt es keinen festen Zins. Eine angenommene Durchschnittsrendite ist nur ein Szenario, keine Zusage.</li></ul>
-</div>
-  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
+<li><strong>Schwankende Erträge:</strong> Bei Aktien oder Fonds gibt es keinen festen Zins. Eine angenommene Durchschnittsrendite ist nur ein Szenario, keine Zusage.</li></ul>
+<p class="small muted">Gerechnet wird mit monatlicher Verzinsung (Jahreszinssatz ÷ 12) und Einzahlung am Monatsende.</p>
+</div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
 <h2>Passend dazu</h2><ul class="cards"><li><a href="/zinseszins-und-72er-regel.html"><strong>Zinseszins und 72er-Regel: Wann sich Geld verdoppelt</strong><span>Eine Faustformel, die man im Kopf rechnen kann.</span></a></li></ul>  </div>
   <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">
-  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand Oktober 2026.</div>
+  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand November 2026.</div>
   <nav aria-label="Rechtliches"><a href="/about.html">Über uns</a><a href="/imprint.html">Impressum</a><a href="/privacy.html">Datenschutz</a><button class="linkbtn" type="button" data-privacy-settings>Datenschutz-Einstellungen</button></nav>
 </div></footer>
 </body>

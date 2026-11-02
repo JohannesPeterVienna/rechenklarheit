@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261031c">
+<link rel="stylesheet" href="/assets/style.css?v=20261102a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/rabatt-rechner.html", "name": "Rabatt-Rechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Rabatt-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/rabatt-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261031c" defer></script><script src="/assets/calc.js?v=20261031c" defer></script>
+<script src="/assets/consent.js?v=20261102a" defer></script><script src="/assets/calc.js?v=20261102a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -32,32 +32,28 @@
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Rabatt-Rechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Rabatt-Rechner</h1><p class="lead">Was kostet es wirklich nach Aktionsrabatt, Zusatzrabatt und Skonto? Der Rechner zeigt Endpreis, Ersparnis und den tatsächlichen Gesamtrabatt.</p><p class="formula">Endpreis = Preis × (1 − r₁) × (1 − r₂)</p></div>
+  <div><h1>Rabatt-Rechner</h1><p class="lead">Was kostet es wirklich nach Aktionsrabatt, Zusatzrabatt und Skonto? Der Rechner zeigt Endpreis, Ersparnis und den tatsächlichen Gesamtrabatt.</p><p class="formula">Endpreis = Preis × (1 − r₁) × (1 − r₂)</p><p class="small muted">Geprüft am 2. November 2026</p></div>
   <div class="sheet"><form data-calc="rabatt" id="f-rabatt" novalidate><div class="fields"><label class="f"><span data-l="price">Preis (€)</span><input name="price" inputmode="decimal" value="200" autocomplete="off" ></label><label class="f"><span data-l="r1">1. Rabatt (%)</span><input name="r1" inputmode="decimal" value="20" autocomplete="off" ></label><label class="f"><span data-l="r2">2. Rabatt (%)</span><input name="r2" inputmode="decimal" value="10" autocomplete="off" ></label><label class="f"><span data-l="skonto">Skonto (%)</span><input name="skonto" inputmode="decimal" value="" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
-<div class="wrap"><div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div></div>
 <div class="wrap layout">
   <div class="prose" style="max-width:none"><div class="prose">
 <h2>Warum 20 % + 10 % nicht 30 % sind</h2>
-<p>Jeder weitere Rabatt wird vom bereits reduzierten Preis abgezogen. Bei 200 € mit 20 % und danach 10 % zahlst du 200 × 0,8 × 0,9 = 144,00 €. Das sind 28 % Ersparnis, nicht 30 %.</p>
-<div class="example"><strong>Die Reihenfolge ist egal:</strong> 200 × 0,9 × 0,8 ergibt ebenfalls 144,00 €. Multiplikation ist vertauschbar.</div>
-<h2>Skonto</h2>
-<p>Skonto ist ein Abzug für schnelle Zahlung, meist 2 bis 3 % innerhalb von 10 bis 14 Tagen. Es wirkt wie ein weiterer Rabatt auf den bereits rabattierten Betrag. Für Unternehmen lohnt sich Skonto fast immer: 2 % für 20 Tage früheres Zahlen entsprechen auf ein Jahr gerechnet einem Zinssatz von rund 37 %.</p>
+<p>Jeder weitere Rabatt wird vom bereits reduzierten Preis abgezogen. Bei 200 € mit 20 % und danach 10 % zahlst du 200 × 0,8 × 0,9 = 144,00 €. Das sind 28 % Ersparnis, nicht 30 %. Bei 100 € sind es entsprechend 100 € × 0,8 × 0,9 = 72 €.</p>
+<div class="example"><strong>Die Reihenfolge ist egal:</strong> 200 × 0,9 × 0,8 ergibt ebenfalls 144,00 € – 10 % zuerst und dann 20 % führt zum selben Endpreis. Multiplikation ist vertauschbar. Das gilt allerdings nur, solange alle Rabatte Prozent-Rabatte sind.</div>
 
-<h2>Zwei Rabatte sind nicht die Summe</h2>
-<p>20 % Rabatt und zusätzlich 10 % sind nicht 30 %, sondern 28 %: Der zweite Rabatt wird vom bereits reduzierten Preis abgezogen. 100 € × 0,8 × 0,9 = 72 €. Die Reihenfolge spielt dabei keine Rolle – 10 % zuerst und dann 20 % ergibt ebenfalls 72 €.</p>
-<h2>Euro-Rabatt und Prozent-Rabatt: Hier zählt die Reihenfolge</h2>
+</div>
+  <div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div>
+<div class="prose"><h2>Euro-Rabatt und Prozent-Rabatt: Hier zählt die Reihenfolge</h2>
 <p>Gibt es einen Gutschein über 10 € und zusätzlich 10 % Rabatt, ist die Reihenfolge entscheidend. Bei 100 €: erst 10 € abziehen, dann 10 % ergibt 81,00 €. Erst 10 %, dann 10 € ergibt 80,00 €. Für Kundinnen und Kunden ist es günstiger, wenn der Prozent-Rabatt zuerst angewendet wird.</p>
 <h2>Skonto: der unterschätzte Zins</h2>
-<p>„2 % Skonto bei Zahlung binnen 10 Tagen, sonst 30 Tage netto“ klingt nach wenig. Wer das Skonto nicht nutzt, bezahlt aber 2 % dafür, das Geld 20 Tage länger zu behalten. Aufs Jahr gerechnet entspricht das einem Zinssatz von rund 36,7 %. Selbst ein Überziehungsrahmen ist meist günstiger – Skonto auszunutzen lohnt sich fast immer.</p>
-</div>
-  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
+<p>Skonto ist ein Abzug für schnelle Zahlung, meist 2 bis 3 % innerhalb von 10 bis 14 Tagen. Es wirkt wie ein weiterer Rabatt auf den bereits rabattierten Betrag. „2 % Skonto bei Zahlung binnen 10 Tagen, sonst 30 Tage netto“ klingt nach wenig. Wer das Skonto nicht nutzt, bezahlt aber 2 % dafür, das Geld 20 Tage länger zu behalten. Aufs Jahr gerechnet entspricht das einem Zinssatz von rund 36,7 %. Selbst ein Überziehungsrahmen ist meist günstiger – für Unternehmen lohnt es sich fast immer, Skonto auszunutzen.</p>
+</div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
 <h2>Passend dazu</h2><ul class="cards"><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li></ul>  </div>
   <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">
-  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand Oktober 2026.</div>
+  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand November 2026.</div>
   <nav aria-label="Rechtliches"><a href="/about.html">Über uns</a><a href="/imprint.html">Impressum</a><a href="/privacy.html">Datenschutz</a><button class="linkbtn" type="button" data-privacy-settings>Datenschutz-Einstellungen</button></nav>
 </div></footer>
 </body>

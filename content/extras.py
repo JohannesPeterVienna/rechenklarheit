@@ -25,39 +25,27 @@ EXTRAS = {
 <p><strong>Kann ein Anteil mehr als 100 % sein?</strong> Ja, wenn der Prozentwert größer ist als der Grundwert: 150 sind 150 % von 100. Bei Anteilen eines Ganzen (etwa Stimmen einer Wahl) ist bei 100 % Schluss.</p>
 """,
 "mehrwertsteuer-rechner": f"""
-<h2>Der klassische Fehler beim Herausrechnen</h2>
-<p>Wer von 119 € einfach 19 % abzieht, bekommt {eur(119*0.81)} – und liegt falsch. Die 19 % wurden auf den Nettopreis aufgeschlagen, nicht auf den Bruttopreis. Richtig ist: 119 € ÷ 1,19 = 100 €. Der Rechner nimmt dir diese Division ab.</p>
-<h2>Wie viel Steuer steckt im Bruttopreis?</h2>
-<p>Für den schnellen Überblick hilft der Anteil der Steuer am Bruttobetrag:</p>
-<ul><li>20 % USt (Österreich): {de(20/120*100)} % des Bruttopreises sind Steuer – also ein Sechstel.</li>
-<li>19 % USt (Deutschland): {de(19/119*100)} % des Bruttopreises.</li>
-<li>10 % USt: {de(10/110*100)} % · 7 % USt: {de(7/107*100)} % · 13 % USt: {de(13/113*100)} %.</li></ul>
-<p>Bei einem Einkauf um 60 € brutto in Österreich sind also 10 € Umsatzsteuer enthalten.</p>
 <h2>Umsatzsteuer, Mehrwertsteuer, Vorsteuer</h2>
-<p>Umsatzsteuer und Mehrwertsteuer meinen im Alltag dasselbe; im Gesetz heißt sie Umsatzsteuer. Unternehmen schlagen sie auf ihre Preise auf und führen sie ans Finanzamt ab. Die Steuer, die sie selbst beim Einkauf zahlen, holen sie sich als <strong>Vorsteuer</strong> zurück. Wirtschaftlich trägt sie deshalb die Endkundin oder der Endkunde. Kleinunternehmer sind von der Umsatzsteuer befreit und weisen auf ihren Rechnungen keine aus.</p>
-<p class="small muted">Welcher Steuersatz für welche Ware oder Leistung gilt, regeln das österreichische und das deutsche Umsatzsteuergesetz. Im Zweifel hilft die Steuerberatung.</p>
+<p>Umsatzsteuer und Mehrwertsteuer meinen im Alltag dasselbe; im Gesetz heißt sie Umsatzsteuer. Unternehmen schlagen sie auf ihre Preise auf und führen sie ans Finanzamt ab. Die Steuer, die sie selbst beim Einkauf zahlen, holen sie sich als <strong>Vorsteuer</strong> zurück. Wirtschaftlich trägt sie deshalb die Endkundin oder der Endkunde. Kleinunternehmer sind von der Umsatzsteuer befreit und weisen auf ihren Rechnungen keine aus. Im Zweifel hilft die Steuerberatung.</p>
 """,
 "rabatt-rechner": f"""
-<h2>Zwei Rabatte sind nicht die Summe</h2>
-<p>20 % Rabatt und zusätzlich 10 % sind nicht 30 %, sondern 28 %: Der zweite Rabatt wird vom bereits reduzierten Preis abgezogen. 100 € × 0,8 × 0,9 = 72 €. Die Reihenfolge spielt dabei keine Rolle – 10 % zuerst und dann 20 % ergibt ebenfalls 72 €.</p>
 <h2>Euro-Rabatt und Prozent-Rabatt: Hier zählt die Reihenfolge</h2>
 <p>Gibt es einen Gutschein über 10 € und zusätzlich 10 % Rabatt, ist die Reihenfolge entscheidend. Bei 100 €: erst 10 € abziehen, dann 10 % ergibt {eur((100-10)*0.9)}. Erst 10 %, dann 10 € ergibt {eur(100*0.9-10)}. Für Kundinnen und Kunden ist es günstiger, wenn der Prozent-Rabatt zuerst angewendet wird.</p>
 <h2>Skonto: der unterschätzte Zins</h2>
-<p>„2 % Skonto bei Zahlung binnen 10 Tagen, sonst 30 Tage netto“ klingt nach wenig. Wer das Skonto nicht nutzt, bezahlt aber 2 % dafür, das Geld 20 Tage länger zu behalten. Aufs Jahr gerechnet entspricht das einem Zinssatz von rund {de(_skonto,1)} %. Selbst ein Überziehungsrahmen ist meist günstiger – Skonto auszunutzen lohnt sich fast immer.</p>
+<p>Skonto ist ein Abzug für schnelle Zahlung, meist 2 bis 3 % innerhalb von 10 bis 14 Tagen. Es wirkt wie ein weiterer Rabatt auf den bereits rabattierten Betrag. „2 % Skonto bei Zahlung binnen 10 Tagen, sonst 30 Tage netto“ klingt nach wenig. Wer das Skonto nicht nutzt, bezahlt aber 2 % dafür, das Geld 20 Tage länger zu behalten. Aufs Jahr gerechnet entspricht das einem Zinssatz von rund {de(_skonto,1)} %. Selbst ein Überziehungsrahmen ist meist günstiger – für Unternehmen lohnt es sich fast immer, Skonto auszunutzen.</p>
 """,
 "zinseszins-rechner": f"""
 <h2>Monatliche oder jährliche Verzinsung?</h2>
 <p>Banken nennen meist einen Jahreszinssatz. Werden die Zinsen monatlich gutgeschrieben, verzinsen sie sich schon im Laufe des Jahres mit. Aus 3 % pro Jahr werden bei monatlicher Gutschrift effektiv {de(_eff_m,3)} %. Der Unterschied ist klein, summiert sich über Jahrzehnte aber.</p>
-<h2>Die 72er-Regel</h2>
-<p>Wie lange dauert es, bis sich ein Betrag verdoppelt? Teile 72 durch den Zinssatz: Bei 3 % sind es rund 24 Jahre, bei 6 % rund 12 Jahre. Genau gerechnet sind es bei 3 % {de(math.log(2)/math.log(1.03),1)} Jahre. Mehr dazu im Ratgeber <a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a>.</p>
 <h2>Was der Rechner nicht berücksichtigt</h2>
-<ul><li><strong>Steuern:</strong> Zinserträge sind steuerpflichtig – in Österreich über die Kapitalertragsteuer, in Deutschland über die Abgeltungsteuer. Der Rechner zeigt Werte vor Steuern.</li>
+<ul><li><strong>Steuern:</strong> Der Rechner zeigt Werte vor Steuern. In Österreich fallen auf Zinsen aus Bankguthaben 25 % Kapitalertragsteuer an, auf andere Kapitalerträge meist 27,5 %. In Deutschland gilt die Abgeltungsteuer von 25 % plus Solidaritätszuschlag, mit einem Sparerpauschbetrag von 1.000 € pro Person und Jahr.</li>
 <li><strong>Inflation:</strong> Das Endkapital ist ein Nominalbetrag. Was es in 20 Jahren wert ist, zeigt der <a href="/inflationsrechner.html">Inflationsrechner</a>.</li>
-<li><strong>Schwankungen:</strong> Bei Aktien oder Fonds gibt es keinen festen Zins. Eine angenommene Durchschnittsrendite ist nur ein Szenario, keine Zusage.</li></ul>
+<li><strong>Schwankende Erträge:</strong> Bei Aktien oder Fonds gibt es keinen festen Zins. Eine angenommene Durchschnittsrendite ist nur ein Szenario, keine Zusage.</li></ul>
+<p class="small muted">Gerechnet wird mit monatlicher Verzinsung (Jahreszinssatz ÷ 12) und Einzahlung am Monatsende.</p>
 """,
 "kreditrechner": f"""
 <h2>Längere Laufzeit: niedrigere Rate, höhere Kosten</h2>
-<p>Bei 20.000 € und 4,5 % Sollzins:</p>
+<p>Eine niedrigere Rate durch längere Laufzeit bedeutet fast immer deutlich höhere Gesamtkosten. Bei 20.000 € und 4,5 % Sollzins:</p>
 <ul><li>5 Jahre: Rate {eur(_r5)}, Zinskosten {eur(_r5*60-20000)}</li>
 <li>7 Jahre: Rate {eur(_r7)}, Zinskosten {eur(_r7*84-20000)}</li>
 <li>10 Jahre: Rate {eur(_r10)}, Zinskosten {eur(_r10*120-20000)}</li></ul>
@@ -65,7 +53,8 @@ EXTRAS = {
 <h2>Warum am Anfang vor allem Zinsen gezahlt werden</h2>
 <p>Bei einem Annuitätenkredit bleibt die Rate gleich. Zinsen fallen aber immer auf die aktuelle Restschuld an – und die ist am Anfang am höchsten. Deshalb ist der Zinsanteil zu Beginn groß und schrumpft mit jeder Rate, während der Tilgungsanteil wächst. Das Diagramm über dem Tilgungsplan zeigt genau diese Verschiebung.</p>
 <h2>Sollzins, Effektivzins, Sondertilgung</h2>
-<p>Der <strong>Sollzins</strong> ist der reine Zins auf die Restschuld. Der <strong>effektive Jahreszins</strong> enthält zusätzlich Kosten wie Bearbeitungsgebühren und ist deshalb die bessere Zahl zum Vergleichen von Angeboten. Erlaubt der Vertrag <strong>Sondertilgungen</strong>, senkt jede Zahlung die Restschuld sofort – und damit alle künftigen Zinsen. Details im Ratgeber <a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a>.</p>
+<p>Der <strong>Sollzins</strong> ist der reine Zins auf die Restschuld. Der <strong>effektive Jahreszins</strong> enthält zusätzlich Kosten wie Bearbeitungsgebühren und ist deshalb der richtige Wert, um Angebote zu vergleichen; Kreditgeber müssen ihn in Österreich und Deutschland angeben. Erlaubt der Vertrag <strong>Sondertilgungen</strong>, senkt jede Zahlung die Restschuld sofort – und damit alle künftigen Zinsen. Details im Ratgeber <a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a>.</p>
+<p class="small muted">Der Rechner ersetzt kein Kreditangebot und keine Beratung. Gebühren, Versicherungen und Zinsänderungen sind nicht enthalten.</p>
 """,
 "inflationsrechner": f"""
 <h2>Wann sich die Kaufkraft halbiert</h2>
@@ -76,21 +65,12 @@ EXTRAS = {
 <p>Die offizielle Inflationsrate beruht auf einem durchschnittlichen Warenkorb. Wer überdurchschnittlich viel für Energie, Miete oder Lebensmittel ausgibt, erlebt eine andere, „persönliche“ Teuerung. Für eigene Überlegungen kann es sinnvoll sein, mit einer etwas höheren Rate zu rechnen als dem offiziellen Wert.</p>
 """,
 "dreisatz-rechner": f"""
-<h2>Proportional oder umgekehrt?</h2>
-<p>Die entscheidende Frage: Wenn eine Größe steigt, steigt die andere mit (je mehr, desto mehr) – oder sinkt sie (je mehr, desto weniger)?</p>
-<ul><li><strong>Proportional:</strong> Ein Rezept für 4 Personen braucht 300 g Mehl. Für 6 Personen: 300 ÷ 4 × 6 = 450 g.</li>
-<li><strong>Umgekehrt proportional:</strong> 4 Personen streichen eine Wohnung in 6 Tagen. 3 Personen brauchen dafür 4 × 6 ÷ 3 = 8 Tage.</li></ul>
 <h2>Wann der Dreisatz nicht passt</h2>
 <p>Der Dreisatz setzt voraus, dass sich die Größen gleichmäßig verhalten. Bei einer Taxifahrt mit Grundgebühr stimmt das nicht: Kostet die erste Strecke von 5 km 15 € inklusive 4 € Grundgebühr, kosten 10 km nicht 30 €, sondern 4 € + 2 × 11 € = 26 €. Auch Mengenrabatte, Staffelpreise oder Steuertarife folgen keinem Dreisatz.</p>
 <h2>Doppelter Dreisatz</h2>
 <p>Hängt ein Ergebnis von zwei Größen ab, rechnet man zwei Dreisätze hintereinander: 3 Maschinen stellen in 4 Stunden 600 Teile her. Wie viele schaffen 5 Maschinen in 6 Stunden? Erst auf 1 Maschine (200 Teile in 4 Stunden), dann auf 1 Stunde (50 Teile), dann hochrechnen: 50 × 5 × 6 = 1.500 Teile.</p>
 """,
 "bruchrechner": f"""
-<h2>Die vier Regeln auf einen Blick</h2>
-<ul><li><strong>Plus und Minus:</strong> Erst auf einen gemeinsamen Nenner bringen, dann die Zähler verrechnen. 1/4 + 1/6 = 3/12 + 2/12 = 5/12.</li>
-<li><strong>Mal:</strong> Zähler mal Zähler, Nenner mal Nenner. 2/3 × 3/4 = 6/12 = 1/2.</li>
-<li><strong>Geteilt:</strong> Mit dem Kehrwert malnehmen. 2/3 ÷ 4/5 = 2/3 × 5/4 = 10/12 = 5/6.</li>
-<li><strong>Kürzen:</strong> Zähler und Nenner durch ihren größten gemeinsamen Teiler teilen.</li></ul>
 <h2>Warum Teilen durch einen Bruch Malnehmen mit dem Kehrwert ist</h2>
 <p>„Wie oft passt 1/4 in 3?“ – zwölfmal, denn in jedes Ganze passen vier Viertel. 3 ÷ 1/4 = 3 × 4 = 12. Der Kehrwert sagt also, wie viele Teile auf ein Ganzes kommen.</p>
 <h2>Brüche und Kommazahlen</h2>

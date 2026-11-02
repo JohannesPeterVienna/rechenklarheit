@@ -17,10 +17,10 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261031c">
+<link rel="stylesheet" href="/assets/style.css?v=20261102a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/fahrtkosten-rechner.html", "name": "Fahrtkosten-Rechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Fahrtkosten-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/fahrtkosten-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261031c" defer></script><script src="/assets/calc.js?v=20261031c" defer></script>
+<script src="/assets/consent.js?v=20261102a" defer></script><script src="/assets/calc.js?v=20261102a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
@@ -32,16 +32,17 @@
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Fahrtkosten-Rechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Fahrtkosten-Rechner</h1><p class="lead">Was kostet die Fahrt in den Urlaub, und wie viel zahlt jeder Mitfahrer? Für Benzin, Diesel und Elektroauto – mit Hin- und Rückfahrt.</p><p class="formula">Kosten = km × Verbrauch ÷ 100 × Preis</p></div>
+  <div><h1>Fahrtkosten-Rechner</h1><p class="lead">Was kostet die Fahrt in den Urlaub, und wie viel zahlt jeder Mitfahrer? Für Benzin, Diesel und Elektroauto – mit Hin- und Rückfahrt.</p><p class="formula">Kosten = km × Verbrauch ÷ 100 × Preis</p><p class="small muted">Geprüft am 2. November 2026</p></div>
   <div class="sheet"><form data-calc="fahrt" id="f-fahrt" novalidate><div class="fields"><label class="f">Antrieb<select name="fuel"><option value="fuel" selected>Benzin / Diesel</option><option value="ev">Elektro</option></select></label><label class="f"><span data-l="km">Strecke einfach (km)</span><input name="km" inputmode="decimal" value="230" autocomplete="off" ></label><label class="f">Fahrt<select name="trip"><option value="1">nur hin</option><option value="2" selected>hin und zurück</option></select></label><label class="f"><span data-l="cons">Verbrauch (l/100 km)</span><input name="cons" inputmode="decimal" value="6.5" autocomplete="off" ></label><label class="f"><span data-l="price">Preis (€/l)</span><input name="price" inputmode="decimal" value="1.70" autocomplete="off" ></label><label class="f"><span data-l="people">Personen im Auto</span><input name="people" inputmode="numeric" value="3" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
-<div class="wrap"><div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div></div>
 <div class="wrap layout">
   <div class="prose" style="max-width:none"><div class="prose">
 <h2>Spritkosten in drei Schritten</h2>
 <ol><li><strong>Verbrauch der Strecke:</strong> Kilometer × Verbrauch pro 100 km ÷ 100.</li><li><strong>Kosten:</strong> Liter × Preis pro Liter.</li><li><strong>Aufteilen:</strong> Kosten ÷ Anzahl der Personen.</li></ol>
 <div class="example"><strong>Beispiel:</strong> 230 km bei 6,5 l/100 km brauchen 14,95 Liter. Bei 1,70 € pro Liter kostet die einfache Fahrt 25,41 €, hin und zurück 50,83 €. Zu dritt zahlt jede Person 16,94 €.</div>
-<h2>Elektroauto: Ladekosten statt Spritkosten</h2>
+</div>
+  <div class="ad ad--billboard" data-ad="billboard" aria-hidden="true"></div>
+<div class="prose"><h2>Elektroauto: Ladekosten statt Spritkosten</h2>
 <p>Beim E-Auto steht der Verbrauch in kWh pro 100 km. 230 km mit 18 kWh/100 km brauchen 41,4 kWh. Zuhause geladen zu 30 Cent sind das 12,42 €. An öffentlichen Schnellladern ist die Kilowattstunde oft deutlich teurer – trag deshalb den Preis ein, den du tatsächlich zahlst. Ladeverluste von einigen Prozent kommen in der Praxis dazu.</p>
 <h2>Welcher Verbrauch ist realistisch?</h2>
 <p>Die Herstellerangabe nach WLTP liegt meist unter dem Alltagsverbrauch. Besser ist dein eigener Wert: Tank volltanken, Kilometerstand notieren, beim nächsten Volltanken die getankten Liter durch die gefahrenen Kilometer teilen und mal 100 nehmen. Autobahn mit hohem Tempo, Dachbox und Kälte erhöhen den Verbrauch spürbar.</p>
@@ -71,14 +72,13 @@
 <p>Im Rechner ja: Die Kosten werden durch alle Personen im Auto geteilt. Soll die Fahrerin nichts zahlen, gib eine Person weniger ein.</p>
 <h3>Lohnt sich Kilometergeld gegenüber den Spritkosten?</h3>
 <p>Im Beispiel deckt das Kilometergeld rund das 4,5-Fache der Spritkosten, weil es alle Fahrzeugkosten abgelten soll.</p>
-</div>
-  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
+</div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
   </div>
   <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">
-  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand Oktober 2026.</div>
+  <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand November 2026.</div>
   <nav aria-label="Rechtliches"><a href="/about.html">Über uns</a><a href="/imprint.html">Impressum</a><a href="/privacy.html">Datenschutz</a><button class="linkbtn" type="button" data-privacy-settings>Datenschutz-Einstellungen</button></nav>
 </div></footer>
 </body>

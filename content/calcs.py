@@ -98,12 +98,12 @@ CALCS = [
 <tr><td>Deutschland</td><td>19 %</td><td>7 % (z. B. viele Lebensmittel)</td></tr></tbody></table>
 <p class="small muted">Welcher Satz für eine bestimmte Ware oder Leistung gilt, regeln das österreichische Umsatzsteuergesetz und das deutsche Umsatzsteuergesetz. Im Zweifel gilt die Rechnung oder die Auskunft des Finanzamts.</p>
 <h2>Mehrwertsteuer herausrechnen – so geht es richtig</h2>
-<p>Der Bruttobetrag ist 100 % plus Steuer, also bei 20 % genau 120 % des Nettobetrags. Deshalb teilst du durch 1,2 – und ziehst nicht einfach 20 % ab.</p>
+<p>Der Bruttobetrag ist 100 % plus Steuer, also bei 20 % genau 120 % des Nettobetrags. Deshalb teilst du durch 1,2 – und ziehst nicht einfach 20 % ab. Der Rechner nimmt dir diese Division ab.</p>
 <div class="example"><strong>Österreich:</strong> 120 € brutto ÷ 1,2 = {eur(100)} netto. Enthaltene Steuer: {eur(20)}.</div>
 <div class="example"><strong>Deutschland:</strong> 119 € brutto ÷ 1,19 = {eur(_mw_n)} netto. Enthaltene Steuer: {eur(119-_mw_n)}.</div>
-<div class="warn"><strong>Typischer Fehler:</strong> 120 € minus 20 % ergibt {eur(96)} – das ist um {eur(4)} zu wenig, weil die 20 % auf den Nettobetrag gerechnet werden, nicht auf den Bruttobetrag.</div>
-<h2>Faustregel für den Steueranteil</h2>
-<p>Bei 20 % steckt im Bruttobetrag immer genau ein Sechstel Steuer, bei 19 % sind es 19/119, also rund 15,97 %, bei 10 % ein Elftel, bei 7 % 7/107, rund 6,54 %, und bei 4,9 % rund 4,67 %.</p>
+<div class="warn"><strong>Typischer Fehler:</strong> 120 € minus 20 % ergibt {eur(96)} – das ist um {eur(4)} zu wenig, weil die 20 % auf den Nettobetrag gerechnet werden, nicht auf den Bruttobetrag. Genauso falsch: 119 € minus 19 % ergibt {eur(119*0.81)} statt 100 €.</div>
+<p><strong>Faustregel für den Steueranteil am Bruttobetrag:</strong> Bei 20 % ist es genau ein Sechstel ({de(20/120*100)} %) – in 60 € brutto stecken also 10 € Umsatzsteuer. Bei 19 % sind es 19/119, rund {de(19/119*100)} %, bei 13 % rund {de(13/113*100)} %, bei 10 % ein Elftel ({de(10/110*100)} %), bei 7 % 7/107, rund {de(7/107*100)} %, und bei 4,9 % rund 4,67 %.</p>
+<p>Mehr Beispiele und Sonderfälle im Ratgeber <a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a>.</p>
 <h2>Neu seit Juli 2026: 4,9 % auf Grundnahrungsmittel in Österreich</h2>
 <p>Seit 1. Juli 2026 gilt in Österreich für ausgewählte Grundnahrungsmittel – laut Wirtschaftskammer etwa Brot, Milch, Butter, Eier und bestimmte heimische Obst- und Gemüsesorten – ein Umsatzsteuersatz von 4,9 % statt 10 %. Auf einem Kassenbon können deshalb drei Sätze nebeneinander stehen: 4,9 % für das Brot, 10 % für andere Lebensmittel und 20 % für Drogerieartikel. Rechne jeden Satz getrennt heraus. Beispiel: 5,00 € brutto mit 4,9 % enthalten 5,00 ÷ 1,049 = {eur(5/1.049)} netto und {eur(5-5/1.049)} Steuer.</p>
 <p class="small muted">Welche Waren genau darunter fallen, legt das Umsatzsteuergesetz fest; eine Übersicht bietet die <a href="https://www.wko.at/oe/oesterreich/oesterreich-isst-informiert-mehrwertsteuer-auf-lebensmittel" rel="noopener">Wirtschaftskammer Österreich</a>. Stand: Oktober 2026.</p>
@@ -121,10 +121,8 @@ CALCS = [
 "form": form("rabatt", inp("price", "Preis (€)", "200") + inp("r1", "1. Rabatt (%)", "20") + inp("r2", "2. Rabatt (%)", "10") + inp("skonto", "Skonto (%)", "")),
 "body": f"""
 <h2>Warum 20 % + 10 % nicht 30 % sind</h2>
-<p>Jeder weitere Rabatt wird vom bereits reduzierten Preis abgezogen. Bei 200 € mit 20 % und danach 10 % zahlst du 200 × 0,8 × 0,9 = {eur(_r)}. Das sind {de((1-_r/200)*100)} % Ersparnis, nicht 30 %.</p>
-<div class="example"><strong>Die Reihenfolge ist egal:</strong> 200 × 0,9 × 0,8 ergibt ebenfalls {eur(_r)}. Multiplikation ist vertauschbar.</div>
-<h2>Skonto</h2>
-<p>Skonto ist ein Abzug für schnelle Zahlung, meist 2 bis 3 % innerhalb von 10 bis 14 Tagen. Es wirkt wie ein weiterer Rabatt auf den bereits rabattierten Betrag. Für Unternehmen lohnt sich Skonto fast immer: 2 % für 20 Tage früheres Zahlen entsprechen auf ein Jahr gerechnet einem Zinssatz von rund 37 %.</p>
+<p>Jeder weitere Rabatt wird vom bereits reduzierten Preis abgezogen. Bei 200 € mit 20 % und danach 10 % zahlst du 200 × 0,8 × 0,9 = {eur(_r)}. Das sind {de((1-_r/200)*100)} % Ersparnis, nicht 30 %. Bei 100 € sind es entsprechend 100 € × 0,8 × 0,9 = 72 €.</p>
+<div class="example"><strong>Die Reihenfolge ist egal:</strong> 200 × 0,9 × 0,8 ergibt ebenfalls {eur(_r)} – 10 % zuerst und dann 20 % führt zum selben Endpreis. Multiplikation ist vertauschbar. Das gilt allerdings nur, solange alle Rabatte Prozent-Rabatte sind.</div>
 """,
 "related": ["rabatte-kombinieren", "grundwert-richtig-waehlen"],
 },
@@ -142,12 +140,7 @@ CALCS = [
 <p>Zinsen, die auf dem Konto bleiben, bringen im nächsten Jahr selbst Zinsen. Dadurch wächst das Kapital nicht gleichmäßig, sondern immer schneller.</p>
 <div class="example"><strong>100 € im Monat, 3 % Zinsen, 20 Jahre:</strong> Eingezahlt sind {eur(24000)}, am Ende stehen {eur(_z)} auf dem Konto. Rund {eur(_z-24000)} davon sind Zinsen.</div>
 <h2>Die 72er-Regel</h2>
-<p>Teilst du 72 durch den Zinssatz, erhältst du ungefähr die Jahre, in denen sich ein Betrag verdoppelt. Bei 3 % sind das rund 24 Jahre, bei 6 % rund 12 Jahre. <a href="/zinseszins-und-72er-regel.html">Mehr zur 72er-Regel</a></p>
-<h2>Was der Rechner nicht berücksichtigt</h2>
-<ul><li><strong>Steuern:</strong> In Österreich fallen auf Zinsen aus Bankguthaben 25 % Kapitalertragsteuer an, auf andere Kapitalerträge meist 27,5 %. In Deutschland gilt die Abgeltungsteuer von 25 % plus Solidaritätszuschlag, mit einem Sparerpauschbetrag von 1.000 € pro Person und Jahr.</li>
-<li><strong>Inflation:</strong> Was die Summe in 20 Jahren wert ist, zeigt der <a href="/inflationsrechner.html">Inflationsrechner</a>.</li>
-<li><strong>Schwankende Erträge:</strong> Bei Aktien oder Fonds gibt es keinen festen Zinssatz. Der Rechner zeigt dann nur ein Szenario.</li></ul>
-<p class="small muted">Gerechnet wird mit monatlicher Verzinsung (Jahreszinssatz ÷ 12) und Einzahlung am Monatsende.</p>
+<p>Wie lange dauert es, bis sich ein Betrag verdoppelt? Teile 72 durch den Zinssatz: Bei 3 % sind es rund 24 Jahre, bei 6 % rund 12 Jahre. Genau gerechnet sind es bei 3 % {de(math.log(2)/math.log(1.03),1)} Jahre. Mehr dazu im Ratgeber <a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a>.</p>
 """,
 "related": ["zinseszins-und-72er-regel"],
 },
@@ -164,10 +157,6 @@ CALCS = [
 <h2>So wird die Rate berechnet</h2>
 <p>Bei einem Ratenkredit (Annuitätenkredit) zahlst du jeden Monat denselben Betrag. Am Anfang besteht die Rate vor allem aus Zinsen, gegen Ende fast nur aus Tilgung, weil die Restschuld immer kleiner wird.</p>
 <div class="example"><strong>20.000 € zu 4,5 % auf 5 Jahre:</strong> Die Monatsrate beträgt {eur(_k_a)}. Insgesamt zahlst du {eur(_k_a*60)} zurück, die Zinskosten liegen also bei {eur(_k_a*60-20000)}.</div>
-<h2>Sollzins oder Effektivzins?</h2>
-<p>Der Sollzins ist der reine Zinssatz. Der effektive Jahreszins enthält zusätzlich Kosten wie Bearbeitungsgebühren und ist deshalb der richtige Wert, um Angebote zu vergleichen. Kreditgeber müssen ihn in Österreich und Deutschland angeben. <a href="/sollzins-und-effektivzins.html">Der Unterschied im Detail</a></p>
-<div class="warn"><strong>Vorsicht bei langen Laufzeiten:</strong> Eine niedrigere Rate durch längere Laufzeit bedeutet fast immer deutlich höhere Gesamtkosten.</div>
-<p class="small muted">Der Rechner ersetzt kein Kreditangebot und keine Beratung. Gebühren, Versicherungen und Zinsänderungen sind nicht enthalten.</p>
 """,
 "related": ["sollzins-und-effektivzins"],
 },
@@ -203,8 +192,9 @@ CALCS = [
 <h2>Die drei Sätze</h2>
 <ol><li>Aussage: 4 Brötchen kosten 6 €.</li><li>Auf eins zurückrechnen: 1 Brötchen kostet 6 ÷ 4 = 1,50 €.</li><li>Auf das Gesuchte hochrechnen: 10 Brötchen kosten 1,50 × 10 = 15 €.</li></ol>
 <h2>Proportional oder umgekehrt?</h2>
-<p><strong>Proportional</strong> heißt: Verdoppelt sich die eine Größe, verdoppelt sich auch die andere – mehr Brötchen, höherer Preis.</p>
-<p><strong>Umgekehrt proportional</strong> heißt: Verdoppelt sich die eine Größe, halbiert sich die andere. Beispiel: 4 Personen streichen eine Wohnung in 6 Stunden. 8 Personen brauchen 4 × 6 ÷ 8 = 3 Stunden.</p>
+<p>Die entscheidende Frage: Wenn eine Größe steigt, steigt die andere mit (je mehr, desto mehr) – oder sinkt sie (je mehr, desto weniger)?</p>
+<ul><li><strong>Proportional</strong> heißt: Verdoppelt sich die eine Größe, verdoppelt sich auch die andere – mehr Brötchen, höherer Preis. Ein Rezept für 4 Personen braucht 300 g Mehl; für 6 Personen sind es 300 ÷ 4 × 6 = 450 g.</li>
+<li><strong>Umgekehrt proportional</strong> heißt: Verdoppelt sich die eine Größe, halbiert sich die andere. 4 Personen streichen eine Wohnung in 6 Tagen. 8 Personen brauchen 4 × 6 ÷ 8 = 3 Tage, 3 Personen 4 × 6 ÷ 3 = 8 Tage.</li></ul>
 <div class="warn"><strong>Nicht alles ist proportional:</strong> Ein Kuchen backt nicht schneller, wenn man zwei in den Ofen schiebt. Prüfe immer, ob der Zusammenhang wirklich gleichmäßig ist.</div>
 """,
 "related": ["prozent-oder-prozentpunkte"],
@@ -222,7 +212,7 @@ CALCS = [
     + inp("c", "Zähler 2", "5", "numeric") + inp("d", "Nenner 2", "6", "numeric")),
 "body": """
 <h2>Die vier Grundregeln</h2>
-<ul><li><strong>Addieren und Subtrahieren:</strong> Erst auf einen gemeinsamen Nenner bringen, dann die Zähler verrechnen. 3/4 + 5/6 = 9/12 + 10/12 = 19/12 = 1 7/12.</li>
+<ul><li><strong>Addieren und Subtrahieren:</strong> Erst auf einen gemeinsamen Nenner bringen, dann die Zähler verrechnen. 3/4 + 5/6 = 9/12 + 10/12 = 19/12 = 1 7/12. Ebenso 1/4 + 1/6 = 3/12 + 2/12 = 5/12.</li>
 <li><strong>Multiplizieren:</strong> Zähler mal Zähler, Nenner mal Nenner. 2/3 × 3/4 = 6/12 = 1/2.</li>
 <li><strong>Dividieren:</strong> Mit dem Kehrwert des zweiten Bruchs malnehmen. 2/3 ÷ 4/5 = 2/3 × 5/4 = 10/12 = 5/6.</li>
 <li><strong>Kürzen:</strong> Zähler und Nenner durch ihren größten gemeinsamen Teiler teilen.</li></ul>
