@@ -7,7 +7,7 @@ from content.calcs import CALCS, PERCENT_FORM
 from content.articles import ARTICLES
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261102a"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261103a"; UPDATED = "November 2026"
 CHECKED = "2. November 2026"; CHECKED_ISO = "2026-11-02"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit")]

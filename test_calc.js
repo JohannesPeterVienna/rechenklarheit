@@ -32,4 +32,39 @@ const rejects = [
   ["lohn", { dir: "m2h", amount: -3000, hours: 38.5, salaries: 14 }],
 ];
 for (const [k, v] of rejects) { const r = C[k](form(v)); if (!r || r.result !== null) { console.error("FEHLER: nicht abgelehnt", k, v, r && r.result); bad++; } }
-if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen OK`);
+// Codex-Gegenbeispiele (Nov. 2026): RK01 Laufzeit in Monaten, RK02 Eingaben vollständig prüfen
+const check = (name, ok, info) => { if (!ok) { console.error("FEHLER", name, info); bad++; } };
+{ // RK01: 1,5 Jahre = 18 Monate nach dem Monatsmodell der Seite: 1000 × 1,01^18
+  const r = C.zins(form({ start: 1000, monthly: 0, rate: 12, years: "1,5" }));
+  const exp = 1000 * Math.pow(1.01, 18);
+  check("RK01 Ergebnis 1,5 Jahre", r.result !== null && Math.abs(num(r.result) - exp) < 0.006, r.result);
+  check("RK01 Beschriftung", r.label === "nach 1,5 Jahren (18 Monaten)", r.label);
+  check("RK01 Tabelle letzte Zeile 1,5", /<td>1,5<\/td><td>[^<]*<\/td><td>[^<]*<\/td><td>1\.196,15/.test(r.extra || ""), "Tabelle passt nicht");
+  const w = C.zins(form({ start: 1000, monthly: 0, rate: 12, years: 2 }));
+  check("RK01 ganze Jahre", w.label === "nach 2 Jahren" && Math.abs(num(w.result) - 1000 * Math.pow(1.01, 24)) < 0.006, w.label + " " + w.result);
+  const odd = C.zins(form({ start: 1000, monthly: 0, rate: 12, years: "1,3" }));
+  check("RK01 keine ganzen Monate abgelehnt", odd.result === null && /ganze Monate/.test(odd.note), odd.result);
+}
+const rejects2 = [
+  ["RK02 Startkapital oops", "zins", { start: "oops", monthly: 50, rate: 3, years: 10 }, /Startkapital/],
+  ["RK02 Sparrate oops", "zins", { start: 0, monthly: "x", rate: 3, years: 10 }, /Sparrate/],
+  ["RK02 ungültiger Wert", "schnitt", { values: "2 invalid 4", weights: "1 2" }, /Wert Nr\. 2/],
+  ["RK02 ungültiges Gewicht", "schnitt", { values: "2 3 4", weights: "1 x 2" }, /Gewicht Nr\. 2/],
+  ["RK02 Gewichte 0/0", "schnitt", { values: "2 4", weights: "0 0" }, /Summe der Gewichte/],
+  ["RK02 negatives Gewicht", "schnitt", { values: "2 4", weights: "-1 2" }, /Gewicht Nr\. 1 ist negativ/],
+  ["RK02 Gewichtsanzahl", "schnitt", { values: "2 3 4", weights: "1 2" }, /gleich viele/],
+  ["RK02 Strom negative Stunden", "strom", { mode: "watt", watt: 100, hours: -4, days: 365, price: 30 }, /0–24/],
+  ["RK02 Strom negative Tage", "strom", { mode: "watt", watt: 100, hours: 4, days: -1, price: 30 }, /0–366/],
+  ["RK02 Strom 367 Tage", "strom", { mode: "watt", watt: 100, hours: 4, days: 367, price: 30 }, /0–366/],
+  ["RK02 Strom 25 Stunden", "strom", { mode: "watt", watt: 100, hours: 25, days: 365, price: 30 }, /0–24/],
+  ["RK02 Rabatt ungültig", "rabatt", { price: 100, r1: "abc", r2: "", skonto: "" }, /Zahlen/],
+];
+for (const [name, k, v, re] of rejects2) { const r = C[k](form(v)); check(name, r && r.result === null && re.test(r.note || ""), r && (r.result + " / " + r.note)); }
+{ // gültige Fälle bleiben gültig
+  const g = C.schnitt(form({ values: "2 4", weights: "1 3" })); check("Gewichteter Schnitt 3,5", num(g.result) === 3.5, g.result);
+  const g0 = C.schnitt(form({ values: "2 4", weights: "0 1" })); check("Gewicht 0 erlaubt", num(g0.result) === 4, g0.result);
+  const m = C.schnitt(form({ values: "2; 1\n3  2 4", weights: "" })); check("Mittelwert ohne Gewichte", num(m.result) === 2.4, m.result);
+  const z = C.zins(form({ start: "", monthly: 100, rate: 3, years: 20 })); check("Startkapital leer = 0", Math.abs(num(z.result) - 32830.20) < 0.02, z.result);
+  const rb = C.rabatt(form({ price: 100, r1: 10, r2: "", skonto: "" })); check("Rabatt leer = 0", num(rb.result) === 90, rb.result);
+}
+if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen + ${rejects2.length + 10} Codex-Gegenbeispiele OK`);

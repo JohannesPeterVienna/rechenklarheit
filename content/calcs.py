@@ -105,8 +105,8 @@ CALCS = [
 <p><strong>Faustregel für den Steueranteil am Bruttobetrag:</strong> Bei 20 % ist es genau ein Sechstel ({de(20/120*100)} %) – in 60 € brutto stecken also 10 € Umsatzsteuer. Bei 19 % sind es 19/119, rund {de(19/119*100)} %, bei 13 % rund {de(13/113*100)} %, bei 10 % ein Elftel ({de(10/110*100)} %), bei 7 % 7/107, rund {de(7/107*100)} %, und bei 4,9 % rund 4,67 %.</p>
 <p>Mehr Beispiele und Sonderfälle im Ratgeber <a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a>.</p>
 <h2>Neu seit Juli 2026: 4,9 % auf Grundnahrungsmittel in Österreich</h2>
-<p>Seit 1. Juli 2026 gilt in Österreich für ausgewählte Grundnahrungsmittel – laut Wirtschaftskammer etwa Brot, Milch, Butter, Eier und bestimmte heimische Obst- und Gemüsesorten – ein Umsatzsteuersatz von 4,9 % statt 10 %. Auf einem Kassenbon können deshalb drei Sätze nebeneinander stehen: 4,9 % für das Brot, 10 % für andere Lebensmittel und 20 % für Drogerieartikel. Rechne jeden Satz getrennt heraus. Beispiel: 5,00 € brutto mit 4,9 % enthalten 5,00 ÷ 1,049 = {eur(5/1.049)} netto und {eur(5-5/1.049)} Steuer.</p>
-<p class="small muted">Welche Waren genau darunter fallen, legt das Umsatzsteuergesetz fest; eine Übersicht bietet die <a href="https://www.wko.at/oe/oesterreich/oesterreich-isst-informiert-mehrwertsteuer-auf-lebensmittel" rel="noopener">Wirtschaftskammer Österreich</a>. Stand: Oktober 2026.</p>
+<p>Seit 1. Juli 2026 gilt in Österreich für ausgewählte Grundnahrungsmittel – laut Wirtschaftskammer etwa Brot, Milch, Butter, Eier sowie bestimmte Obst- und Gemüsesorten – ein Umsatzsteuersatz von 4,9 % statt 10 %. Auf einem Kassenbon können deshalb drei Sätze nebeneinander stehen: 4,9 % für das Brot, 10 % für andere Lebensmittel und 20 % für Drogerieartikel. Rechne jeden Satz getrennt heraus. Beispiel: 5,00 € brutto mit 4,9 % enthalten 5,00 ÷ 1,049 = {eur(5/1.049)} netto und {eur(5-5/1.049)} Steuer.</p>
+<p class="small muted">Welche Waren genau darunter fallen, legt das Umsatzsteuergesetz fest (Warenliste im Gesetz). Den Satz von 4,9 % ab 1. Juli 2026 bestätigt das <a href="https://www.usp.gv.at/aktuelles/gesetzliche-neuerungen/Bundesgesetzblatt/umsatzsteuergesetz.html" rel="noopener">Unternehmensserviceportal (USP)</a>; eine Übersicht bietet auch die <a href="https://www.wko.at/oe/oesterreich/oesterreich-isst-informiert-mehrwertsteuer-auf-lebensmittel" rel="noopener">Wirtschaftskammer Österreich</a>. Stand: November 2026.</p>
 """,
 "related": ["mehrwertsteuer-herausrechnen"],
 },
@@ -134,7 +134,7 @@ CALCS = [
 "lead": "Startkapital, monatliche Sparrate, Zinssatz und Laufzeit eingeben – der Rechner zeigt das Endkapital und Jahr für Jahr, wie viel davon Zinsen sind.",
 "description": "Zinseszins berechnen: Sparplan mit Startkapital und monatlicher Rate, Endkapital und Zinsanteil Jahr für Jahr – mit Rechenweg.",
 "formula": "Kₙ = K₀ × (1 + p)ⁿ",
-"form": form("zins", inp("start", "Startkapital (€)", "0") + inp("monthly", "Sparrate pro Monat (€)", "100") + inp("rate", "Zinssatz p. a. (%)", "3") + inp("years", "Laufzeit (Jahre)", "20", "numeric")),
+"form": form("zins", inp("start", "Startkapital (€)", "0") + inp("monthly", "Sparrate pro Monat (€)", "100") + inp("rate", "Zinssatz p. a. (%)", "3") + inp("years", "Laufzeit (Jahre, z. B. 1,5)", "20")),
 "body": f"""
 <h2>Was der Zinseszins bewirkt</h2>
 <p>Zinsen, die auf dem Konto bleiben, bringen im nächsten Jahr selbst Zinsen. Dadurch wächst das Kapital nicht gleichmäßig, sondern immer schneller.</p>

@@ -10,6 +10,15 @@
   const sel = (f, n) => f.elements[n]?.value;
   const line = (t) => `<li>${t}</li>`;
   const bad = msg => ({ result: null, note: msg });
+  /* Optionales Feld: leer = 0, sonst muss es eine gültige Zahl sein (sonst NaN → Fehlermeldung) */
+  const opt = (f, n) => { const raw = f.elements[n]?.value; return (raw === undefined || raw === null || String(raw).trim() === "") ? 0 : num(raw); };
+  /* Liste position-treu einlesen: jeder Eintrag muss eine Zahl sein, sonst Fehler mit Position */
+  const parseList = (txt, what) => {
+    const toks = String(txt || "").split(/[;\n\s]+/).filter(t => t !== "");
+    const out = [];
+    for (let k = 0; k < toks.length; k++) { const x = num(toks[k]); if (!Number.isFinite(x)) return { error: `${what} Nr. ${k + 1} („${toks[k].replace(/[<>&"]/g, "")}“) ist keine gültige Zahl.` }; out.push(x); }
+    return { list: out };
+  };
 
   const C = {};
 
@@ -40,8 +49,9 @@
   };
 
   C.rabatt = f => {
-    const p = val(f, "price"); const r1 = val(f, "r1") || 0, r2 = val(f, "r2") || 0, sk = val(f, "skonto") || 0;
+    const p = val(f, "price"); const r1 = opt(f, "r1"), r2 = opt(f, "r2"), sk = opt(f, "skonto");
     if (!Number.isFinite(p)) return bad("Bitte den Preis eingeben.");
+    if (![r1, r2, sk].every(Number.isFinite)) return bad("Rabatte und Skonto müssen Zahlen sein (leer = kein Rabatt).");
     let x = p; const st = [line(`Ausgangspreis: ${eur(p)}`)];
     for (const [r, n] of [[r1, "1. Rabatt"], [r2, "2. Rabatt"], [sk, "Skonto"]]) { if (!r) continue; const nx = x * (1 - r / 100); st.push(line(`${n} ${pc(r)}: ${eur(x)} × ${nf(1 - r / 100, 4)} = ${eur(nx)}`)); x = nx; }
     const tot = (1 - x / p) * 100;
@@ -51,18 +61,24 @@
   };
 
   C.zins = f => {
-    const k0 = val(f, "start") || 0, rate = val(f, "monthly") || 0, p = val(f, "rate"), n = val(f, "years");
-    if (!Number.isFinite(p) || !Number.isFinite(n) || n <= 0 || n > 80) return bad("Zinssatz und Laufzeit (1–80 Jahre) eingeben.");
+    const k0 = opt(f, "start"), rate = opt(f, "monthly"), p = val(f, "rate"), n = val(f, "years");
+    if (!Number.isFinite(k0)) return bad("Das Startkapital ist keine gültige Zahl (leer lassen für 0 €).");
+    if (!Number.isFinite(rate)) return bad("Die Sparrate ist keine gültige Zahl (leer lassen für 0 €).");
+    if (!Number.isFinite(p) || !Number.isFinite(n) || n <= 0 || n > 80) return bad("Zinssatz und Laufzeit (1 Monat bis 80 Jahre) eingeben.");
     if (k0 < 0 || rate < 0) return bad("Startkapital und Sparrate dürfen nicht negativ sein.");
+    const months = Math.round(n * 12);
+    if (months < 1 || Math.abs(n * 12 - months) > 1e-6) return bad("Die Laufzeit muss ganze Monate ergeben – z. B. 1,5 Jahre (18 Monate) oder 0,25 Jahre (3 Monate).");
     const i = p / 100 / 12; let k = k0, paid = k0; const rows = [];
-    for (let y = 1; y <= n; y++) {
-      for (let m = 0; m < 12; m++) { k = k * (1 + i) + rate; paid += rate; }
-      rows.push([y, paid, k - paid, k]);
+    for (let m = 1; m <= months; m++) {
+      k = k * (1 + i) + rate; paid += rate;
+      if (m % 12 === 0 || m === months) rows.push([m % 12 === 0 ? String(m / 12) : nf(m / 12, 2), paid, k - paid, k]);
     }
     const int = k - paid;
+    const whole = months % 12 === 0;
+    const span = whole ? `${nf(months / 12, 0)} ${months === 12 ? "Jahr" : "Jahren"}` : `${nf(months / 12, 2)} Jahren (${months} ${months === 1 ? "Monat" : "Monaten"})`;
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Jahr</th><th>Eingezahlt</th><th>Zinsen gesamt</th><th>Kapital</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${eur(r[1])}</td><td>${eur(r[2])}</td><td>${eur(r[3])}</td></tr>`).join("")}</tbody></table></div>`;
     const ch = chart(rows.map(r => ({ label: r[0], a: r[1], b: Math.max(r[2], 0) })), ["a", "b"], ["var(--pen)", "var(--marker-strong)"], ["Eingezahlt", "Zinsen"]);
-    return { result: eur(k), label: `nach ${nf(n, 0)} Jahren`, pre: ch, steps: [line(`Monatszins = ${pc(p)} ÷ 12 = ${pc(p / 12, 4)}`), line(`Jeden Monat: Kapital × ${nf(1 + i, 6)} + ${eur(rate)} Sparrate`), line(`Eingezahlt: ${eur(paid)} · davon Zinsen: <mark>${eur(int)}</mark>`), line(`Zinsen machen ${pc(paid ? int / k * 100 : 0, 1)} des Endkapitals aus.`)], extra: table };
+    return { result: eur(k), label: `nach ${span}`, pre: ch, steps: [line(`Monatszins = ${pc(p)} ÷ 12 = ${pc(p / 12, 4)}`), line(`Jeden Monat (${months} Monate): Kapital × ${nf(1 + i, 6)} + ${eur(rate)} Sparrate`), line(`Eingezahlt: ${eur(paid)} · davon Zinsen: <mark>${eur(int)}</mark>`), line(`Zinsen machen ${pc(k ? int / k * 100 : 0, 1)} des Endkapitals aus.`)], extra: table };
   };
 
   C.kredit = f => {
@@ -152,9 +168,19 @@
   };
 
   C.schnitt = f => {
-    const vals = String(f.elements.values.value).split(/[;\n\s]+/).map(num).filter(Number.isFinite);
-    const ws = String(f.elements.weights?.value || "").split(/[;\n\s]+/).map(num).filter(Number.isFinite);
+    const pv = parseList(f.elements.values?.value, "Wert");
+    if (pv.error) return bad(pv.error);
+    const vals = pv.list;
+    const pw = parseList(f.elements.weights?.value, "Gewicht");
+    if (pw.error) return bad(pw.error);
+    const ws = pw.list;
     if (!vals.length) return bad("Zahlen mit Leerzeichen, Strichpunkt oder Zeilenumbruch trennen.");
+    if (ws.length && ws.length !== vals.length) return bad(`Für den gewichteten Schnitt braucht es gleich viele Gewichte wie Werte (${ws.length} Gewichte für ${vals.length} Werte).`);
+    if (ws.length) {
+      const neg = ws.findIndex(w => w < 0);
+      if (neg >= 0) return bad(`Gewicht Nr. ${neg + 1} ist negativ – Gewichte müssen 0 oder größer sein.`);
+      if (!(ws.reduce((a, b) => a + b, 0) > 0)) return bad("Die Summe der Gewichte muss größer als 0 sein.");
+    }
     const s = [...vals].sort((x, y) => x - y), n = vals.length, sum = vals.reduce((a, b) => a + b, 0);
     const med = n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
     const st = [line(`Summe = ${nf(sum, 4)} · Anzahl = ${n}`), line(`Mittelwert = ${nf(sum, 4)} ÷ ${n} = <mark>${nf(sum / n, 4)}</mark>`), line(`Median (mittlerer Wert der sortierten Liste): ${nf(med, 4)}`), line(`Kleinster Wert ${nf(s[0], 4)} · größter Wert ${nf(s[n - 1], 4)}`)];
@@ -163,7 +189,7 @@
       const wsum = ws.reduce((a, b) => a + b, 0); const wm = vals.reduce((a, v, k) => a + v * ws[k], 0) / wsum;
       st.unshift(line(`Gewichtet: Σ(Wert × Gewicht) ÷ Σ Gewichte = ${nf(wm * wsum, 4)} ÷ ${nf(wsum, 4)} = <mark>${nf(wm, 4)}</mark>`));
       res = nf(wm, 4); label = "gewichteter Schnitt";
-    } else if (ws.length) st.push(line(`Für den gewichteten Schnitt braucht es gleich viele Gewichte wie Werte (${ws.length} statt ${n}).`));
+    }
     return { result: res, label, steps: st };
   };
 
@@ -209,7 +235,8 @@
       return { result: eur(kwh * ct), label: "Stromkosten pro Jahr", steps: [line(`${nf(kwh, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(kwh * ct)}</mark> pro Jahr`), line(`Pro Monat: ${eur(kwh * ct / 12)} · pro Tag: ${eur(kwh * ct / 365)}`), line(`Spart ein neues Gerät 30 % ein, sind das ${eur(kwh * ct * .3)} im Jahr.`)] };
     }
     const w = val(f, "watt"), h = val(f, "hours"), d = val(f, "days");
-    if (![w, h, d].every(Number.isFinite) || h > 24 || d > 366 || w < 0) return bad("Leistung, Stunden pro Tag (bis 24) und Tage pro Jahr eingeben.");
+    if (![w, h, d].every(Number.isFinite)) return bad("Leistung, Stunden pro Tag (bis 24) und Tage pro Jahr eingeben.");
+    if (w < 0 || h < 0 || h > 24 || d < 0 || d > 366) return bad("Leistung darf nicht negativ sein; Stunden pro Tag 0–24, Tage pro Jahr 0–366.");
     const day = w * h / 1000, year = day * d;
     return { result: eur(year * ct), label: "Stromkosten pro Jahr", steps: [line(`Pro Tag: ${nf(w, 1)} W × ${nf(h, 2)} h ÷ 1.000 = ${nf(day, 3)} kWh`), line(`Pro Jahr: ${nf(day, 3)} kWh × ${nf(d, 0)} Tage = ${nf(year, 1)} kWh`), line(`${nf(year, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(year * ct)}</mark>`), line(`Pro Monat ${eur(year * ct / 12)} · pro Betriebsstunde ${eur(w / 1000 * ct)}`)] };
   };
