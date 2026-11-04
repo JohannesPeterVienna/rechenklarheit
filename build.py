@@ -8,7 +8,7 @@ from content.articles import ARTICLES
 from content.pages import home_why, home_method, HOME_PUBLISHER, about_body
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261104a"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261104b"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
@@ -91,7 +91,7 @@ def main():
         " Damit die Seite sich dein Bundesland merkt, speichern wir es im lokalen Speicher deines Browsers (localStorage). Diese Speicherung ist für die von dir gewünschte Funktion erforderlich (§ 165 Abs. 3 TKG 2021). Du kannst sie jederzeit über die Browser-Einstellungen löschen.", " Wir speichern keine Eingaben.")
     assert "Bundesland" not in body
     write("privacy.html", "page.html", title="Datenschutz | Rechenklarheit", description="Datenschutzerklärung von Rechenklarheit.",
-          h1="Datenschutzerklärung", lead="Stand: 29. Oktober 2026", ads=False, robots="noindex,follow", body=body)
+          h1="Datenschutzerklärung", lead="Stand: 4. November 2026", ads=False, robots="noindex,follow", body=body)
     write("404.html", "page.html", title="Seite nicht gefunden | Rechenklarheit", description="Diese Seite gibt es nicht.",
           h1="Diese Seite gibt es nicht", lead="Hier geht es zu allen Rechnern.", ads=False, robots="noindex",
           body="<p><a href='/'>Alle Rechner</a></p>")
