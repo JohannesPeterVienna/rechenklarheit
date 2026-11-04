@@ -20,7 +20,16 @@
 <link rel="stylesheet" href="/assets/style.css?v={{ v }}">
 {% for ld in jsonld %}<script type="application/ld+json">{{ ld | tojson }}</script>
 {% endfor %}
-{% if ads %}<script src="/assets/consent.js?v={{ v }}" defer></script>{% endif %}
+{% if ads %}<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v={{ v }}" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script>{% endif %}
 <script src="/assets/calc.js?v={{ v }}" defer></script>
 </head>
 <body>

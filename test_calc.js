@@ -32,7 +32,7 @@ const rejects = [
   ["lohn", { dir: "m2h", amount: -3000, hours: 38.5, salaries: 14 }],
 ];
 for (const [k, v] of rejects) { const r = C[k](form(v)); if (!r || r.result !== null) { console.error("FEHLER: nicht abgelehnt", k, v, r && r.result); bad++; } }
-// Codex-Gegenbeispiele (Nov. 2026): RK01 Laufzeit in Monaten, RK02 Eingaben vollständig prüfen
+// Gegenbeispiele aus der Gegenprüfung (Nov. 2026): RK01 Laufzeit in Monaten, RK02 Eingaben vollständig prüfen
 const check = (name, ok, info) => { if (!ok) { console.error("FEHLER", name, info); bad++; } };
 { // RK01: 1,5 Jahre = 18 Monate nach dem Monatsmodell der Seite: 1000 × 1,01^18
   const r = C.zins(form({ start: 1000, monthly: 0, rate: 12, years: "1,5" }));
@@ -67,4 +67,24 @@ for (const [name, k, v, re] of rejects2) { const r = C[k](form(v)); check(name, 
   const z = C.zins(form({ start: "", monthly: 100, rate: 3, years: 20 })); check("Startkapital leer = 0", Math.abs(num(z.result) - 32830.20) < 0.02, z.result);
   const rb = C.rabatt(form({ price: 100, r1: 10, r2: "", skonto: "" })); check("Rabatt leer = 0", num(rb.result) === 90, rb.result);
 }
-if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen + ${rejects2.length + 10} Codex-Gegenbeispiele OK`);
+// Beispiele aus den Erklärtexten (Nov. 2026): Python-Text und Browser-Rechner müssen dasselbe ergeben
+const pages = [
+  ["Seite Prozent 18 von 240", "percent", { mode: "satz", a: 18, b: 240 }, 7.5],
+  ["Seite Prozent Grundwert 45/15", "percent", { mode: "grund", a: 45, b: 15 }, 300],
+  ["Seite Prozent 12 % von 450", "percent", { mode: "anteil", a: 450, b: 12 }, 54],
+  ["Seite MwSt 49,95 brutto 20 %", "mwst", { dir: "b2n", amount: "49,95", rate: 20 }, 41.63],
+  ["Seite MwSt 113 brutto 19 %", "mwst", { dir: "b2n", amount: 113, rate: 19 }, 94.96],
+  ["Seite Rabatt Fahrrad", "rabatt", { price: 1299, r1: 15, r2: "", skonto: 3 }, 1071.03],
+  ["Seite Zinseszins Formel", "zins", { start: 0, monthly: 100, rate: 3, years: 20 }, 32830.20],
+  ["Seite Zinseszins früh", "zins", { start: 0, monthly: 150, rate: 4, years: 40 }, 177294.20],
+  ["Seite Zinseszins spät", "zins", { start: 0, monthly: 150, rate: 4, years: 30 }, 104107.41],
+  ["Seite Dreisatz Raten", "dreisatz", { a: 6, b: 250, c: 4, kind: "anti" }, 375],
+  ["Seite Dreisatz Kaffee", "dreisatz", { a: 400, b: "2,79", c: 1000, kind: "pro" }, 6.975],
+  ["Seite Strom Kühlschrank-Label", "strom", { mode: "label", kwh: 150, price: 30 }, 45],
+  ["Seite Marge Kalkulation", "marge", { mode: "ekvk", ek: 80, b: "120,96", vat: 20 }, 33.86],
+];
+for (const [name, k, v, exp] of pages) { const r = C[k](form(v)); check(name, r && r.result !== null && Math.abs(num(r.result) - exp) < 0.011, r && r.result); }
+{ const b = C.bruch(form({ a: 84, b: 126, op: "*", c: 1, d: 1 })); check("Seite Bruch 84/126 = 2/3", b.result === "2/3", b.result);
+  const m = C.bruch(form({ a: 11, b: 4, op: "*", c: 4, d: 3 })); check("Seite Bruch 11/4 × 4/3 = 11/3", m.result === "11/3", m.result);
+  const k = C.kredit(form({ amount: 20000, rate: 4.5, years: 5 })); check("Seite Kredit Zinsen 1. Jahr", /<td>1<\/td><td>825,35/.test(k.extra || ""), "Tilgungsplan Jahr 1"); }
+if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen + ${rejects2.length + 10} Gegenbeispiele + ${pages.length + 3} Seitenbeispiele OK`);

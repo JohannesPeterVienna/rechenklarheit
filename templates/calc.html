@@ -12,6 +12,6 @@
   {{ m.ad("rect") }}
   {% if related %}<h2>Passend dazu</h2><ul class="cards">{% for a in related %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>{% endif %}
   </div>
-  {{ m.sidebar(calcs, slug) }}
+  {{ m.sidebar(calcs, slug, articles) }}
 </div>
 {% endblock %}

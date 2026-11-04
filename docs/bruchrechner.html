@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/bruchrechner.html", "name": "Bruchrechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Bruchrechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/bruchrechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Bruchrechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Bruchrechner</h1><p class="lead">Zwei Brüche eingeben, Rechenart wählen – der Rechner findet den gemeinsamen Nenner, kürzt und zeigt jeden Schritt.</p><p class="formula">a/b + c/d = (a·d + c·b) / (b·d)</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Bruchrechner</h1><p class="lead">Zwei Brüche eingeben, Rechenart wählen – der Rechner findet den gemeinsamen Nenner, kürzt und zeigt jeden Schritt.</p><p class="formula">a/b + c/d = (a·d + c·b) / (b·d)</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="bruch" id="f-bruch" novalidate><div class="fields"><label class="f"><span data-l="a">Zähler 1</span><input name="a" inputmode="numeric" value="3" autocomplete="off" ></label><label class="f"><span data-l="b">Nenner 1</span><input name="b" inputmode="numeric" value="4" autocomplete="off" ></label><label class="f">Rechenart<select name="op"><option value="+" selected>+ plus</option><option value="-">− minus</option><option value="*">× mal</option><option value="/">÷ geteilt</option></select></label><label class="f"><span data-l="c">Zähler 2</span><input name="c" inputmode="numeric" value="5" autocomplete="off" ></label><label class="f"><span data-l="d">Nenner 2</span><input name="d" inputmode="numeric" value="6" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -51,9 +60,44 @@
 <p>„Wie oft passt 1/4 in 3?“ – zwölfmal, denn in jedes Ganze passen vier Viertel. 3 ÷ 1/4 = 3 × 4 = 12. Der Kehrwert sagt also, wie viele Teile auf ein Ganzes kommen.</p>
 <h2>Brüche und Kommazahlen</h2>
 <p>Manche Brüche werden zu endlichen Dezimalzahlen (1/8 = 0,125), andere laufen unendlich weiter (1/3 = 0,333…). Endlich wird ein gekürzter Bruch genau dann, wenn sein Nenner nur die Primfaktoren 2 und 5 enthält. Deshalb rechnet man mit 1/3 oft genauer als mit 0,33.</p>
+
+<h2>Kürzen mit dem größten gemeinsamen Teiler</h2>
+<p>Der Rechner kürzt jedes Ergebnis vollständig. Dafür sucht er den größten gemeinsamen Teiler (ggT) mit dem euklidischen Verfahren: Man teilt die größere Zahl durch die kleinere und rechnet mit dem Rest weiter, bis kein Rest mehr bleibt.</p>
+<div class="example"><strong>84/126 kürzen:</strong> 126 ÷ 84 = 1 Rest 42. 84 ÷ 42 = 2 Rest 0. Der ggT ist 42, also 84/126 = 2/3.</div>
+<p>Das kleinste gemeinsame Vielfache, das der Rechner beim Addieren als Nenner verwendet, folgt daraus: kgV(a, b) = a × b ÷ ggT(a, b). Für 4 und 6 ist das 24 ÷ 2 = 12.</p>
+<h2>Gemischte Zahlen</h2>
+<p>Eine gemischte Zahl wie 2 ¾ trägst du als unechten Bruch ein: Ganze mal Nenner plus Zähler, also 2 × 4 + 3 = 11, ergibt 11/4. Das Ergebnis zeigt der Rechner wieder als gemischte Zahl, wenn es größer als 1 ist.</p>
+<div class="example"><strong>2 ¾ × 1 ⅓:</strong> 11/4 × 4/3 = 44/12 = 11/3 = 3 ⅔. Falsch wäre es, Ganze und Brüche getrennt zu multiplizieren: 2 × 1 und ¾ × ⅓ ergäbe 2 ¼.</div>
+<h2>Brüche vergleichen</h2>
+<p>Welcher Bruch ist größer, 5/8 oder 3/5? Über Kreuz multiplizieren: 5 × 5 = 25 und 3 × 8 = 24. Weil 25 größer ist, ist 5/8 größer. Kontrolle als Dezimalzahl: 5/8 = 0,625, 3/5 = 0,6.</p>
+<h2>Österreich und Deutschland: Brüche im Erbrecht</h2>
+<p>Das gesetzliche Erbrecht verteilt Anteile als Brüche – ein Bereich, in dem Bruchrechnen ganz praktisch wird. Die folgenden Beispiele zeigen nur den einfachsten Fall ohne Testament.</p>
+<div class="example"><strong>Österreich:</strong> Neben Kindern erbt der Ehegatte 1/3 (§ 744 ABGB, <a href="https://www.ris.bka.gv.at" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a>). Hinterlässt jemand Ehegatten und zwei Kinder, teilen sich die Kinder die übrigen 2/3: 2/3 ÷ 2 = 1/3 für jedes Kind.</div>
+<div class="example"><strong>Deutschland:</strong> Der Ehegatte erbt neben Kindern 1/4 (<a href="https://www.gesetze-im-internet.de/bgb/__1931.html" rel="noopener">§ 1931 BGB</a>). Lebten die Eheleute im gesetzlichen Güterstand, erhöht sich der Anteil um ein weiteres Viertel (<a href="https://www.gesetze-im-internet.de/bgb/__1371.html" rel="noopener">§ 1371 BGB</a>, Stand: November 2026): 1/4 + 1/4 = 1/2. Bei zwei Kindern erhält jedes (1 − 1/2) ÷ 2 = 1/4.</div>
+<p class="small muted">Vereinfachte Rechenbeispiele, keine Rechtsauskunft. Testamente, Pflichtteile und weitere Angehörige ändern die Anteile; im Einzelfall helfen Notariat oder Rechtsanwalt.</p>
+<h2>Brüche im Alltag: Rezepte und Maße</h2>
+<div class="example"><strong>Rezept umrechnen:</strong> Ein Rezept für 4 Personen verlangt ¾ Becher Sahne, gekocht wird für 6 Personen. Faktor 6/4 = 3/2. ¾ × 3/2 = 9/8 = 1 ⅛ Becher. Für 2 Personen wäre es ¾ × 1/2 = 3/8 Becher.</div>
+<div class="example"><strong>Drei Brüche addieren:</strong> ½ + ⅓ + ¼. Der kleinste gemeinsame Nenner von 2, 3 und 4 ist 12: 6/12 + 4/12 + 3/12 = 13/12 = 1 1/12. Im Rechner gehst du in zwei Schritten vor: erst ½ + ⅓ = 5/6, dann 5/6 + ¼.</div>
+<div class="example"><strong>Zoll-Maße:</strong> Werkzeuge und Schrauben aus den USA tragen Bruchmaße. Ein Schlüssel mit 3/8 Zoll misst 3 ÷ 8 × 25,4 = 9,525 mm, einer mit 9/16 Zoll 14,287 mm. Zum Umrechnen hilft der <a href="/einheitenrechner.html">Einheitenrechner</a>.</div>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Zähler und Nenner getrennt addieren:</strong> 1/2 + 1/3 ist nicht 2/5. Richtig: 3/6 + 2/6 = 5/6. Schon die Größe verrät den Fehler: 2/5 ist kleiner als 1/2, obwohl etwas dazukommt.</div>
+<div class="warn"><strong>Aus Summen kürzen:</strong> In (3 + 6)/6 darf man nicht die 6 wegstreichen. Erst zusammenrechnen: 9/6 = 3/2. Kürzen ist nur bei Faktoren erlaubt, nicht bei Summanden.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner verarbeitet ganze Zahlen in Zähler und Nenner, auch negative. Gemischte Zahlen und Dezimalbrüche musst du vorher umwandeln (0,25 = 1/4). Er rechnet immer zwei Brüche mit einer Rechenart; längere Ausdrücke löst du Schritt für Schritt.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wie wandle ich eine Dezimalzahl in einen Bruch um?</h3>
+<p>Über die Stellen: 0,35 sind 35 Hundertstel, also 35/100, gekürzt 7/20.</p>
+<h3>Was ist ein Kehrwert?</h3>
+<p>Der Bruch mit vertauschtem Zähler und Nenner. Der Kehrwert von 3/7 ist 7/3, der von 5 ist 1/5.</p>
+<h3>Warum zeigt der Rechner manchmal eine ganze Zahl?</h3>
+<p>Wenn sich der Nenner auf 1 kürzen lässt: 6/3 = 2/1 = 2.</p>
+<h3>Wie rechne ich einen Bruch in Prozent um?</h3>
+<p>Zähler durch Nenner teilen und mal 100 nehmen: 3/8 = 0,375 = 37,5 %. Umgekehrt ist 40 % = 40/100 = 2/5.</p>
+<h3>Was ist ein Doppelbruch?</h3>
+<p>Ein Bruch, dessen Zähler oder Nenner selbst ein Bruch ist, etwa (3/4) ÷ (5/6). Er wird wie eine Division gerechnet: 3/4 × 6/5 = 18/20 = 9/10.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
-  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+<h2>Passend dazu</h2><ul class="cards"><li><a href="/prozent-oder-prozentpunkte.html"><strong>Prozent oder Prozentpunkte? Der Unterschied mit Beispielen</strong><span>Von 2 auf 3 % sind ein Prozentpunkt – aber 50 Prozent mehr.</span></a></li></ul>  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

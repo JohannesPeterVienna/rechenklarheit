@@ -117,3 +117,6 @@ main{overflow-wrap:break-word}main a{overflow-wrap:anywhere}
 
 /* Abstand Superbanner – Fußzeilen-Knopf (≥ 150 px) */
 .ad--superbanner{margin-bottom:120px}
+
+/* Seitenleiste: zweiter Kasten mit den Ratgebern */
+.side .box+.box{margin-top:16px}

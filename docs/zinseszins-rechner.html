@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/zinseszins-rechner.html", "name": "Zinseszins- \u0026 Sparrechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Zinseszins- und Sparrechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/zinseszins-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html" aria-current="page">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html" aria-current="page">Zinsen</a><a href="/kreditrechner.html">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Zinseszins- &amp; Sparrechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Zinseszins- und Sparrechner</h1><p class="lead">Startkapital, monatliche Sparrate, Zinssatz und Laufzeit eingeben – der Rechner zeigt das Endkapital und Jahr für Jahr, wie viel davon Zinsen sind.</p><p class="formula">Kₙ = K₀ × (1 + p)ⁿ</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Zinseszins- und Sparrechner</h1><p class="lead">Startkapital, monatliche Sparrate, Zinssatz und Laufzeit eingeben – der Rechner zeigt das Endkapital und Jahr für Jahr, wie viel davon Zinsen sind.</p><p class="formula">Kₙ = K₀ × (1 + p)ⁿ</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="zins" id="f-zins" novalidate><div class="fields"><label class="f"><span data-l="start">Startkapital (€)</span><input name="start" inputmode="decimal" value="0" autocomplete="off" ></label><label class="f"><span data-l="monthly">Sparrate pro Monat (€)</span><input name="monthly" inputmode="decimal" value="100" autocomplete="off" ></label><label class="f"><span data-l="rate">Zinssatz p. a. (%)</span><input name="rate" inputmode="decimal" value="3" autocomplete="off" ></label><label class="f"><span data-l="years">Laufzeit (Jahre, z. B. 1,5)</span><input name="years" inputmode="decimal" value="20" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -52,9 +61,39 @@
 <li><strong>Inflation:</strong> Das Endkapital ist ein Nominalbetrag. Was es in 20 Jahren wert ist, zeigt der <a href="/inflationsrechner.html">Inflationsrechner</a>.</li>
 <li><strong>Schwankende Erträge:</strong> Bei Aktien oder Fonds gibt es keinen festen Zins. Eine angenommene Durchschnittsrendite ist nur ein Szenario, keine Zusage.</li></ul>
 <p class="small muted">Gerechnet wird mit monatlicher Verzinsung (Jahreszinssatz ÷ 12) und Einzahlung am Monatsende.</p>
+
+<h2>Die Formel hinter dem Sparplan</h2>
+<p>Für eine monatliche Sparrate R, den Monatszins i (Jahreszins ÷ 12) und n Monate gilt bei Einzahlung am Monatsende:</p>
+<p class="formula">Endwert = K₀ × (1 + i)ⁿ + R × ((1 + i)ⁿ − 1) ÷ i</p>
+<div class="example"><strong>Nachgerechnet:</strong> 100 € im Monat, 3 % p. a., 20 Jahre. i = 0,03 ÷ 12 = 0,0025, n = 240. (1,0025)²⁴⁰ = 1,8208. Endwert = 100 × (1,8208 − 1) ÷ 0,0025 = 32.830,20 € – genau der Betrag, den der Rechner Monat für Monat ermittelt.</div>
+<h2>Früh anfangen oder mehr sparen?</h2>
+<div class="example">Zwei Personen sparen bis 65 jeweils 150 € im Monat bei angenommenen 4 % p. a. Wer mit 25 beginnt (40 Jahre), hat am Ende 177.294,20 €, eingezahlt sind 72.000,00 €. Wer mit 35 beginnt (30 Jahre), hat 104.107,41 € bei 54.000,00 € Einzahlung. Um mit 35 noch auf dasselbe Endkapital zu kommen, wären rund 255,45 € im Monat nötig.</div>
+<p>Die zehn zusätzlichen Jahre bringen mehr als die zusätzlichen Einzahlungen, weil die frühen Raten am längsten verzinst werden. Bei schwankenden Anlagen wie Aktienfonds ist das ein Szenario, keine Zusage.</p>
+<h2>Kosten wirken ebenfalls mit Zinseszins</h2>
+<p>Laufende Kosten werden jedes Jahr vom Vermögen abgezogen und schmälern damit auch künftige Erträge. 200 € im Monat über 25 Jahre ergeben bei 6 % 138.598,79 €, bei 5 % – also nach einem Prozentpunkt Kosten – 119.101,94 €. Der Unterschied von 19.496,85 € ist größer als ein Viertel der gesamten Einzahlungen von 60.000,00 €. Trag deshalb für Fonds die erwartete Rendite <em>nach</em> Kosten ein.</p>
+<h2>Österreich und Deutschland: Einlagensicherung</h2>
+<p>Guthaben auf Sparbuch, Tages- und Festgeld sind in beiden Ländern durch die gesetzliche Einlagensicherung bis 100.000 € pro Person und Bank geschützt. Grundlage ist eine EU-Richtlinie, umgesetzt in Österreich im Einlagensicherungs- und Anlegerentschädigungsgesetz (ESAEG, <a href="https://www.ris.bka.gv.at" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a>) und in Deutschland im <a href="https://www.gesetze-im-internet.de/einsig/__8.html" rel="noopener">Einlagensicherungsgesetz, § 8</a> (Stand: November 2026). Für Fonds und Aktien gilt diese Sicherung nicht; sie sind als Sondervermögen bzw. im Depot getrennt vom Vermögen der Bank verwahrt, können aber an Wert verlieren.</p>
+<h2>Rückwärts gerechnet: Wie viel muss ich sparen?</h2>
+<p>Wer ein Sparziel hat, löst die Formel nach der Rate auf: <strong>R = Ziel × i ÷ ((1 + i)ⁿ − 1)</strong>. Für 10.000 € in 5 Jahren (60 Monate) ergibt das:</p>
+<table class="tbl"><thead><tr><th>Zinssatz p. a.</th><th>nötige Sparrate pro Monat</th><th>davon Zinsen am Ende</th></tr></thead><tbody>
+<tr><td>0 %</td><td>166,67 €</td><td>0,00 €</td></tr><tr><td>2 %</td><td>158,61 €</td><td>483,34 €</td></tr><tr><td>4 %</td><td>150,83 €</td><td>950,09 €</td></tr>
+</tbody></table>
+<p>Über fünf Jahre machen die Zinsen nur einen kleinen Teil aus; den Großteil leisten die Einzahlungen. Erst über Jahrzehnte überholt der Zinseszins die eigene Sparleistung. Die Rate aus der Tabelle kannst du oben eintragen und das Ergebnis prüfen.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Einzahlungszeitpunkt übersehen:</strong> Der Rechner bucht die Rate am Monatsende. Wird am Monatsanfang eingezahlt, verzinst sich jede Rate einen Monat länger: Aus 32.830,20 € werden 32.912,28 €. Vergleiche Angebote deshalb immer mit derselben Annahme.</div>
+<div class="warn"><strong>Endkapital mit Kaufkraft verwechseln:</strong> 32.830,20 € in 20 Jahren sind nominal gerechnet. Was davon real bleibt, zeigt der Ratgeber <a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a>.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner nimmt einen festen Zinssatz über die ganze Laufzeit an und rechnet ohne Steuern und Kosten. Die Laufzeit muss ganze Monate ergeben (bis 80 Jahre). Für Entnahmepläne, steigende Sparraten oder Zinsänderungen ist er nicht ausgelegt.</p>
+<h2>Häufige Fragen</h2>
+<h3>Was ist der Unterschied zwischen Zins und Zinseszins?</h3>
+<p>Zins wird nur auf das eingezahlte Kapital gezahlt. Beim Zinseszins bleiben die Zinsen angelegt und werden in den Folgeperioden mitverzinst.</p>
+<h3>Kann ich auch eine Einmalanlage ohne Sparrate rechnen?</h3>
+<p>Ja: Startkapital eintragen und die Sparrate auf 0 setzen. Dann gilt die einfache Formel K₀ × (1 + i)ⁿ.</p>
+<h3>Welcher Zinssatz ist realistisch?</h3>
+<p>Für Spareinlagen den Zins, den deine Bank aktuell bietet. Für Fonds gibt es keinen festen Satz – rechne mehrere Szenarien, etwa vorsichtig und optimistisch.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
-<h2>Passend dazu</h2><ul class="cards"><li><a href="/zinseszins-und-72er-regel.html"><strong>Zinseszins und 72er-Regel: Wann sich Geld verdoppelt</strong><span>Eine Faustformel, die man im Kopf rechnen kann.</span></a></li></ul>  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+<h2>Passend dazu</h2><ul class="cards"><li><a href="/zinseszins-und-72er-regel.html"><strong>Zinseszins und 72er-Regel: Wann sich Geld verdoppelt</strong><span>Eine Faustformel, die man im Kopf rechnen kann.</span></a></li><li><a href="/realzins-sparen-inflation.html"><strong>Inflation und Kaufkraft: Was Sparzinsen nach Steuer wirklich bringen</strong><span>Nominalzins, Steuer, Inflation – erst alle drei zusammen zeigen, ob Erspartes mehr wert wird.</span></a></li></ul>  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

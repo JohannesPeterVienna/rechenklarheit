@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/aufschlag-marge-rechner.html", "name": "Aufschlag \u0026 Marge", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Aufschlag \u0026 Marge berechnen", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/aufschlag-marge-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Aufschlag &amp; Marge</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Aufschlag &amp; Marge berechnen</h1><p class="lead">Aus Einkaufs- und Verkaufspreis Aufschlag und Handelsspanne berechnen – oder den Verkaufspreis für einen gewünschten Aufschlag oder eine Zielmarge.</p><p class="formula">Aufschlag = Gewinn ÷ Einkauf · Spanne = Gewinn ÷ Verkauf</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Aufschlag &amp; Marge berechnen</h1><p class="lead">Aus Einkaufs- und Verkaufspreis Aufschlag und Handelsspanne berechnen – oder den Verkaufspreis für einen gewünschten Aufschlag oder eine Zielmarge.</p><p class="formula">Aufschlag = Gewinn ÷ Einkauf · Spanne = Gewinn ÷ Verkauf</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="marge" id="f-marge" novalidate><div class="fields"><label class="f">Was ist bekannt?<select name="mode"><option value="ekvk" selected>Einkaufs- und Verkaufspreis</option><option value="auf">Einkaufspreis und Aufschlag</option><option value="span">Einkaufspreis und Zielmarge</option></select></label><label class="f"><span data-l="ek">Einkaufspreis netto (€)</span><input name="ek" inputmode="decimal" value="60" autocomplete="off" ></label><label class="f"><span data-l="b">Verkaufspreis netto (€)</span><input name="b" inputmode="decimal" value="100" autocomplete="off" ></label><label class="f">Umsatzsteuer für den Bruttopreis<select name="vat"><option value="20" selected>20 % (Österreich)</option><option value="10">10 % (Österreich, ermäßigt)</option><option value="19">19 % (Deutschland)</option><option value="7">7 % (Deutschland, ermäßigt)</option><option value="0">ohne</option></select></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -51,9 +60,43 @@
 <p>Aufschlag und Spanne werden mit Nettopreisen gerechnet, denn die Umsatzsteuer gehört nicht dir, sondern wird ans Finanzamt abgeführt. Der Rechner zeigt zusätzlich den Bruttopreis für Endkunden. Ein Preis von 100 € netto ist in Österreich mit 20 % USt 120,00 € brutto, in Deutschland mit 19 % 119,00 €.</p>
 <h2>Rohgewinn ist nicht Reingewinn</h2>
 <p>Die Spanne deckt erst einmal Miete, Personal, Versand, Zahlungsgebühren und Retouren. Was danach übrig bleibt, ist der eigentliche Gewinn. Gerade im Onlinehandel sind Gebühren von Marktplätzen und Zahlungsanbietern schnell 10 bis 15 Prozent des Verkaufspreises – sie lassen sich als Teil des Einkaufspreises mitrechnen, um eine realistische Marge zu sehen.</p>
+
+<h2>Vom Einkaufspreis zum Verkaufspreis: das Kalkulationsschema</h2>
+<p>Im Handel wird der Verkaufspreis meist in festen Schritten kalkuliert. Ein Beispiel mit einem Einkaufspreis von 80,00 € netto, 35 % Handlungskosten (Miete, Personal, Verwaltung) und 12 % Gewinnzuschlag:</p>
+<table class="tbl text"><tbody>
+<tr><td>Einkaufspreis netto</td><td>80,00 €</td></tr>
+<tr><td>+ 35 % Handlungskosten</td><td>28,00 €</td></tr>
+<tr><td>= Selbstkosten</td><td>108,00 €</td></tr>
+<tr><td>+ 12 % Gewinn auf die Selbstkosten</td><td>12,96 €</td></tr>
+<tr><td>= Verkaufspreis netto</td><td>120,96 €</td></tr>
+<tr><td>+ 20 % USt (Österreich)</td><td>145,15 € brutto</td></tr>
+<tr><td>+ 19 % USt (Deutschland)</td><td>143,94 € brutto</td></tr></tbody></table>
+<p>Der gesamte Kalkulationsaufschlag beträgt (120,96 € − 80,00 €) ÷ 80,00 € = 51,2 %, der <strong>Kalkulationsfaktor</strong> 1,512: Einkaufspreis mal Faktor ergibt den Nettoverkaufspreis. Die Handelsspanne liegt bei 33,9 %. Diese Werte zeigt der Rechner, wenn du 80,00 € und 120,96 € einträgst.</p>
+<h2>Was ein Rabatt mit der Marge macht</h2>
+<div class="example">Ein Artikel kostet im Einkauf 60 € und im Verkauf 100 € netto – 40 % Marge. Gibst du 10 % Rabatt, sinkt der Preis auf 90 €, der Rohgewinn aber von 40 € auf 30 €. Die Marge fällt auf 33,3 %, der Rohgewinn um ein Viertel. Um denselben Rohgewinn wie vorher zu erzielen, müsstest du 1,33-mal so viel verkaufen, also ein Drittel mehr Stück.</div>
+<p>Je kleiner die Marge, desto stärker wirkt jeder Rabatt. Bei 20 % Marge frisst ein Rabatt von 10 % die Hälfte des Rohgewinns.</p>
+<h2>Deckungsbeitrag und Gewinnschwelle</h2>
+<p>Der Rohgewinn pro Stück heißt in der Kostenrechnung <strong>Deckungsbeitrag</strong>: Er deckt zuerst die Fixkosten. Liegen die Fixkosten bei 3.000 € im Monat und bringt jedes Stück 40 € Deckungsbeitrag, ist die Gewinnschwelle bei 3.000 ÷ 40 = 75 Stück erreicht. Erst ab dem 76. Stück entsteht Gewinn.</p>
+<h2>Österreich und Deutschland: Kleinunternehmer kalkulieren anders</h2>
+<p>Wer als Kleinunternehmer keine Umsatzsteuer verrechnet, kann sich die Vorsteuer aus dem Einkauf auch nicht zurückholen. Für die Kalkulation ist der Einkaufspreis dann der <em>Bruttopreis</em>, und der Verkaufspreis ist zugleich der Endpreis. Ab welchem Umsatz die Befreiung endet, steht beim <a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a>. Im Rechner wählst du dafür „ohne“ Umsatzsteuer.</p>
+<h2>Durchgerechnet: Was im Onlineshop von 49,90 € bleibt</h2>
+<div class="example">Ein Artikel kostet im Shop 49,90 € brutto (Österreich, 20 % USt), der Einkauf 22,00 € netto. Netto bleiben 49,90 € ÷ 1,2 = 41,58 €. Der Zahlungsanbieter verlangt angenommen 1,5 % vom Bruttobetrag plus 0,25 €, also 1,00 €; den Versand von 4,90 € brutto trägt der Shop selbst (4,08 € netto). Rohgewinn: 41,58 € − 22,00 € − 1,00 € − 4,08 € = <strong>14,50 €</strong>. Die Marge sinkt damit von 47,1 % (nur Einkauf) auf 34,9 %.</div>
+<p>Trag solche Kosten pro Stück in den Rechner ein, indem du sie zum Einkaufspreis addierst: Einkauf 27,08 €, Verkauf 41,58 €. Dann zeigt er die Marge, die tatsächlich zur Deckung von Miete, Werbung und Arbeitszeit bleibt.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Mit Bruttopreisen kalkulieren:</strong> Wer als umsatzsteuerpflichtiges Unternehmen den Bruttoverkaufspreis mit dem Nettoeinkauf vergleicht, rechnet sich die Marge schön: Die Umsatzsteuer gehört dem Finanzamt.</div>
+<div class="warn"><strong>Gewinnzuschlag auf den Einkaufspreis statt auf die Selbstkosten:</strong> 12 % auf 80,00 € sind 9,60 €, 12 % auf 108,00 € aber 12,96 €. Welche Basis gilt, muss in der eigenen Kalkulation einheitlich festgelegt sein.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner rechnet mit einem Einkaufs- und einem Verkaufspreis. Handlungskosten, Mengenrabatte im Einkauf, Retourenquoten und Zahlungsgebühren musst du selbst einrechnen – am einfachsten, indem du sie zum Einkaufspreis addierst. Eine Kostenrechnung für den ganzen Betrieb ersetzt er nicht.</p>
+<h2>Häufige Fragen</h2>
+<h3>Was ist eine gute Handelsspanne?</h3>
+<p>Das hängt stark von der Branche ab. Entscheidend ist, ob nach Abzug aller Kosten ein Gewinn bleibt – rechne die Gewinnschwelle wie oben aus.</p>
+<h3>Wie rechne ich Marge in Aufschlag um?</h3>
+<p>Aufschlag = Marge ÷ (1 − Marge). 30 % Marge entsprechen 42,9 % Aufschlag.</p>
+<h3>Kann die Marge über 100 % liegen?</h3>
+<p>Nein. Die Marge bezieht sich auf den Verkaufspreis, und der Gewinn kann nicht größer sein als der Preis. Der Aufschlag dagegen kann beliebig groß werden.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
-<h2>Passend dazu</h2><ul class="cards"><li><a href="/mehrwertsteuer-herausrechnen.html"><strong>Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen</strong><span>Der häufigste Fehler bei Rechnungen – und die einfache Lösung.</span></a></li><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li></ul>  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+<h2>Passend dazu</h2><ul class="cards"><li><a href="/mehrwertsteuer-herausrechnen.html"><strong>Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen</strong><span>Der häufigste Fehler bei Rechnungen – und die einfache Lösung.</span></a></li><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li><li><a href="/skonto-oder-ratenzahlung.html"><strong>Skonto oder Ratenzahlung: Was ist günstiger?</strong><span>Eine 0-%-Finanzierung kann teurer sein als gedacht – wenn man dafür auf Skonto verzichtet.</span></a></li></ul>  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

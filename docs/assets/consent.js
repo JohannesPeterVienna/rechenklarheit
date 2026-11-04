@@ -20,13 +20,18 @@
   const dl = window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ dl.push(arguments); };
   window[`ga-disable-${GA}`] = true;
-  window.gtag("consent", "default", {
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-    analytics_storage: "denied",
-    wait_for_update: 500
-  });
+  // Die Grundwerte setzt bereits das Inline-Skript im <head> vor dem statischen AdSense-Loader.
+  // Fehlt es (z. B. ältere Zwischenspeicher-Fassung einer Seite), werden sie hier gesetzt.
+  if (!window.__rkConsentDefault) {
+    window.gtag("consent", "default", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "denied",
+      wait_for_update: 500
+    });
+    window.__rkConsentDefault = true;
+  }
   const fc = window.googlefc = window.googlefc || {};
   fc.callbackQueue = fc.callbackQueue || [];
 
@@ -40,10 +45,13 @@
 
   function loadAds(){
     if (gpc) return;
-    const s = document.createElement("script");
-    s.async = true; s.crossOrigin = "anonymous";
-    s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${PUB}`;
-    document.head.appendChild(s);
+    // Der Loader steht statisch im <head>. Nur falls er fehlt, wird er hier ergänzt – nie ein zweites Mal.
+    if (!document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) {
+      const s = document.createElement("script");
+      s.async = true; s.crossOrigin = "anonymous";
+      s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${PUB}`;
+      document.head.appendChild(s);
+    }
     document.querySelectorAll(".ad[data-ad]").forEach(box => {
       const id = SLOTS[box.dataset.ad];
       if (!id) return;

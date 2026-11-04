@@ -9,6 +9,6 @@
     <div class="prose">{{ body | safe }}</div>
     {% if related %}<h2>Weiterlesen</h2><ul class="cards">{% for a in related %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>{% endif %}
   </article>
-  {% if ads %}{{ m.sidebar(calcs, "") }}{% else %}<aside></aside>{% endif %}
+  {% if ads %}{{ m.sidebar(calcs, "", articles) }}{% else %}<aside></aside>{% endif %}
 </div>
 {% endblock %}

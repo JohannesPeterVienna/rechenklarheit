@@ -13,12 +13,18 @@
     <h2>Alle Rechner</h2>
     {{ m.calclist(calcs) }}
     {{ m.ad("rect") }}
+    <h2>Was Rechenklarheit anders macht</h2>
+    <div class="prose">{{ why | safe }}</div>
     <h2>Prozentrechnen in 60 Sekunden</h2>
     <div class="prose">{{ intro | safe }}</div>
     {{ m.ad("billboard") }}
-    <h2>Ratgeber</h2>
+    <h2 id="ratgeber">Ratgeber</h2>
     <ul class="cards">{% for a in articles %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>
+    <h2>So prüfen wir die Formeln</h2>
+    <div class="prose">{{ method | safe }}</div>
+    <h2>Wer hinter Rechenklarheit steht</h2>
+    <div class="prose">{{ publisher | safe }}</div>
   </div>
-  {{ m.sidebar(calcs, "") }}
+  {{ m.sidebar(calcs, "", articles) }}
 </div>
 {% endblock %}

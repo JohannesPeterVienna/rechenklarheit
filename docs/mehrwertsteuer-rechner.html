@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/mehrwertsteuer-rechner.html", "name": "Mehrwertsteuer-Rechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Mehrwertsteuer-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/mehrwertsteuer-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html" aria-current="page">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html" aria-current="page">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Mehrwertsteuer-Rechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Mehrwertsteuer-Rechner</h1><p class="lead">Brutto aus netto oder netto aus brutto – mit den Steuersätzen für Österreich und Deutschland und dem richtigen Rechenweg zum Herausrechnen.</p><p class="formula">Netto = Brutto ÷ (1 + Steuersatz)</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Mehrwertsteuer-Rechner</h1><p class="lead">Brutto aus netto oder netto aus brutto – mit den Steuersätzen für Österreich und Deutschland und dem richtigen Rechenweg zum Herausrechnen.</p><p class="formula">Netto = Brutto ÷ (1 + Steuersatz)</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="mwst" id="f-mwst" novalidate><div class="fields"><label class="f">Richtung<select name="dir"><option value="b2n" selected>Brutto → netto (Steuer herausrechnen)</option><option value="n2b">Netto → brutto (Steuer aufschlagen)</option></select></label><label class="f"><span data-l="amount">Betrag (€)</span><input name="amount" inputmode="decimal" value="120" autocomplete="off" ></label><label class="f">Steuersatz<select name="rate"><option value="20" selected>Österreich 20 % (Normalsatz)</option><option value="13">Österreich 13 %</option><option value="10">Österreich 10 %</option><option value="4.9">Österreich 4,9 % (ausgewählte Grundnahrungsmittel)</option><option value="19">Deutschland 19 % (Regelsatz)</option><option value="7">Deutschland 7 %</option><option value="custom">eigener Satz</option></select></label><label class="f" data-show-when="rate=custom">Eigener Satz (%)<input name="custom" inputmode="decimal" value="8.1"></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -57,9 +66,34 @@
 
 <h2>Umsatzsteuer, Mehrwertsteuer, Vorsteuer</h2>
 <p>Umsatzsteuer und Mehrwertsteuer meinen im Alltag dasselbe; im Gesetz heißt sie Umsatzsteuer. Unternehmen schlagen sie auf ihre Preise auf und führen sie ans Finanzamt ab. Die Steuer, die sie selbst beim Einkauf zahlen, holen sie sich als <strong>Vorsteuer</strong> zurück. Wirtschaftlich trägt sie deshalb die Endkundin oder der Endkunde. Kleinunternehmer sind von der Umsatzsteuer befreit und weisen auf ihren Rechnungen keine aus. Im Zweifel hilft die Steuerberatung.</p>
+
+<h2>Die Formeln für beide Richtungen</h2>
+<p>Mit s als Steuersatz in Dezimalschreibweise (20 % = 0,2) gelten vier Beziehungen:</p>
+<ul><li><strong>Steuer aus netto:</strong> Steuer = Netto × s</li>
+<li><strong>Brutto aus netto:</strong> Brutto = Netto × (1 + s)</li>
+<li><strong>Netto aus brutto:</strong> Netto = Brutto ÷ (1 + s)</li>
+<li><strong>Steuer aus brutto:</strong> Steuer = Brutto × s ÷ (1 + s)</li></ul>
+<p>Die vierte Formel ist praktisch, wenn nur die enthaltene Steuer gesucht ist: 89,90 € brutto mit 20 % enthalten 89,90 × 0,2 ÷ 1,2 = 14,98 € Steuer.</p>
+<h2>Durchgerechnet: eine Rechnung mit zwei Sätzen</h2>
+<div class="example"><strong>Hotel in Deutschland:</strong> Für die Übernachtung gilt der ermäßigte Satz von 7 %; Leistungen, die nicht unmittelbar der Beherbergung dienen – etwa der Hotelparkplatz –, sind davon ausdrücklich ausgenommen (<a href="https://www.gesetze-im-internet.de/ustg_1980/__12.html" rel="noopener">§ 12 Abs. 2 Nr. 11 UStG</a>, Stand: November 2026) und kosten 19 %. Eine Rechnung über 98,00 € Übernachtung und 15,00 € Parkplatz enthält netto 98 ÷ 1,07 + 15 ÷ 1,19 = 104,19 € und 8,81 € Steuer. Wer die ganze Summe von 113,00 € mit 19 % herausrechnet, kommt auf 18,04 € Steuer – zu viel, weil der größere Teil nur mit 7 % besteuert ist.</div>
+<div class="example"><strong>Österreich:</strong> Auch hier gilt für die Beherbergung der ermäßigte Satz von 10 %, Getränke aus der Minibar werden dagegen meist mit 20 % abgerechnet. Die Rechnung muss die Beträge je Steuersatz getrennt ausweisen; zum Herausrechnen nimmst du jeden Block für sich.</div>
+<h2>Kleinunternehmer: Rechnungen ohne Umsatzsteuer</h2>
+<p>Kleine Unternehmen sind in beiden Ländern von der Umsatzsteuer befreit, solange ihr Umsatz unter einer Grenze bleibt. In Österreich liegt sie seit 2025 bei 55.000 € Bruttoumsatz im Jahr (§ 6 Abs. 1 Z 27 UStG 1994, <a href="https://www.ris.bka.gv.at" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a>). In Deutschland darf der Umsatz im Vorjahr 25.000 € nicht überschritten haben und im laufenden Jahr 100.000 € nicht überschreiten (<a href="https://www.gesetze-im-internet.de/ustg_1980/__19.html" rel="noopener">§ 19 UStG</a>, Stand: November 2026). Auf solchen Rechnungen steht keine Steuer – der Rechnungsbetrag ist dann zugleich netto und brutto, und es gibt nichts herauszurechnen.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Hin- und Herrechnen mit gerundeten Zwischenwerten:</strong> 49,95 € brutto ergeben bei 20 % genau 41,625 € netto, gerundet 41,63 €. Wer diesen gerundeten Wert wieder mit 1,2 malnimmt, erhält 49,96 € statt 49,95 €. Der Rechner rechnet ungerundet weiter und rundet erst bei der Anzeige.</div>
+<div class="warn"><strong>Netto- und Bruttopreise vergleichen:</strong> Angebote für Unternehmen nennen oft Nettopreise, Angebote für Privatkunden Bruttopreise. Ein „Angebot um 1.000 €“ kann deshalb 1.000 € oder 1.200 € bedeuten. Für Privatpersonen zählt immer der Bruttobetrag, denn sie können die Steuer nicht als Vorsteuer zurückholen.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner wendet einen Satz auf den ganzen Betrag an. Er prüft nicht, welcher Satz für eine Ware oder Leistung gilt, und kennt keine Sonderregeln wie die Umkehr der Steuerschuld bei bestimmten Leistungen zwischen Unternehmen. Für eigene Sätze, etwa aus einem anderen EU-Land, wähle „eigener Satz“.</p>
+<h2>Häufige Fragen</h2>
+<h3>Ist Mehrwertsteuer dasselbe wie Umsatzsteuer?</h3>
+<p>Ja. Im Gesetz heißt sie in beiden Ländern Umsatzsteuer, im Alltag sagt man meist Mehrwertsteuer.</p>
+<h3>Wie viel Steuer steckt in 1.000 € brutto bei 19 %?</h3>
+<p>1.000 × 0,19 ÷ 1,19 = 159,66 €.</p>
+<h3>Kann ich den Rechner für die Schweiz verwenden?</h3>
+<p>Ja, mit „eigener Satz“. Die Schweizer Sätze sind niedriger als in Österreich und Deutschland; den aktuellen Satz nennt die Eidgenössische Steuerverwaltung.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
 <h2>Passend dazu</h2><ul class="cards"><li><a href="/mehrwertsteuer-herausrechnen.html"><strong>Mehrwertsteuer herausrechnen: durch 1,2 teilen statt 20 % abziehen</strong><span>Der häufigste Fehler bei Rechnungen – und die einfache Lösung.</span></a></li></ul>  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

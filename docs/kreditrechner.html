@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/kreditrechner.html", "name": "Kreditrechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Kreditrechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/kreditrechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html" aria-current="page">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html" aria-current="page">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Kreditrechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Kreditrechner</h1><p class="lead">Wie hoch ist die Monatsrate, und was kostet der Kredit insgesamt? Mit Tilgungsplan Jahr für Jahr.</p><p class="formula">Rate = K × i ÷ (1 − (1 + i)⁻ⁿ)</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Kreditrechner</h1><p class="lead">Wie hoch ist die Monatsrate, und was kostet der Kredit insgesamt? Mit Tilgungsplan Jahr für Jahr.</p><p class="formula">Rate = K × i ÷ (1 − (1 + i)⁻ⁿ)</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="kredit" id="f-kredit" novalidate><div class="fields"><label class="f"><span data-l="amount">Kreditbetrag (€)</span><input name="amount" inputmode="decimal" value="20000" autocomplete="off" ></label><label class="f"><span data-l="rate">Sollzins p. a. (%)</span><input name="rate" inputmode="decimal" value="4.5" autocomplete="off" ></label><label class="f"><span data-l="years">Laufzeit (Jahre)</span><input name="years" inputmode="decimal" value="5" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -54,9 +63,42 @@
 <h2>Sollzins, Effektivzins, Sondertilgung</h2>
 <p>Der <strong>Sollzins</strong> ist der reine Zins auf die Restschuld. Der <strong>effektive Jahreszins</strong> enthält zusätzlich Kosten wie Bearbeitungsgebühren und ist deshalb der richtige Wert, um Angebote zu vergleichen; Kreditgeber müssen ihn in Österreich und Deutschland angeben. Erlaubt der Vertrag <strong>Sondertilgungen</strong>, senkt jede Zahlung die Restschuld sofort – und damit alle künftigen Zinsen. Details im Ratgeber <a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a>.</p>
 <p class="small muted">Der Rechner ersetzt kein Kreditangebot und keine Beratung. Gebühren, Versicherungen und Zinsänderungen sind nicht enthalten.</p>
+
+<h2>Rechenweg der ersten Raten</h2>
+<p>Für 20.000 € zu 4,5 % auf 5 Jahre ist der Monatszins 4,5 % ÷ 12 = 0,375 %. Die Rate von 372,86 € teilt sich jeden Monat in Zinsen auf die Restschuld und Tilgung:</p>
+<table class="tbl"><thead><tr><th>Monat</th><th>Zinsen</th><th>Tilgung</th><th>Restschuld</th></tr></thead><tbody>
+<tr><td>1</td><td>75,00 €</td><td>297,86 €</td><td>19.702,14 €</td></tr><tr><td>2</td><td>73,88 €</td><td>298,98 €</td><td>19.403,16 €</td></tr><tr><td>3</td><td>72,76 €</td><td>300,10 €</td><td>19.103,06 €</td></tr>
+</tbody></table>
+<p>Im ersten Monat sind es 20.000 × 0,375 % = 75,00 € Zinsen, der Rest von 297,86 € tilgt. Weil die Restschuld sinkt, wird der Zinsanteil jeden Monat ein wenig kleiner und die Tilgung entsprechend größer.</p>
+<h2>Österreich und Deutschland: Rechte bei Verbraucherkrediten</h2>
+<ul><li><strong>Vorvertragliche Information:</strong> Vor Vertragsabschluss erhältst du in beiden Ländern ein standardisiertes Formular („Europäische Standardinformationen für Verbraucherkredite“) mit Sollzins, effektivem Jahreszins, Gesamtbetrag und Laufzeit. Damit lassen sich die Werte aus diesem Rechner direkt vergleichen.</li>
+<li><strong>Rücktritt:</strong> Vom abgeschlossenen Kreditvertrag kannst du innerhalb von 14 Tagen ohne Angabe von Gründen zurücktreten bzw. ihn widerrufen – in Österreich nach § 12 Verbraucherkreditgesetz (<a href="https://www.ris.bka.gv.at" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a>), in Deutschland nach <a href="https://www.gesetze-im-internet.de/bgb/__495.html" rel="noopener">§ 495 BGB</a> (Stand: November 2026).</li>
+<li><strong>Vorzeitige Rückzahlung:</strong> Ein Verbraucherkredit darf jederzeit ganz oder teilweise vorzeitig zurückgezahlt werden; bei fixem Zinssatz kann die Bank eine begrenzte Entschädigung verlangen. Wie viel Zinsen eine Extrazahlung spart, rechnet der Ratgeber <a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a> durch.</li></ul>
+<h2>Wie stark der Zinssatz die Rate verändert</h2>
+<p>20.000 € auf 5 Jahre bei verschiedenen Sollzinsen:</p>
+<table class="tbl"><thead><tr><th>Sollzins</th><th>Monatsrate</th><th>Zinskosten gesamt</th></tr></thead><tbody>
+<tr><td>3 %</td><td>359,37 €</td><td>1.562,43 €</td></tr><tr><td>4,5 %</td><td>372,86 €</td><td>2.371,62 €</td></tr><tr><td>6 %</td><td>386,66 €</td><td>3.199,36 €</td></tr><tr><td>8 %</td><td>405,53 €</td><td>4.331,67 €</td></tr>
+</tbody></table>
+<p>Jeder Prozentpunkt mehr kostet bei diesem Betrag und dieser Laufzeit grob 9 bis 10 € Rate im Monat und mehr als 500 € Zinsen über die Laufzeit. Schon ein halber Prozentpunkt Unterschied zwischen zwei Angeboten lohnt deshalb einen genauen Vergleich.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Zinsen wie beim Sparbuch rechnen:</strong> 20.000 € × 4,5 % × 5 Jahre = 4.500,00 € – so viel Zinsen fallen nicht an. Weil du laufend tilgst, sind es tatsächlich nur 2.371,62 €. Die einfache Rechnung unterstellt, dass die volle Summe fünf Jahre lang geschuldet wird.</div>
+<div class="warn"><strong>Effektivzins in den Rechner eintragen:</strong> Mit dem Effektivzins wird die Rate zu hoch, weil Gebühren dann doppelt zählen würden – einmal im Zins und einmal im Kreditbetrag. Trag den Sollzins ein und vergleiche Angebote über den Effektivzins.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner geht von gleichen Monatsraten, einem festen Sollzins und monatlicher Zinsverrechnung aus. Bearbeitungsgebühren, Kontoführung, Restschuldversicherung, Zinsänderungen bei variablen Krediten und tilgungsfreie Anlaufmonate sind nicht enthalten. In echten Tilgungsplänen ist die letzte Rate wegen Rundung oft ein paar Cent anders.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wie viel Kredit kann ich mir leisten?</h3>
+<p>Rechne die Rate aus und prüfe sie gegen dein Haushaltsbudget nach allen Fixkosten. Plane einen Puffer für unerwartete Ausgaben ein – die Bank prüft deine Kreditwürdigkeit ohnehin, aber ihre Prüfung ersetzt nicht deine eigene.</p>
+<h3>Warum ist die Rate bei 0 % Zins nicht null?</h3>
+<p>Weil du den Kredit trotzdem tilgen musst: 20.000 € auf 60 Monate sind 333,33 € im Monat.</p>
+<h3>Kann ich auch eine Laufzeit in halben Jahren eingeben?</h3>
+<p>Ja. Der Rechner rechnet die Jahre in Monate um, 2,5 Jahre ergeben 30 Raten.</p>
+<h3>Was tun, wenn eine Rate nicht bezahlt werden kann?</h3>
+<p>Möglichst früh mit der Bank sprechen. Häufig lassen sich Stundungen oder eine Verlängerung der Laufzeit vereinbaren – das kostet zusätzliche Zinsen, ist aber meist günstiger als Verzugszinsen und Mahngebühren.</p>
+<h3>Gilt der Rechner auch für Wohnkredite?</h3>
+<p>Für die Rate ja, wenn Zinssatz und Laufzeit bekannt sind. Bei Wohnkrediten kommen aber oft Gebühren, Zinsbindungsfristen und Sondertilgungsrechte dazu, die der Rechner nicht abbildet.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
-<h2>Passend dazu</h2><ul class="cards"><li><a href="/sollzins-und-effektivzins.html"><strong>Sollzins und Effektivzins: Welcher Wert zählt beim Kredit?</strong><span>Nur der effektive Jahreszins macht Kreditangebote vergleichbar.</span></a></li></ul>  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+<h2>Passend dazu</h2><ul class="cards"><li><a href="/sollzins-und-effektivzins.html"><strong>Sollzins und Effektivzins: Welcher Wert zählt beim Kredit?</strong><span>Nur der effektive Jahreszins macht Kreditangebote vergleichbar.</span></a></li><li><a href="/kredit-sondertilgung.html"><strong>Kredit mit Sondertilgung: Wie viel Zinsen eine Extrazahlung spart</strong><span>Kürzere Laufzeit oder niedrigere Rate? Zwei Wege, durchgerechnet – mit den Regeln in AT und DE.</span></a></li><li><a href="/skonto-oder-ratenzahlung.html"><strong>Skonto oder Ratenzahlung: Was ist günstiger?</strong><span>Eine 0-%-Finanzierung kann teurer sein als gedacht – wenn man dafür auf Skonto verzichtet.</span></a></li></ul>  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

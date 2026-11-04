@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/dreisatz-rechner.html", "name": "Dreisatz-Rechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Dreisatz-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/dreisatz-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Dreisatz-Rechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Dreisatz-Rechner</h1><p class="lead">Drei Werte bekannt, einer gesucht: Der Rechner löst proportionale und umgekehrt proportionale Dreisätze und schreibt alle drei Sätze mit.</p><p class="formula">a → b, also c → b ÷ a × c</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Dreisatz-Rechner</h1><p class="lead">Drei Werte bekannt, einer gesucht: Der Rechner löst proportionale und umgekehrt proportionale Dreisätze und schreibt alle drei Sätze mit.</p><p class="formula">a → b, also c → b ÷ a × c</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="dreisatz" id="f-dreisatz" novalidate><div class="fields"><label class="f">Art<select name="kind"><option value="pro" selected>proportional (je mehr, desto mehr)</option><option value="anti">umgekehrt (je mehr, desto weniger)</option></select></label><label class="f"><span data-l="a">Wenn …</span><input name="a" inputmode="decimal" value="4" autocomplete="off" ></label><label class="f"><span data-l="b">… dann …</span><input name="b" inputmode="decimal" value="6" autocomplete="off" ></label><label class="f"><span data-l="c">Wie viel bei …?</span><input name="c" inputmode="decimal" value="10" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -51,9 +60,36 @@
 <p>Der Dreisatz setzt voraus, dass sich die Größen gleichmäßig verhalten. Bei einer Taxifahrt mit Grundgebühr stimmt das nicht: Kostet die erste Strecke von 5 km 15 € inklusive 4 € Grundgebühr, kosten 10 km nicht 30 €, sondern 4 € + 2 × 11 € = 26 €. Auch Mengenrabatte, Staffelpreise oder Steuertarife folgen keinem Dreisatz.</p>
 <h2>Doppelter Dreisatz</h2>
 <p>Hängt ein Ergebnis von zwei Größen ab, rechnet man zwei Dreisätze hintereinander: 3 Maschinen stellen in 4 Stunden 600 Teile her. Wie viele schaffen 5 Maschinen in 6 Stunden? Erst auf 1 Maschine (200 Teile in 4 Stunden), dann auf 1 Stunde (50 Teile), dann hochrechnen: 50 × 5 × 6 = 1.500 Teile.</p>
+
+<h2>Der Dreisatz als Verhältnisgleichung</h2>
+<p>Die drei Sätze lassen sich zu einer einzigen Gleichung zusammenfassen. Proportional gilt b ÷ a = x ÷ c, also <strong>x = b × c ÷ a</strong>. Umgekehrt proportional bleibt das Produkt gleich: a × b = c × x, also <strong>x = a × b ÷ c</strong>. Der Rechner zeigt trotzdem den Weg über die Einheit („auf eins“), weil er sich leichter kontrollieren lässt.</p>
+<h2>Durchgerechnete Beispiele aus dem Alltag</h2>
+<div class="example"><strong>Wandfarbe:</strong> 10 Liter reichen laut Eimer für 34 m², du hast 2,5 Liter. 34 ÷ 10 = 3,4 m² pro Liter; × 2,5 = 8,5 m².</div>
+<div class="example"><strong>Akku:</strong> Ein Akku-Rasenmäher schafft mit einer Ladung 400 m² in 50 Minuten. Für 650 m² braucht er 50 ÷ 400 × 650 = 81,25 Minuten – wenn der Rasen gleich dicht ist.</div>
+<div class="example"><strong>Umgekehrt proportional:</strong> Mit 6 Raten zu 250 € ist ein Betrag in einem halben Jahr bezahlt. Mit 4 Raten muss jede Rate 6 × 250 ÷ 4 = 375,00 € betragen.</div>
+<h2>Österreich und Deutschland: Grundpreise vergleichen</h2>
+<p>Im Supermarkt ist der Dreisatz schon erledigt: Händler müssen neben dem Verkaufspreis den <strong>Grundpreis</strong> angeben, also den Preis je Kilogramm oder Liter. Die Pflicht stammt aus der EU-Preisangabenrichtlinie 98/6/EG und gilt deshalb in beiden Ländern – in Deutschland geregelt in <a href="https://www.gesetze-im-internet.de/pangv_2022/__4.html" rel="noopener">§ 4 Preisangabenverordnung</a> (Stand: November 2026), in Österreich im Preisauszeichnungsgesetz (<a href="https://www.ris.bka.gv.at" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a>).</p>
+<div class="example">Kaffee A: 400 g um 2,79 €. Kaffee B: 1 kg um 6,49 €. Dreisatz für A: 2,79 ÷ 400 × 1.000 = 6,98 € pro kg. B ist also um 0,49 € pro Kilogramm günstiger – obwohl die Packung mehr als doppelt so viel kostet.</div>
+<h2>Dreisatz mit Zeit und Währung</h2>
+<div class="example"><strong>Fahrzeit:</strong> 180 km dauern bei gleichem Tempo 2 Stunden. 300 km dauern 2 ÷ 180 × 300 = 3,3333 Stunden. Das sind <strong>3 Stunden 20 Minuten</strong>, nicht 3 Stunden 33 Minuten: Der Nachkommateil 0,3333 Stunden muss mit 60 malgenommen werden (20 Minuten).</div>
+<div class="example"><strong>Wechselkurs:</strong> Angenommen, 1 € entspricht 0,85 britischen Pfund. Eine Rechnung über 120 £ kostet dann 1 ÷ 0,85 × 120 = 141,18 €. Den tatsächlichen Kurs und die Gebühren deiner Bank oder Karte findest du in deren Konditionen; Referenzkurse veröffentlicht die Europäische Zentralbank.</div>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Richtung verwechseln:</strong> Mehr Arbeiter, weniger Zeit – das ist umgekehrt proportional. Wer hier proportional rechnet, bekommt für 8 statt 4 Maler 12 statt 3 Tage heraus. Prüfe das Ergebnis immer mit dem gesunden Menschenverstand: Muss es größer oder kleiner werden?</div>
+<div class="warn"><strong>Früh runden:</strong> 7 Stück kosten 10 €. Wer den Stückpreis auf 1,43 € rundet, erhält für 50 Stück 71,50 € statt 71,43 €. Der Rechner rechnet mit sechs Nachkommastellen weiter.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner löst einfache Dreisätze mit genau drei bekannten Werten. Für den doppelten Dreisatz rechnest du zweimal hintereinander. Zusammenhänge mit Grundgebühr, Staffelpreisen oder Mengenrabatt sind nicht proportional – dafür ist eine eigene Rechnung nötig.</p>
+<h2>Häufige Fragen</h2>
+<h3>Woran erkenne ich, ob ich proportional oder umgekehrt rechnen muss?</h3>
+<p>Frag dich, was passiert, wenn sich die erste Größe verdoppelt. Verdoppelt sich die zweite mit, ist es proportional. Halbiert sie sich, ist es umgekehrt proportional.</p>
+<h3>Kann ein Wert im Dreisatz 0 sein?</h3>
+<p>Der erste Wert nicht, weil durch ihn geteilt wird. Beim umgekehrten Dreisatz darf auch der dritte Wert nicht 0 sein.</p>
+<h3>Ist Prozentrechnung auch ein Dreisatz?</h3>
+<p>Ja. 100 % entsprechen dem Grundwert, daraus rechnest du auf 1 % und dann auf den gesuchten Prozentsatz.</p>
+<h3>Kann ich mit dem Dreisatz einen Preis vor einer Erhöhung berechnen?</h3>
+<p>Ja. Kostet etwas nach 8 % Erhöhung 54 €, entsprechen 108 % 54 €. Auf 1 %: 54 ÷ 108 = 0,5 €; auf 100 %: 50 €. Im Rechner: 108 → 54, gesucht 100.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
-<h2>Passend dazu</h2><ul class="cards"><li><a href="/prozent-oder-prozentpunkte.html"><strong>Prozent oder Prozentpunkte? Der Unterschied mit Beispielen</strong><span>Von 2 auf 3 % sind ein Prozentpunkt – aber 50 Prozent mehr.</span></a></li></ul>  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+<h2>Passend dazu</h2><ul class="cards"><li><a href="/prozent-oder-prozentpunkte.html"><strong>Prozent oder Prozentpunkte? Der Unterschied mit Beispielen</strong><span>Von 2 auf 3 % sind ein Prozentpunkt – aber 50 Prozent mehr.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li></ul>  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/rabatt-rechner.html">Rabatt-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

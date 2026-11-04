@@ -290,5 +290,22 @@ from content.calcs_more import MORE as _MORE  # noqa: E402
 CALCS += _MORE
 from content.extras import EXTRAS as _EX  # noqa: E402
 from content.deepen import DEEP as _DEEP  # noqa: E402
+from content.deepen2 import DEEP2 as _DEEP2  # noqa: E402
 for _c in CALCS:
-    _c["body"] = _c["body"] + _EX.get(_c["slug"], "") + _DEEP.get(_c["slug"], "")
+    _c["body"] = _c["body"] + _EX.get(_c["slug"], "") + _DEEP.get(_c["slug"], "") + _DEEP2.get(_c["slug"], "")
+
+# Passende Ratgeber je Rechner (Reihenfolge = Anzeige unter „Passend dazu“)
+_REL = {
+    "rabatt-rechner": ["skonto-oder-ratenzahlung"],
+    "zinseszins-rechner": ["realzins-sparen-inflation"],
+    "kreditrechner": ["kredit-sondertilgung", "skonto-oder-ratenzahlung"],
+    "inflationsrechner": ["realzins-sparen-inflation"],
+    "stromkosten-rechner": ["waermepumpe-stromkosten", "stromtarife-vergleichen"],
+    "stundenlohn-rechner": ["bruttolohn-14-gehaelter"],
+    "aufschlag-marge-rechner": ["skonto-oder-ratenzahlung"],
+    "dreisatz-rechner": ["grundwert-richtig-waehlen"],
+    "bruchrechner": ["prozent-oder-prozentpunkte"],
+    "fahrtkosten-rechner": ["stromtarife-vergleichen"],
+}
+for _c in CALCS:
+    _c["related"] = list(dict.fromkeys(_c.get("related", []) + _REL.get(_c["slug"], [])))

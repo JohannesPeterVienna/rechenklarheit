@@ -17,22 +17,31 @@
 <meta name="theme-color" content="#2647C6">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/style.css?v=20261103a">
+<link rel="stylesheet" href="/assets/style.css?v=20261104a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "item": "https://rechenklarheit.de/", "name": "Rechner", "position": 1}, {"@type": "ListItem", "item": "https://rechenklarheit.de/rabatt-rechner.html", "name": "Rabatt-Rechner", "position": 2}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "applicationCategory": "UtilitiesApplication", "inLanguage": "de", "name": "Rabatt-Rechner", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "operatingSystem": "Web", "url": "https://rechenklarheit.de/rabatt-rechner.html"}</script>
-<script src="/assets/consent.js?v=20261103a" defer></script><script src="/assets/calc.js?v=20261103a" defer></script>
+<script>
+/* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
+window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments);};
+window["ga-disable-G-T00HRG2YVF"]=true;
+gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",wait_for_update:500});
+window.__rkConsentDefault=true;
+if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=1;}
+</script>
+<script src="/assets/consent.js?v=20261104a" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7811071715414905" crossorigin="anonymous"></script><script src="/assets/calc.js?v=20261104a" defer></script>
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1.5" y="1.5" width="29" height="29" rx="7" fill="#2647C6"/><path d="M8 11h7M11.5 7.5v7M18 11h6M8 21.5l5-5M13 21.5l-5-5M18 19h6M18 23h6" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><rect x="17" y="17.5" width="8" height="7" rx="1.5" fill="#D8F86A" opacity=".55"/></svg>Rechenklarheit</a>
   <nav class="nav" aria-label="Hauptmenü">
-<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a>  </nav>
+<a href="/">Alle Rechner</a><a href="/prozentrechner.html">Prozent</a><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer</a><a href="/zinseszins-rechner.html">Zinsen</a><a href="/kreditrechner.html">Kredit</a><a href="/#ratgeber">Ratgeber</a>  </nav>
 </div></header>
 <main id="inhalt">
 <nav class="crumbs wrap" aria-label="Brotkrumen"><a href="/">Rechner</a> › <span>Rabatt-Rechner</span></nav>
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>Rabatt-Rechner</h1><p class="lead">Was kostet es wirklich nach Aktionsrabatt, Zusatzrabatt und Skonto? Der Rechner zeigt Endpreis, Ersparnis und den tatsächlichen Gesamtrabatt.</p><p class="formula">Endpreis = Preis × (1 − r₁) × (1 − r₂)</p><p class="small muted">Geprüft am 2. November 2026</p></div>
+  <div><h1>Rabatt-Rechner</h1><p class="lead">Was kostet es wirklich nach Aktionsrabatt, Zusatzrabatt und Skonto? Der Rechner zeigt Endpreis, Ersparnis und den tatsächlichen Gesamtrabatt.</p><p class="formula">Endpreis = Preis × (1 − r₁) × (1 − r₂)</p><p class="small muted">Geprüft am 4. November 2026</p></div>
   <div class="sheet"><form data-calc="rabatt" id="f-rabatt" novalidate><div class="fields"><label class="f"><span data-l="price">Preis (€)</span><input name="price" inputmode="decimal" value="200" autocomplete="off" ></label><label class="f"><span data-l="r1">1. Rabatt (%)</span><input name="r1" inputmode="decimal" value="20" autocomplete="off" ></label><label class="f"><span data-l="r2">2. Rabatt (%)</span><input name="r2" inputmode="decimal" value="10" autocomplete="off" ></label><label class="f"><span data-l="skonto">Skonto (%)</span><input name="skonto" inputmode="decimal" value="" autocomplete="off" ></label></div><div data-out aria-live="polite"></div></form></div>
 </div></section>
 <div class="wrap layout">
@@ -47,9 +56,34 @@
 <p>Gibt es einen Gutschein über 10 € und zusätzlich 10 % Rabatt, ist die Reihenfolge entscheidend. Bei 100 €: erst 10 € abziehen, dann 10 % ergibt 81,00 €. Erst 10 %, dann 10 € ergibt 80,00 €. Für Kundinnen und Kunden ist es günstiger, wenn der Prozent-Rabatt zuerst angewendet wird.</p>
 <h2>Skonto: der unterschätzte Zins</h2>
 <p>Skonto ist ein Abzug für schnelle Zahlung, meist 2 bis 3 % innerhalb von 10 bis 14 Tagen. Es wirkt wie ein weiterer Rabatt auf den bereits rabattierten Betrag. „2 % Skonto bei Zahlung binnen 10 Tagen, sonst 30 Tage netto“ klingt nach wenig. Wer das Skonto nicht nutzt, bezahlt aber 2 % dafür, das Geld 20 Tage länger zu behalten. Aufs Jahr gerechnet entspricht das einem Zinssatz von rund 36,7 %. Selbst ein Überziehungsrahmen ist meist günstiger – für Unternehmen lohnt es sich fast immer, Skonto auszunutzen.</p>
+
+<h2>Die Formel für den Gesamtrabatt</h2>
+<p>Der Rechner multipliziert die Anteile, die nach jedem Abzug übrig bleiben. Allgemein gilt: <strong>Gesamtrabatt = 1 − (1 − r₁) × (1 − r₂) × (1 − s)</strong>, wobei r₁ und r₂ die Rabatte und s das Skonto als Dezimalzahl sind. Ein Rechenweg mit drei Abzügen:</p>
+<div class="example"><strong>Fahrrad um 1.299 €:</strong> 15 % Aktionsrabatt, danach 3 % Skonto bei Barzahlung. 1.299 × 0,85 = 1.104,15 €; × 0,97 = 1.071,03 €. Ersparnis: 227,97 € oder 17,55 % – nicht 18 %.</div>
+<h2>Rückwärts: Welcher Rabatt fehlt bis zum Wunschpreis?</h2>
+<p>Ein Fernseher kostet 899 €, du willst höchstens 699 € zahlen. Der nötige Rabatt ist 1 − 699 ÷ 899 = 22,2 %. Bietet der Händler schon 10 %, fehlt noch ein zweiter Rabatt von 1 − 699 ÷ (899 × 0,9) = 13,6 %. Mit diesen Zahlen kannst du gezielt verhandeln, statt pauschal „noch etwas mehr“ zu verlangen.</p>
+<h2>Streichpreise in Österreich und Deutschland</h2>
+<p>Ein Rabatt ist nur so viel wert wie der Preis, von dem er abgezogen wird. Seit 2022 gilt in beiden Ländern eine EU-Vorgabe (Richtlinie (EU) 2019/2161): Wer eine Preisermäßigung für eine Ware bekanntgibt, muss als Vergleichspreis den niedrigsten Preis der letzten 30 Tage vor der Ermäßigung nennen. In Österreich steht die Regel im Preisauszeichnungsgesetz (§ 9a PrAG, <a href="https://www.ris.bka.gv.at" rel="noopener">Rechtsinformationssystem des Bundes (RIS)</a>), in Deutschland in der Preisangabenverordnung – Details dazu im Ratgeber <a href="/rabatte-kombinieren.html">Rabatte kombinieren</a>. Für den Rechner heißt das: Trag als Preis den Vergleichspreis ein, den der Händler nennt, nicht eine unverbindliche Preisempfehlung.</p>
+<h2>Euro-Beträge in Prozent umrechnen</h2>
+<p>Der Rechner arbeitet mit Prozent-Rabatten. Einen festen Betrag rechnest du vorher um: 30 € Nachlass auf 240 € sind 30 ÷ 240 × 100 = 12,5 %. Achtung: Der Prozentwert gilt nur für diesen einen Preis. Bei einem zweiten Rabatt danach muss der Euro-Betrag an der richtigen Stelle stehen – sonst ändert sich das Ergebnis, wie oben im Abschnitt zu Euro- und Prozent-Rabatt gezeigt.</p>
+<h2>Rabatte, die nur eine Zeit lang gelten</h2>
+<div class="example"><strong>Abo mit Einstiegsrabatt:</strong> Ein Streaming-Abo kostet 14,99 € im Monat, die ersten 3 Monate gibt es 50 % Rabatt. Ersparnis: 3 × 14,99 € × 0,5 = 22,48 €. Bezogen auf das erste Jahr mit 179,88 € sind das nur 12,5 % – und ab dem zweiten Jahr nichts mehr. Wer den Rechner verwendet, trägt deshalb besser den Jahrespreis als Preis und den umgerechneten Prozentsatz als Rabatt ein.</div>
+<p>Dasselbe gilt für Einführungsrabatte bei Strom, Mobilfunk oder Versicherungen: Ein großer Prozentsatz auf einen kurzen Zeitraum ist über die Vertragslaufzeit gerechnet oft ein kleiner.</p>
+<h2>Typische Fehler</h2>
+<div class="warn"><strong>Skonto vom Listenpreis rechnen:</strong> Skonto bezieht sich auf den Rechnungsbetrag, also auf den Preis nach allen Rabatten. 3 % Skonto auf 1.299 € wären 38,97 €, tatsächlich sind es nur 3 % von 1.104,15 € = 33,12 €.</div>
+<div class="warn"><strong>Ersparnis mit Ausgabe verwechseln:</strong> „Spare 150 €“ heißt nicht, dass 150 € übrig bleiben, sondern dass du weniger ausgibst als zum Vergleichspreis – sinnvoll nur, wenn du den Artikel ohnehin gekauft hättest.</div>
+<h2>Grenzen des Rechners</h2>
+<p>Der Rechner kennt zwei Prozent-Rabatte und ein Skonto. Mengenaktionen wie „3 zum Preis von 2“, Gutscheine in Euro und Versandkosten musst du selbst umrechnen. Ob dir Skonto zusteht, steht auf der Rechnung oder in den Zahlungsbedingungen; einen allgemeinen Anspruch darauf gibt es nicht. Ob sich Skonto lohnt, wenn du dafür Geld leihen müsstest, zeigt der Ratgeber <a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a>.</p>
+<h2>Häufige Fragen</h2>
+<h3>Wie berechne ich den Rabatt aus altem und neuem Preis?</h3>
+<p>(alt − neu) ÷ alt × 100. Von 129 € auf 99 € sind es 23,3 %.</p>
+<h3>Darf ich mehrere Rabatte addieren, wenn sie klein sind?</h3>
+<p>Als grobe Schätzung ja: 3 % + 2 % ergeben genau 4,94 %, also fast 5 %. Bei großen Rabatten wird der Fehler schnell erheblich.</p>
+<h3>Was ist der Unterschied zwischen Rabatt und Skonto?</h3>
+<p>Ein Rabatt ist ein Preisnachlass, zum Beispiel für eine Aktion oder Menge. Skonto ist ein Abzug für schnelles Bezahlen innerhalb einer Frist.</p>
 </div>  <div class="ad ad--rect" data-ad="rect" aria-hidden="true"></div>
-<h2>Passend dazu</h2><ul class="cards"><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li></ul>  </div>
-  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
+<h2>Passend dazu</h2><ul class="cards"><li><a href="/rabatte-kombinieren.html"><strong>Rabatte kombinieren: Was 30 % + 20 % wirklich bringen</strong><span>Doppelte Rabatte addieren sich nicht. So rechnest du die echte Ersparnis.</span></a></li><li><a href="/grundwert-richtig-waehlen.html"><strong>Den richtigen Grundwert wählen: Warum +25 % und −25 % nicht null ergeben</strong><span>Jede Prozentangabe braucht eine Basis. Wer sie verwechselt, rechnet falsch.</span></a></li><li><a href="/skonto-oder-ratenzahlung.html"><strong>Skonto oder Ratenzahlung: Was ist günstiger?</strong><span>Eine 0-%-Finanzierung kann teurer sein als gedacht – wenn man dafür auf Skonto verzichtet.</span></a></li></ul>  </div>
+  <aside class="side"><div class="box"><h3>Alle Rechner</h3><ul><li><a href="/prozentrechner.html">Prozentrechner</a></li><li><a href="/mehrwertsteuer-rechner.html">Mehrwertsteuer-Rechner</a></li><li><a href="/zinseszins-rechner.html">Zinseszins- &amp; Sparrechner</a></li><li><a href="/kreditrechner.html">Kreditrechner</a></li><li><a href="/inflationsrechner.html">Inflationsrechner</a></li><li><a href="/dreisatz-rechner.html">Dreisatz-Rechner</a></li><li><a href="/bruchrechner.html">Bruchrechner</a></li><li><a href="/einheitenrechner.html">Einheitenrechner</a></li><li><a href="/durchschnitt-rechner.html">Durchschnitt &amp; Notenschnitt</a></li><li><a href="/stundenlohn-rechner.html">Stundenlohn-Rechner</a></li><li><a href="/stromkosten-rechner.html">Stromkosten-Rechner</a></li><li><a href="/fahrtkosten-rechner.html">Fahrtkosten-Rechner</a></li><li><a href="/trinkgeld-rechner.html">Trinkgeld-Rechner</a></li><li><a href="/aufschlag-marge-rechner.html">Aufschlag &amp; Marge</a></li></ul></div><div class="box box--guides"><h3>Ratgeber</h3><ul><li><a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte</a></li><li><a href="/grundwert-richtig-waehlen.html">Den richtigen Grundwert wählen</a></li><li><a href="/rabatte-kombinieren.html">Rabatte kombinieren</a></li><li><a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a></li><li><a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a></li><li><a href="/sollzins-und-effektivzins.html">Sollzins und Effektivzins</a></li><li><a href="/waermepumpe-stromkosten.html">Stromkosten einer Wärmepumpe</a></li><li><a href="/kredit-sondertilgung.html">Kredit mit Sondertilgung</a></li><li><a href="/bruttolohn-14-gehaelter.html">14 Gehälter in Österreich</a></li><li><a href="/skonto-oder-ratenzahlung.html">Skonto oder Ratenzahlung</a></li><li><a href="/realzins-sparen-inflation.html">Inflation und Kaufkraft</a></li><li><a href="/stromtarife-vergleichen.html">Stromtarife vergleichen</a></li></ul></div><div class="ad ad--half" data-ad="half" aria-hidden="true"></div><div class="ad ad--sky" data-ad="sky" aria-hidden="true"></div></aside>
 </div>
 <div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div></div></main>
 <footer class="foot"><div class="wrap">

@@ -5,12 +5,13 @@ from jinja2 import Environment, FileSystemLoader
 sys.path.insert(0, str(Path(__file__).parent))
 from content.calcs import CALCS, PERCENT_FORM
 from content.articles import ARTICLES
+from content.pages import home_why, home_method, HOME_PUBLISHER, about_body
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261103a"; UPDATED = "November 2026"
-CHECKED = "2. November 2026"; CHECKED_ISO = "2026-11-02"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
+SITE = "https://rechenklarheit.de"; V = "20261104a"; UPDATED = "November 2026"
+CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
-       ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit")]
+       ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True, trim_blocks=True, lstrip_blocks=True)
 PAGES = []
 LEGAL_ADDR = "AdStern :: Agentur für digitales Marketing<br>Seilerstätte 8, 1010 Wien, Österreich<br>E-Mail: <a href='mailto:office@adstern.com'>office@adstern.com</a><br>Web: <a href='https://www.adstern.com'>www.adstern.com</a>"
@@ -19,7 +20,7 @@ BYSLUG = {a["slug"]: a for a in ARTICLES}
 
 def write(path, template, **ctx):
     base = dict(site=SITE, v=V, updated=UPDATED, nav=NAV, active=ctx.get("active", "/" + path), jsonld=[], ads=True,
-                robots=None, og_title=None, calcs=CALCS, year=2027, checked=None)
+                robots=None, og_title=None, calcs=CALCS, articles=ARTICLES, year=2027, checked=None)
     base.update(ctx)
     base["path"] = "/" if path == "index.html" else "/" + path
     if template == "calc.html":
@@ -38,8 +39,11 @@ def crumbs_ld(items):
 
 
 def main():
-    import subprocess
-    subprocess.run(["node", str(ROOT / "test_calc.js")], check=True)  # Rechner-Test: Build bricht bei Fehlern ab
+    import subprocess, re
+    # Rechner-Test: Build bricht bei Fehlern ab. Die Zahl der Prüfungen steht auf Startseite und „Über uns“.
+    test = subprocess.run(["node", str(ROOT / "test_calc.js")], check=True, capture_output=True, text=True)
+    print(test.stdout.strip())
+    n_tests = sum(int(x) for x in re.findall(r"(\d+) [A-ZÄÖÜ]", test.stdout))
     if OUT.exists(): shutil.rmtree(OUT)
     (OUT / "assets").mkdir(parents=True)
     for f in (ROOT / "assets").iterdir(): shutil.copy(f, OUT / "assets" / f.name)
@@ -50,7 +54,8 @@ def main():
     <a href="/prozent-oder-prozentpunkte.html">Prozent und Prozentpunkten</a>. Beide erklären wir mit Beispielen.</p>"""
     write("index.html", "home.html", title="Rechenklarheit – Rechner mit Rechenweg: Prozent, Mehrwertsteuer, Zinsen & mehr",
           description="Kostenlose Online-Rechner mit Rechenweg: Prozentrechner, Mehrwertsteuer für Österreich und Deutschland, Rabatt, Zinseszins, Kredit, Dreisatz, Brüche, Einheiten.",
-          hero_form=PERCENT_FORM, intro=intro, articles=ARTICLES, priority=1.0, active="/",
+          hero_form=PERCENT_FORM, intro=intro, why=home_why(n_tests), method=home_method(n_tests), publisher=HOME_PUBLISHER,
+          articles=ARTICLES, priority=1.0, active="/",
           jsonld=[{"@context": "https://schema.org", "@type": "WebSite", "name": "Rechenklarheit", "url": SITE + "/", "inLanguage": "de"}])
 
     for c in CALCS:
@@ -65,31 +70,16 @@ def main():
     for a in ARTICLES:
         crumbs = [("/", "Rechner"), ("/" + a["slug"] + ".html", a["title"])]
         ld = [crumbs_ld(crumbs), {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["description"],
-              "inLanguage": "de", "datePublished": "2026-10-29", "dateModified": CHECKED_ISO,
-              "author": {"@type": "Organization", "name": "Redaktion Rechenklarheit", "url": SITE + "/about.html"},
-              "publisher": {"@type": "Organization", "name": "AdStern"}}]
+              "inLanguage": "de", "datePublished": a["published"], "dateModified": CHECKED_ISO,
+              "author": {"@type": "Organization", "name": "AdStern", "url": "https://www.adstern.com"},
+              "publisher": {"@type": "Organization", "name": "AdStern", "url": "https://www.adstern.com"}}]
         write(a["slug"] + ".html", "page.html", title=f"{a['title']} | Rechenklarheit", description=a["description"], h1=a["title"],
-              lead=a["teaser"], body=a["body"], crumbs=crumbs, related=[x for x in ARTICLES if x["slug"] != a["slug"]][:3], jsonld=ld, priority=0.7,
+              lead=a["teaser"], body=a["body"], crumbs=crumbs, related=[BYSLUG[s] for s in a["related"]], jsonld=ld, priority=0.7,
               checked=CHECKED)
 
     write("about.html", "page.html", title="Über Rechenklarheit", description="Wer hinter Rechenklarheit steht und wie die Rechner arbeiten.",
           h1="Über Rechenklarheit", lead="Rechner, die zeigen, wie gerechnet wird.", priority=0.3,
-          body="""<p>Hinter Rechenklarheit steht die Wiener Agentur AdStern. Unser Grundsatz: Ein Ergebnis allein hilft wenig, wenn man nicht weiß, wie es zustande kommt. Deshalb zeigt jeder Rechner den vollständigen Rechenweg – zum Nachvollziehen, Überprüfen und Lernen.</p>
-<h2>Was du hier findest</h2>
-<ul><li><strong>Alltag:</strong> Prozent, Rabatt, Trinkgeld, Fahrt- und Stromkosten, Einheiten</li>
-<li><strong>Geld:</strong> Mehrwertsteuer, Zinseszins und Sparplan, Kredit mit Tilgungsplan, Inflation, Stundenlohn</li>
-<li><strong>Beruf und Handel:</strong> Aufschlag und Marge, Skonto</li>
-<li><strong>Schule und Lernen:</strong> Dreisatz, Bruchrechnen, Durchschnitt und Notenschnitt</li></ul>
-<p>Zu jedem Rechner gibt es eine Erklärung mit durchgerechneten Beispielen, typischen Fehlern und Hinweisen, wann eine Formel nicht passt.</p>
-<h2>Wie wir rechnen</h2>
-<p>Alle Rechner verwenden die üblichen mathematischen und kaufmännischen Formeln, die auf jeder Seite angegeben sind. Zwischenergebnisse rechnen wir ungerundet weiter; gerundet wird erst bei der Anzeige – Geldbeträge auf zwei Nachkommastellen. Deshalb kann ein Ergebnis um einen Cent von einer Rechnung abweichen, bei der jeder Zwischenschritt gerundet wurde.</p>
-<h2>So prüfen wir</h2>
-<p>Die Beispiele in den Erklärtexten werden nicht von Hand eingetippt, sondern beim Erstellen der Seite automatisch aus den Formeln berechnet. Zusätzlich rechnet ein Testprogramm bei jeder Änderung typische Fälle mit genau dem Programmcode nach, der auch in deinem Browser läuft. Weicht ein Ergebnis ab, wird die Seite nicht veröffentlicht.</p>
-<p>Steuersätze und rechtliche Angaben prüfen wir anhand der Gesetze in Österreich und Deutschland. Rechner, deren Werte sich jedes Jahr ändern – etwa ein Brutto-Netto-Rechner mit Lohnsteuertarif und Sozialversicherung –, bieten wir erst an, wenn wir die amtlichen Werte des jeweiligen Jahres vollständig eingearbeitet und geprüft haben.</p>
-<h2>Grenzen</h2>
-<p>Die Ergebnisse sind Rechenhilfen und ersetzen keine Steuer-, Rechts- oder Finanzberatung. Bei Krediten und Geldanlagen zählen die Bedingungen deines konkreten Vertrags; Gebühren, Steuern und Schwankungen sind in den Rechnern nur so weit berücksichtigt, wie auf der jeweiligen Seite beschrieben.</p>
-<h2>Deine Daten</h2><p>Alle Berechnungen laufen in deinem Browser. Deine Eingaben werden nicht an uns übertragen. Teilst du einen Link zu deiner Rechnung, stehen die eingegebenen Werte in der Adresse – gib solche Links deshalb nur weiter, wenn die Zahlen nicht vertraulich sind. Für Werbeanzeigen und Zugriffsstatistik fragen wir vorher um deine Zustimmung; die <a href="/privacy.html">Datenschutzerklärung</a> listet alle Anbieter und Zwecke auf.</p>
-<h2>Stimmt etwas nicht?</h2><p>Wenn dir ein Rechenfehler oder eine veraltete Angabe auffällt, freuen wir uns über eine Nachricht an <a href="mailto:office@adstern.com">office@adstern.com</a> – am besten mit den eingegebenen Werten, damit wir den Fall nachrechnen können.</p>""")
+          body=about_body(n_tests))
     write("imprint.html", "page.html", title="Impressum | Rechenklarheit", description="Impressum von Rechenklarheit.", h1="Impressum",
           ads=False, robots="noindex,follow", body=f"""<h2>Medieninhaber und Herausgeber</h2><p>{LEGAL_ADDR}</p>
 <h2>Unternehmensangaben</h2><p>Unternehmensgegenstand: Werbeagentur<br>UID-Nummer: ATU54682507<br>Gewerbebehörde: Magistratisches Bezirksamt für den 1. und 8. Bezirk, Wien<br>Kammerzugehörigkeit: Wirtschaftskammer Wien, Fachgruppe Werbung und Marktkommunikation<br>Berufsbezeichnung: Werbeagentur (Gewerbe, verliehen in Österreich)<br>Anwendbare Rechtsvorschriften: Gewerbeordnung, abrufbar unter <a href="https://www.ris.bka.gv.at" rel="noopener">www.ris.bka.gv.at</a></p>

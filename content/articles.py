@@ -115,3 +115,31 @@ ARTICLES = [
 from content.deepen import DEEP as _DEEP  # noqa: E402
 for _a in ARTICLES:
     _a["body"] = _a["body"] + _DEEP.get(_a["slug"], "")
+
+# Weiterlesen: passende Ratgeber je Beitrag (neue Ratgeber November 2026 eingebunden)
+_REL = {
+    "prozent-oder-prozentpunkte": ["realzins-sparen-inflation", "grundwert-richtig-waehlen", "stromtarife-vergleichen"],
+    "grundwert-richtig-waehlen": ["bruttolohn-14-gehaelter", "rabatte-kombinieren", "prozent-oder-prozentpunkte"],
+    "rabatte-kombinieren": ["skonto-oder-ratenzahlung", "grundwert-richtig-waehlen", "mehrwertsteuer-herausrechnen"],
+    "mehrwertsteuer-herausrechnen": ["skonto-oder-ratenzahlung", "rabatte-kombinieren", "grundwert-richtig-waehlen"],
+    "zinseszins-und-72er-regel": ["realzins-sparen-inflation", "kredit-sondertilgung", "sollzins-und-effektivzins"],
+    "sollzins-und-effektivzins": ["kredit-sondertilgung", "skonto-oder-ratenzahlung", "zinseszins-und-72er-regel"],
+}
+for _a in ARTICLES:
+    _a["related"] = _REL[_a["slug"]]
+    _a["published"] = "2026-10-29"
+
+from content.guides import GUIDES as _G  # noqa: E402
+ARTICLES += _G
+
+# Kurztitel für die Seitenleiste
+_SHORT = {
+    "prozent-oder-prozentpunkte": "Prozent oder Prozentpunkte", "grundwert-richtig-waehlen": "Den richtigen Grundwert wählen",
+    "rabatte-kombinieren": "Rabatte kombinieren", "mehrwertsteuer-herausrechnen": "Mehrwertsteuer herausrechnen",
+    "zinseszins-und-72er-regel": "Zinseszins und 72er-Regel", "sollzins-und-effektivzins": "Sollzins und Effektivzins",
+    "waermepumpe-stromkosten": "Stromkosten einer Wärmepumpe", "kredit-sondertilgung": "Kredit mit Sondertilgung",
+    "bruttolohn-14-gehaelter": "14 Gehälter in Österreich", "skonto-oder-ratenzahlung": "Skonto oder Ratenzahlung",
+    "realzins-sparen-inflation": "Inflation und Kaufkraft", "stromtarife-vergleichen": "Stromtarife vergleichen",
+}
+for _a in ARTICLES:
+    _a["short"] = _SHORT[_a["slug"]]
