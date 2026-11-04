@@ -70,6 +70,9 @@ const wahl = (w, alterTage = 1) => speicher({ "rk-statistik-wahl": JSON.stringif
   check("rein: tcloaded ohne tcString nicht", !R.googleEntschieden({ eventStatus: "tcloaded", tcString: "" }));
   check("rein: gdprApplies false → Google", R.googleZustaendig({ gdprApplies: false, eventStatus: "tcloaded", tcString: "" }));
   check("rein: Dialog sichtbar → Google", R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown", displayStatus: "visible" }));
+  check("rein: cmpuishown + hidden → Übergang", !R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown", displayStatus: "hidden" }));
+  check("rein: cmpuishown + disabled → Übergang", !R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown", displayStatus: "disabled" }));
+  check("rein: cmpuishown ohne displayStatus → Google", R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown" }));
   check("rein: disabled → Übergang", !R.googleZustaendig({ gdprApplies: true, eventStatus: "tcloaded", tcString: "", displayStatus: "disabled" }));
   check("rein: zustaendig ohne tcfapi wartet", R.zustaendig(null, false, null, false) === "warten");
   check("rein: zustaendig ohne tcfapi fragt", R.zustaendig(null, true, null, false) === "fragen");
@@ -117,6 +120,18 @@ const wahl = (w, alterTage = 1) => speicher({ "rk-statistik-wahl": JSON.stringif
   p.druecke("Zustimmen"); p.tick(1000); check("hidden: Zustimmen lädt gtag.js", p.gtm() === 1);
   p.win.__tcfCb(hidden, true); p.tick(1000); check("hidden: weiteres hidden-Ereignis hält Messung", p.win[`ga-disable-${GA}`] === false);
 }
+
+// 4b) CMP meldet cmpuishown, aber displayStatus hidden → Zettel erscheint
+{ const p = seite({ tcf: { gdprApplies: true, eventStatus: "cmpuishown", tcString: "", displayStatus: "hidden", purpose: { consents: {} }, vendor: { consents: {} } } });
+  p.tick(3100); check("cmpuishown+hidden: Zettel erscheint", p.sichtbar()); check("cmpuishown+hidden: kein gtag.js", p.gtm() === 0);
+  p.druecke("Zustimmen"); p.tick(500); check("cmpuishown+hidden: Zustimmen misst", p.gtm() === 1); }
+
+// 4c) Gespeicherte Ablehnung: beim Seitenaufruf vorhandene _ga/_ga_* werden gelöscht
+{ const p = seite({ tcf: hidden, store: wahl("nein"), cookies: { _ga: "GA1.1.7", _ga_T00HRG2YVF: "GS1", rk: "x" } }); p.tick(3100);
+  check("gespeichertes Nein: _ga beim Aufruf gelöscht", !p.jar.has("_ga") && !p.jar.has("_ga_T00HRG2YVF") && p.jar.get("rk") === "x", [...p.jar.keys()]);
+  check("gespeichertes Nein: kein Zettel, kein gtag.js", !p.sichtbar() && p.gtm() === 0);
+  const q = seite({ store: wahl("nein"), cookies: { _ga: "GA1.1.7" } }); q.tick(3100);
+  check("gespeichertes Nein ohne tcfapi: _ga gelöscht", !q.jar.has("_ga")); }
 
 // 5) Echte CMP-Entscheidung schlägt eigene Wahl
 { const p = seite({ tcf: decidedNo, store: wahl("ja") }); p.tick(5000);

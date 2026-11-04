@@ -178,7 +178,8 @@
   /** Google ist zuständig: echte Entscheidung, Dialog gerade sichtbar oder DSGVO laut CMP ausdrücklich nicht anwendbar. */
   function googleZustaendig(tc){
     return Boolean(tc) && (tc.gdprApplies === false || googleEntschieden(tc) ||
-      tc.eventStatus === "cmpuishown" || tc.displayStatus === "visible");
+      (tc.eventStatus === "cmpuishown" && tc.displayStatus !== "hidden" && tc.displayStatus !== "disabled") ||
+      tc.displayStatus === "visible");             // „cmpuishown“ mit hidden/disabled ist genau der Fehlerfall: Google zeigt nichts
   }
   /** Gespeicherte eigene Wahl prüfen: "ja" | "nein" | null (fehlt, fremde Version, kaputt oder älter als 12 Monate). */
   function wahlGueltig(eintrag, jetzt){
