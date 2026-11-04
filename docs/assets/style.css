@@ -120,3 +120,23 @@ main{overflow-wrap:break-word}main a{overflow-wrap:anywhere}
 
 /* Seitenleiste: zweiter Kasten mit den Ratgebern */
 .side .box+.box{margin-top:16px}
+
+/* Statistik-Zettel (Übergang, solange die Google-Mitteilung nicht erscheint): ein Blatt Karopapier am unteren Rand.
+   Zustimmen und Ablehnen sind derselbe Stift-Knopf – gleiche Größe, Farbe und Ebene. */
+.statzettel{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;max-width:600px;margin:0 auto;max-height:calc(100vh - 24px);overflow-y:auto;
+  background:var(--sheet);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;background-position:-1px -1px;
+  border:1px solid var(--line);border-left:4px solid var(--pen);border-radius:var(--r);padding:16px 18px 18px;box-shadow:0 18px 40px -20px rgba(30,40,70,.5);color:var(--ink);font-size:.93rem;line-height:1.55}
+.statzettel-marke{margin:0 0 4px;font:600 .75rem var(--head);letter-spacing:.06em;text-transform:uppercase;color:var(--pen)}
+.statzettel-titel{margin:0 0 8px;font-size:1.25rem;background:linear-gradient(transparent 60%,var(--marker) 60%,var(--marker) 92%,transparent 92%);display:inline;padding:0 .1em}
+.statzettel-titel:focus{outline:none}.statzettel-titel:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.statzettel-text{margin:8px 0 10px;background:var(--sheet);padding:2px 4px;margin-left:-4px;margin-right:-4px}
+.statzettel-stand{margin:0 0 10px;padding:6px 10px;background:var(--pen-soft);border-radius:8px;color:var(--ink)}
+.statzettel-wahl{display:flex;gap:10px;flex-wrap:wrap}
+.statzettel .stift{flex:1 1 0;min-width:120px;min-height:46px;padding:10px 16px;font:600 1rem var(--head);color:var(--pen);background:var(--sheet);border:2px solid var(--pen);border-radius:10px;cursor:pointer}
+.statzettel .stift:hover{background:var(--pen-soft)}
+.statzettel>.stift{width:100%}
+.statzettel-zu{position:absolute;top:6px;right:6px;width:40px;height:40px;border:0;border-radius:8px;background:transparent;color:var(--muted);font:400 1.5rem/1 var(--text);cursor:pointer}
+.statzettel-zu:hover{background:var(--soft);color:var(--ink)}
+.statzettel-marke,.statzettel-titel{margin-right:36px}
+@media (max-width:480px){.statzettel{left:8px;right:8px;bottom:8px;padding:12px 14px 14px;font-size:.86rem;line-height:1.45}.statzettel-titel{font-size:1.08rem}.statzettel-marke{display:none}.statzettel .stift{min-width:0;padding:10px 8px}}
+@media print{.statzettel{display:none!important}}
