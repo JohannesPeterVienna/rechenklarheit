@@ -2,18 +2,20 @@
    Messregel für Google Analytics:
      · DSGVO gilt (oder unklar): TCF Zweck 1 (Speichern) + Anbieter 755 (Google) zugestimmt UND
        Consent Mode der Google-CMP analyticsStoragePurposeConsentStatus === GRANTED (1).
-     · DSGVO gilt laut CMP nicht: Statuswert GRANTED (1) oder NOT_APPLICABLE (3) und die CMP meldet
-       ausdrücklich keinen US-Opt-out (googlefc.usstatesoptout: DOES_NOT_APPLY 1 / NOT_OPTED_OUT 2).
-   Fehlend, UNKNOWN (0), DENIED (2), NOT_CONFIGURED (4), ein offener Dialog oder eine Ausnahme einer
-   CMP-Schnittstelle = keine Messung. Ein klares TCF-Nein sperrt sofort, bevor die Consent-Mode-
+     · DSGVO gilt laut CMP nicht (gdprApplies === false): nur nach ausdrücklicher Zustimmung – Statuswert
+       GRANTED (1) und die CMP meldet ausdrücklich keinen US-Opt-out (googlefc.usstatesoptout: DOES_NOT_APPLY 1 /
+       NOT_OPTED_OUT 2) – oder „Zustimmen“ im eigenen Zettel (unten). NOT_APPLICABLE (3) ist keine Einwilligung;
+       dann fragt der Zettel (seit 5.11.2026). DENIED (2) oder gemeldeter US-Opt-out (3) = Nein ohne Zettel.
+   Fehlend, UNKNOWN (0), NOT_CONFIGURED (4), ein offener Dialog oder eine Ausnahme einer
+   CMP-Schnittstelle = keine Zustimmung. Ein klares TCF-Nein sperrt sofort, bevor die Consent-Mode-
    Schnittstelle überhaupt gefragt wird. Ablehnung/Widerruf → consent update "denied", ga-disable,
    keine weiteren Treffer. Signals und Werbepersonalisierung sind deaktiviert.
    Werte laut developers.google.com/funding-choices/fc-api-docs
 
    Übergangs-Zettel „Statistik“ (seit 4.11.2026): Die Google-CMP lädt, zeigt ihre EU-Mitteilung aber
    nicht an (displayStatus "hidden"). Meldet sie nach 3 s keine echte TCF-Entscheidung
-   (useractioncomplete oder tcloaded mit tcString) und gilt nicht ausdrücklich gdprApplies === false,
-   fragt ein eigener Zettel nur nach der Reichweitenmessung. Er setzt ausschließlich analytics_storage;
+   (useractioncomplete oder tcloaded mit tcString) – oder gdprApplies === false ohne ausdrückliche
+   Statistik-Entscheidung (GRANTED/DENIED/US-Opt-out) –, fragt ein eigener Zettel nur nach der Reichweitenmessung. Er setzt ausschließlich analytics_storage;
    ad_storage, ad_user_data und ad_personalization fasst er nie an. Sobald die Google-CMP entscheidet
    (oder ihren Dialog zeigt), gilt wieder allein die TCF-Logik oben; eine echte Google-Entscheidung löscht die
    eigene Wahl, ein Google-Nein nach Zettel-Ja zusätzlich die _ga-Cookies.
@@ -26,7 +28,7 @@
   const PUB = "ca-pub-7811071715414905";
   const GA = "G-T00HRG2YVF";
   const GOOGLE_VENDOR = 755;
-  const CM_GRANTED = 1, CM_NOT_APPLICABLE = 3;
+  const CM_GRANTED = 1, CM_DENIED = 2;
   const US_OHNE_OPTOUT = [1, 2];   // usstatesoptout: DOES_NOT_APPLY, NOT_OPTED_OUT (3 = OPTED_OUT, 0 = UNKNOWN)
 
   // Consent-Mode-Grundwerte vor jedem Google-Skript (auch vor adsbygoogle.js)
@@ -97,14 +99,24 @@
     if (window.MutationObserver) new MutationObserver(setzen).observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
   }
 
+  /** Außerhalb der DSGVO (gdprApplies === false): ausdrückliche Entscheidung der Google-CMP.
+      "ja" nur bei GRANTED und bestätigt ohne US-Opt-out, "nein" bei DENIED oder gemeldetem US-Opt-out (3),
+      sonst null – NOT_APPLICABLE ist keine Einwilligung, dann entscheidet der Zettel. */
+  function aussenWert(cm, us){
+    if (us === 3 || cm === CM_DENIED) return "nein";
+    if (cm === CM_GRANTED && US_OHNE_OPTOUT.includes(us)) return "ja";
+    return null;
+  }
+  const aussen = () => aussenWert(analyticsStatus(), usStatus());
+
   /** Reine Entscheidung: true = messen, false = nicht messen, null = noch offen.
       cmStatus/usStatus sind Funktionen – sie werden erst gefragt, wenn das TCF-Signal kein Nein ist. */
   function freigabe(tc, cmStatus, usStatus){
     if (gpc) return false;
     if (!tc) return null;
-    if (tc.gdprApplies === false){                     // außerhalb von EWR/UK/CH
-      const cm = cmStatus();
-      return (cm === CM_GRANTED || cm === CM_NOT_APPLICABLE) && US_OHNE_OPTOUT.includes(usStatus());
+    if (tc.gdprApplies === false){                     // außerhalb von EWR/UK/CH: nur ausdrücklich, sonst offen (Zettel)
+      const a = aussenWert(cmStatus(), usStatus());
+      return a === "ja" ? true : a === "nein" ? false : null;
     }
     const fertig = tc.eventStatus === "tcloaded" || tc.eventStatus === "useractioncomplete";
     if (!fertig) return null;
@@ -155,7 +167,8 @@
   }
 
   function abgleich(){
-    if (uebergang && !googleZustaendig(tcStand)) { eigeneWahlAnwenden(); return; }
+    if (uebergang && googleHatVorrang(tcStand)) googleUebernimmt();   // z. B. Consent-Mode-Wert außerhalb der DSGVO nachgereicht
+    if (uebergang && !googleHatVorrang(tcStand)) { eigeneWahlAnwenden(); return; }
     const f = freigabe(tcStand, analyticsStatus, usStatus);
     if (f === true) { if (messung !== "an") messungAn(); }
     else if (f === false) { if (messung !== "aus") messungAus(); }
@@ -172,7 +185,7 @@
     window.__tcfapi("addEventListener", 2, (tc, ok) => {
       if (!ok || !tc) return;
       tcStand = tc;
-      if (googleZustaendig(tc)) googleUebernimmt();
+      if (googleHatVorrang(tc)) googleUebernimmt();
       abgleich();
       if (tc.eventStatus !== "cmpuishown") setTimeout(abgleich, 300);   // CM-Werte ziehen ggf. nach
     });
@@ -188,12 +201,16 @@
     return Boolean(tc) && (tc.eventStatus === "useractioncomplete" ||
       (tc.eventStatus === "tcloaded" && typeof tc.tcString === "string" && tc.tcString !== ""));
   }
-  /** Google ist zuständig: echte Entscheidung, Dialog gerade sichtbar oder DSGVO laut CMP ausdrücklich nicht anwendbar. */
-  function googleZustaendig(tc){
-    return Boolean(tc) && (tc.gdprApplies === false || googleEntschieden(tc) ||
+  /** Google ist zuständig: echte Entscheidung, Dialog gerade sichtbar oder – wenn die DSGVO laut CMP nicht gilt –
+      eine ausdrückliche Statistik-Entscheidung der CMP (aussenWert "ja"/"nein"; null = der Zettel fragt). */
+  function googleZustaendig(tc, aussenW = null){
+    if (!tc) return false;
+    if (tc.gdprApplies === false) return aussenW === "ja" || aussenW === "nein";
+    return googleEntschieden(tc) ||
       (tc.eventStatus === "cmpuishown" && tc.displayStatus !== "hidden" && tc.displayStatus !== "disabled") ||
-      tc.displayStatus === "visible");             // „cmpuishown“ mit hidden/disabled ist genau der Fehlerfall: Google zeigt nichts
+      tc.displayStatus === "visible";              // „cmpuishown“ mit hidden/disabled ist genau der Fehlerfall: Google zeigt nichts
   }
+  const googleHatVorrang = tc => googleZustaendig(tc, tc && tc.gdprApplies === false ? aussen() : null);
   /** Gespeicherte eigene Wahl prüfen: "ja" | "nein" | null (fehlt, fremde Version, kaputt oder älter als 12 Monate). */
   function wahlGueltig(eintrag, jetzt){
     if (!eintrag || eintrag.v !== WAHL_V || (eintrag.wahl !== "ja" && eintrag.wahl !== "nein")) return null;
@@ -202,8 +219,8 @@
     return jetzt < ablauf.getTime() ? eintrag.wahl : null;
   }
   /** Wer bestimmt jetzt über die Statistik? "google" | "warten" | "gpc" | "ja" | "nein" | "fragen" */
-  function zustaendig(tc, reif, wahl, gpcAn){
-    if (googleZustaendig(tc)) return "google";
+  function zustaendig(tc, reif, wahl, gpcAn, aussenW = null){
+    if (googleZustaendig(tc, aussenW)) return "google";
     if (!reif) return "warten";
     if (gpcAn) return "gpc";
     return wahl || "fragen";
@@ -257,11 +274,11 @@
       if (eigeneWahl() === "ja") zettelHatGemessen = true;   // _ga stammen evtl. aus einem früheren Besuch – bei Google-Nein ausradieren
       ablage(WAHL_KEY, null); wahlDieseSitzung = null;
     }
-    if (googleEntschieden(tcStand) || tcStand?.gdprApplies === false) ablage(GOOGLE_KEY, "1");
+    if (googleEntschieden(tcStand) || googleHatVorrang(tcStand)) ablage(GOOGLE_KEY, "1");
   }
   function wartezeitVorbei(){
     reif = true;
-    const wer = zustaendig(tcStand, true, eigeneWahl(), gpc);
+    const wer = zustaendig(tcStand, true, eigeneWahl(), gpc, tcStand && tcStand.gdprApplies === false ? aussen() : null);
     if (wer === "google") googleUebernimmt();
     else {
       uebergang = true;
@@ -348,7 +365,7 @@
     ablage(WAHL_KEY, JSON.stringify(wahlDieseSitzung));
     zettelZu(true);
     if (wahl === "nein" || ohneWerbung) { if (wahl === "nein") statistikAusEigen(); return; }
-    if (uebergang && !googleZustaendig(tcStand)) eigeneWahlAnwenden();
+    if (uebergang && !googleHatVorrang(tcStand)) eigeneWahlAnwenden();
   }
 
   /** „Datenschutz-Einstellungen“: im Übergang der eigene Zettel, sonst wie bisher die Google-Widerrufsmeldung. */
@@ -359,7 +376,7 @@
       zettelAuf(von);
       return;
     }
-    if (googleZustaendig(tcStand) || (reif && !uebergang)) {
+    if (googleHatVorrang(tcStand) || (reif && !uebergang)) {
       fc.callbackQueue.push(() => { if (typeof fc.showRevocationMessage === "function") fc.showRevocationMessage(); });
       return;
     }
@@ -374,7 +391,7 @@
     einstellungen(knopf);
   });
 
-  window.RK_EINWILLIGUNG = { googleEntschieden, googleZustaendig, wahlGueltig, zustaendig, gaRadieren, WAHL_KEY, GOOGLE_KEY };
+  window.RK_EINWILLIGUNG = { googleEntschieden, googleZustaendig, aussenWert, wahlGueltig, zustaendig, gaRadieren, WAHL_KEY, GOOGLE_KEY };
 
   if (!ohneWerbung) {
     fc.callbackQueue.push({ CONSENT_MODE_DATA_READY: abgleich, INITIAL_US_STATES_OPT_OUT_DATA_READY: abgleich });

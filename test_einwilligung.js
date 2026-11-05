@@ -12,7 +12,8 @@ function speicher(start = {}) {
 }
 
 /** Baut eine Seite nach und führt consent.js darin aus. */
-function seite({ tcf = null, gpc = false, store = speicher(), cookies = {}, ohneWerbung = false, cm = 0, hash = "", jetzt = Date.now() } = {}) {
+// cm: Consent-Mode-Analyticswert der Google-CMP (0–4); us: US-Opt-out-Status (0–3), null = Schnittstelle fehlt
+function seite({ tcf = null, gpc = false, store = speicher(), cookies = {}, ohneWerbung = false, cm = 0, us = null, hash = "", jetzt = Date.now() } = {}) {
   let uhr = 0; const timer = [];
   const skripte = [], klicks = [], cookieWrites = [], neben = [];
   const jar = new Map(Object.entries(cookies));
@@ -43,6 +44,7 @@ function seite({ tcf = null, gpc = false, store = speicher(), cookies = {}, ohne
   win.window = win;
   if (tcf) win.__tcfapi = (cmd, v, cb) => { if (cmd === "addEventListener") { win.__tcfCb = cb; cb(tcf, true); } };
   win.googlefc = { callbackQueue: [], getGoogleConsentModeValues: () => ({ analyticsStoragePurposeConsentStatus: cm }) };
+  if (us !== null) win.googlefc.usstatesoptout = { getInitialUsStatesOptOutStatus: () => us };
   vm.runInNewContext(CODE, win);
   const tick = ms => { const bis = uhr + ms; for (;;) { timer.sort((a, b) => a.at - b.at); const t = timer[0]; if (!t || t.at > bis) break; timer.shift(); uhr = t.at; t.f(); } uhr = bis; };
   const zettel = () => neben.find(x => x.className === "statzettel");
@@ -68,7 +70,14 @@ const wahl = (w, alterTage = 1) => speicher({ "rk-statistik-wahl": JSON.stringif
   check("rein: useractioncomplete entscheidet", R.googleEntschieden(decidedNo));
   check("rein: tcloaded mit tcString entscheidet", R.googleEntschieden(decidedYes));
   check("rein: tcloaded ohne tcString nicht", !R.googleEntschieden({ eventStatus: "tcloaded", tcString: "" }));
-  check("rein: gdprApplies false → Google", R.googleZustaendig({ gdprApplies: false, eventStatus: "tcloaded", tcString: "" }));
+  const aussen = { gdprApplies: false, eventStatus: "tcloaded", tcString: "" };
+  check("rein: gdprApplies false ohne ausdrückliche Entscheidung → Zettel", !R.googleZustaendig(aussen) && !R.googleZustaendig(aussen, null));
+  check("rein: gdprApplies false + ausdrückliches Ja/Nein → Google", R.googleZustaendig(aussen, "ja") && R.googleZustaendig(aussen, "nein"));
+  check("rein: aussenWert GRANTED + kein US-Opt-out → ja", R.aussenWert(1, 1) === "ja" && R.aussenWert(1, 2) === "ja");
+  check("rein: aussenWert NOT_APPLICABLE ist keine Einwilligung", R.aussenWert(3, 1) === null && R.aussenWert(3, 2) === null);
+  check("rein: aussenWert GRANTED ohne US-Bestätigung → offen", R.aussenWert(1, 0) === null && R.aussenWert(1, -1) === null);
+  check("rein: aussenWert DENIED oder US-Opt-out → nein", R.aussenWert(2, 1) === "nein" && R.aussenWert(1, 3) === "nein" && R.aussenWert(3, 3) === "nein");
+  check("rein: aussenWert UNKNOWN/NOT_CONFIGURED → offen", R.aussenWert(0, 1) === null && R.aussenWert(4, 2) === null);
   check("rein: Dialog sichtbar → Google", R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown", displayStatus: "visible" }));
   check("rein: cmpuishown + hidden → Übergang", !R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown", displayStatus: "hidden" }));
   check("rein: cmpuishown + disabled → Übergang", !R.googleZustaendig({ gdprApplies: true, eventStatus: "cmpuishown", displayStatus: "disabled" }));
@@ -162,13 +171,45 @@ const wahl = (w, alterTage = 1) => speicher({ "rk-statistik-wahl": JSON.stringif
   const v3 = seite({ tcf: hidden, cm: 1, store: wahl("ja"), cookies: { _ga: "GA1.1.9" } }); v3.tick(3100);
   v3.win.__tcfCb(decidedYes, true); v3.tick(500);
   check("Google-Ja: Messung bleibt, Cookies bleiben, eigene Wahl gelöscht", v3.win[`ga-disable-${GA}`] === false && v3.jar.has("_ga") && v3.store.getItem("rk-statistik-wahl") === null);
-  // gdprApplies false → kein Zettel
-  const t = seite({ tcf: { gdprApplies: false, eventStatus: "tcloaded", tcString: "" } }); t.tick(5000);
-  check("gdprApplies false: kein Zettel", !t.sichtbar());
+  // gdprApplies false + GRANTED mit US-Bestätigung → Google misst, kein Zettel
+  const t = seite({ tcf: { gdprApplies: false, eventStatus: "tcloaded", tcString: "" }, cm: 1, us: 2 }); t.tick(5000);
+  check("gdprApplies false + GRANTED: kein Zettel, Messung laut Google", !t.sichtbar() && t.gtm() === 1 && !t.werbungFreigegeben());
   // Einstellungen im Google-Modus → Google-Widerrufsmeldung
   let gezeigt = 0; p.win.googlefc.showRevocationMessage = () => gezeigt++; p.einstellungen();
   p.win.googlefc.callbackQueue.filter(f => typeof f === "function").forEach(f => f());
   check("Google-Modus: Einstellungen → Google-Widerruf", gezeigt === 1 && !p.sichtbar(), gezeigt);
+}
+
+// 5b) gdprApplies false: ohne ausdrückliche Zustimmung kein gtag; Zettel fragt; Zustimmen lädt gtag genau einmal
+{ const aussen = { gdprApplies: false, eventStatus: "tcloaded", tcString: "" };
+  const p = seite({ tcf: aussen, cm: 3, us: 1 }); p.tick(2900);
+  check("außen NOT_APPLICABLE: vor 3 s kein Zettel, kein gtag", !p.sichtbar() && p.gtm() === 0);
+  p.tick(200);
+  check("außen NOT_APPLICABLE: Zettel fragt nach 3 s, kein gtag", p.sichtbar() && p.gtm() === 0 && p.win[`ga-disable-${GA}`] === true);
+  p.druecke("Zustimmen"); p.tick(100);
+  check("außen: Zustimmen → gtag genau einmal, Werbung unberührt", p.gtm() === 1 && p.win[`ga-disable-${GA}`] === false && !p.werbungFreigegeben() && !p.sichtbar());
+  p.win.__tcfCb(aussen, true); p.tick(1000);
+  check("außen: erneute TCF-Meldung lädt gtag nicht doppelt, Wahl bleibt gespeichert", p.gtm() === 1 && JSON.parse(p.store.getItem("rk-statistik-wahl")).wahl === "ja");
+  const n = seite({ tcf: aussen, cm: 3, us: 1 }); n.tick(3100); n.druecke("Ablehnen"); n.tick(100);
+  check("außen: Ablehnen → kein gtag, Wahl gespeichert", n.gtm() === 0 && JSON.parse(n.store.getItem("rk-statistik-wahl")).wahl === "nein");
+  const ja = seite({ tcf: aussen, cm: 3, us: 2, store: wahl("ja") }); ja.tick(5000);
+  check("außen: gespeichertes Ja misst ohne Zettel", ja.gtm() === 1 && !ja.sichtbar());
+  const nein = seite({ tcf: aussen, cm: 3, us: 2, store: wahl("nein"), cookies: { _ga: "GA1.1.1" } }); nein.tick(5000);
+  check("außen: gespeichertes Nein bleibt aus, _ga weg", nein.gtm() === 0 && !nein.sichtbar() && !nein.jar.has("_ga"));
+  const fehlt = seite({ tcf: aussen }); fehlt.tick(5000);
+  check("außen ohne CMP-Schnittstellen: kein gtag, Zettel fragt", fehlt.gtm() === 0 && fehlt.sichtbar());
+  for (const o of [{ cm: 2, us: 1 }, { cm: 1, us: 3 }, { cm: 3, us: 3 }]) {
+    const d = seite(Object.assign({ tcf: aussen, store: wahl("ja") }, o)); d.tick(5000);
+    check("außen DENIED/US-Opt-out: kein gtag, kein Zettel, eigenes Ja zählt nicht " + JSON.stringify(o), d.gtm() === 0 && !d.sichtbar());
+  }
+  const spaet = seite({ tcf: aussen, cm: 3, us: 1 }); spaet.tick(3100);
+  check("außen: Zettel offen", spaet.sichtbar());
+  spaet.win.googlefc.getGoogleConsentModeValues = () => ({ analyticsStoragePurposeConsentStatus: 1 });
+  spaet.win.__tcfCb(Object.assign({}, aussen, { eventStatus: "useractioncomplete", tcString: "CQx" }), true); spaet.tick(500);
+  check("außen: späte Google-Zustimmung → Zettel zu, Messung laut Google", !spaet.sichtbar() && spaet.gtm() === 1);
+  let gezeigt = 0; spaet.win.googlefc.showRevocationMessage = () => gezeigt++; spaet.einstellungen();
+  spaet.win.googlefc.callbackQueue.filter(f => typeof f === "function").forEach(f => f());
+  check("außen nach Google-Zustimmung: Einstellungen → Google-Widerruf", gezeigt === 1 && !spaet.sichtbar());
 }
 
 // 6) GPC: Statistik aus, Zettel nicht aufdrängen

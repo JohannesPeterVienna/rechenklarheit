@@ -11,7 +11,7 @@ from content.shop import PRODUCTS, SHOP_LIVE
 CALCS.insert(5, KREDITVERGLEICH)
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261105d"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261105e"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
@@ -96,7 +96,8 @@ def main():
 <h2>Unternehmensangaben</h2><p>Unternehmensgegenstand: Werbeagentur<br>UID-Nummer: ATU54682507<br>Gewerbebehörde: Magistratisches Bezirksamt für den 1. und 8. Bezirk, Wien<br>Kammerzugehörigkeit: Wirtschaftskammer Wien, Fachgruppe Werbung und Marktkommunikation<br>Berufsbezeichnung: Werbeagentur (Gewerbe, verliehen in Österreich)<br>Anwendbare Rechtsvorschriften: Gewerbeordnung, abrufbar unter <a href="https://www.ris.bka.gv.at" rel="noopener">www.ris.bka.gv.at</a></p>
 <p>Angaben nach § 5 E-Commerce-Gesetz und § 25 Mediengesetz.</p>
 <h2>Grundlegende Richtung</h2><p>Rechenklarheit ist eine unabhängige Informationsseite mit Online-Rechnern und Erklärungen zu Alltagsmathematik, Steuern und Finanzen. Die Seite finanziert sich über Werbung.</p>
-<h2>Haftung</h2><p>Alle Rechner und Angaben wurden sorgfältig erstellt, erfolgen aber ohne Gewähr. Sie ersetzen keine Steuer-, Rechts- oder Finanzberatung.</p>""")
+<h2>Haftung</h2><p>Alle Rechner und Angaben wurden sorgfältig erstellt, erfolgen aber ohne Gewähr. Sie ersetzen keine Steuer-, Rechts- oder Finanzberatung.</p>
+<h2 id="kontakt">Kontakt</h2><p>Fragen, Anregungen oder einen Fehler in einem Rechner entdeckt? Schreib an <a href="mailto:office@adstern.com">office@adstern.com</a> – wir prüfen jeden Hinweis.</p>""")
     body = (ROOT / "content" / "privacy_body.html").read_text(encoding="utf-8")
     body = body.replace("Kalender, Planer und Rechner arbeiten", "Alle Rechner arbeiten").replace(
         " Damit die Seite sich dein Bundesland merkt, speichern wir es im lokalen Speicher deines Browsers (localStorage). Diese Speicherung ist für die von dir gewünschte Funktion erforderlich (§ 165 Abs. 3 TKG 2021). Du kannst sie jederzeit über die Browser-Einstellungen löschen.", " Wenn du in der Seitenleiste „Verlauf in diesem Browser speichern“ einschaltest, speichern wir die letzten zwölf Rechnungen (Rechner, Ergebnis und Link mit deinen Eingaben) im lokalen Speicher deines Browsers (localStorage); sie verlassen dein Gerät nicht. Ohne dieses Einschalten wird nichts gespeichert. Die Speicherung erfolgt auf deinen ausdrücklichen Wunsch (§ 165 Abs. 3 TKG 2021); Ausschalten, „Verlauf löschen“ oder die Browser-Einstellungen entfernen sie jederzeit.")
