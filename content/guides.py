@@ -209,6 +209,7 @@ _bonus = 4000
 GEHALT = {
 "slug": "bruttolohn-14-gehaelter",
 "title": "14 Gehälter in Österreich: Was vom Urlaubs- und Weihnachtsgeld bleibt (vereinfacht)",
+"seo_title": "14 Gehälter in Österreich: Was vom Urlaubs- und Weihnachtsgeld bleibt",
 "teaser": "Warum das 13. und 14. Gehalt netto mehr bringt als ein normales – mit Rechenweg und klaren Grenzen.",
 "description": "Urlaubs- und Weihnachtsgeld in Österreich vereinfacht berechnet: Jahressechstel, Freibetrag von 620 €, fester Steuersatz von 6 % und Sozialversicherung – mit Beispielen und Verweis auf den Brutto-Netto-Rechner des Finanzministeriums.",
 "related": ["grundwert-richtig-waehlen", "prozent-oder-prozentpunkte", "realzins-sparen-inflation"],

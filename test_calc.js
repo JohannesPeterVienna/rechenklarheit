@@ -17,10 +17,12 @@ const cases = [
   ["marge", { mode: "span", ek: 60, b: 40, vat: 20 }, 100],
   ["dreisatz", { a: 4, b: 300, c: 6, kind: "prop" }, 450],
   ["lohn", { dir: "m2h", amount: 3000, hours: 38.5, salaries: 14 }, 20.98],
+  ["kreditvergleich", { amount: 20000, years: 5, a_rate: 4.5, a_fee: 0, a_monthly: 0, b_rate: 3.9, b_fee: 400, b_monthly: 3 }, null],
 ];
 let bad = 0;
 for (const [k, v, exp] of cases) {
   const r = C[k](form(v)); const got = num(r.result);
+  if (exp === null) { if (r.result !== "Angebot A" || !/254,09/.test(r.label)) { console.error("FEHLER", k, "erwartet Angebot A, 254,09 €", r.result, r.label); bad++; } continue; }
   if (Math.abs(got - exp) > 0.011) { console.error("FEHLER", k, v, "erwartet", exp, "erhalten", r.result); bad++; }
 }
 // Unsinnige Eingaben müssen abgelehnt werden (Ergebnis mit error-Flag statt Zahl)

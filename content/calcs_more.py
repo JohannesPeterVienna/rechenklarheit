@@ -46,7 +46,7 @@ MORE = [
 {
 "slug": "fahrtkosten-rechner", "short": "Fahrtkosten-Rechner", "sym": "km",
 "teaser": "Sprit- oder Ladekosten einer Fahrt, fair aufgeteilt.",
-"title": "Fahrtkosten-Rechner: Spritkosten & Ladekosten pro Fahrt und Person",
+"title": "Fahrtkosten-Rechner: Sprit- und Ladekosten pro Person",
 "h1": "Fahrtkosten-Rechner",
 "lead": "Was kostet die Fahrt in den Urlaub, und wie viel zahlt jeder Mitfahrer? Für Benzin, Diesel und Elektroauto – mit Hin- und Rückfahrt.",
 "description": "Spritkosten berechnen: Kosten einer Autofahrt aus Strecke, Verbrauch und Preis, aufgeteilt auf Mitfahrer – auch für Elektroautos.",
@@ -94,7 +94,7 @@ MORE = [
 {
 "slug": "aufschlag-marge-rechner", "short": "Aufschlag & Marge", "sym": "±",
 "teaser": "Kalkulationsaufschlag und Handelsspanne – und warum sie nicht dasselbe sind.",
-"title": "Aufschlag- & Margenrechner: Handelsspanne, Kalkulationsaufschlag, Verkaufspreis",
+"title": "Aufschlag & Marge berechnen: Handelsspanne und Verkaufspreis",
 "h1": "Aufschlag & Marge berechnen",
 "lead": "Aus Einkaufs- und Verkaufspreis Aufschlag und Handelsspanne berechnen – oder den Verkaufspreis für einen gewünschten Aufschlag oder eine Zielmarge.",
 "description": "Handelsspanne und Kalkulationsaufschlag berechnen, Verkaufspreis kalkulieren und Marge in Aufschlag umrechnen – mit Rechenweg und Umsatzsteuer.",

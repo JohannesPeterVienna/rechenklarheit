@@ -202,7 +202,7 @@ CALCS = [
 {
 "slug": "bruchrechner", "short": "Bruchrechner", "sym": "½",
 "teaser": "Brüche addieren, subtrahieren, multiplizieren, dividieren und kürzen.",
-"title": "Bruchrechner mit Rechenweg: plus, minus, mal, geteilt & kürzen",
+"title": "Bruchrechner mit Rechenweg: rechnen und kürzen",
 "h1": "Bruchrechner",
 "lead": "Zwei Brüche eingeben, Rechenart wählen – der Rechner findet den gemeinsamen Nenner, kürzt und zeigt jeden Schritt.",
 "description": "Brüche online berechnen: addieren, subtrahieren, multiplizieren und dividieren mit gekürztem Ergebnis, gemischter Zahl und Rechenweg.",
@@ -224,7 +224,7 @@ CALCS = [
 {
 "slug": "einheitenrechner", "short": "Einheitenrechner", "sym": "⇄",
 "teaser": "Länge, Fläche, Volumen, Gewicht, Tempo und Temperatur.",
-"title": "Einheitenrechner: Länge, Fläche, Volumen, Gewicht & Temperatur",
+"title": "Einheitenrechner: Länge, Fläche, Volumen, Gewicht",
 "h1": "Einheitenrechner",
 "lead": "Von Zoll in Zentimeter, von Joch in Hektar, von Fahrenheit in Celsius – mit dem Umrechnungsfaktor und dem Rechenweg.",
 "description": "Einheiten umrechnen: Länge, Fläche, Volumen, Gewicht, Geschwindigkeit und Temperatur – mit Faktor und Rechenweg, inklusive Dekagramm und Joch.",
@@ -248,7 +248,7 @@ CALCS = [
 {
 "slug": "durchschnitt-rechner", "short": "Durchschnitt & Notenschnitt", "sym": "x̄",
 "teaser": "Mittelwert, Median und gewichteter Notenschnitt.",
-"title": "Durchschnitt berechnen: Mittelwert, Median & gewichteter Notenschnitt",
+"title": "Durchschnitt berechnen: Mittelwert, Median, Notenschnitt",
 "h1": "Durchschnitt und Notenschnitt",
 "lead": "Zahlen einfügen und Mittelwert, Median, Minimum und Maximum erhalten. Mit Gewichten wird daraus ein gewichteter Notenschnitt.",
 "description": "Durchschnitt berechnen: arithmetisches Mittel, Median und gewichteter Durchschnitt, zum Beispiel für den Notenschnitt – mit Rechenweg.",

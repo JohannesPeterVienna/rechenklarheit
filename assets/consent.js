@@ -36,10 +36,11 @@
   fc.callbackQueue = fc.callbackQueue || [];
 
   // Anzeigenblöcke: Block-IDs werden nach der AdSense-Freigabe hier eingetragen.
-  const SLOTS = { billboard: "", rect: "", half: "", superbanner: "", sky: "" };
+  // AdSense-Anzeigenblöcke (Konto pub-7811071715414905, gemeinsame Blöcke „Themen-Websites – …“, angelegt 17.10. und 5.11.2026)
+  const SLOTS = { billboard: "7497607759", rect: "1292301217", half: "1292301217", superbanner: "5774811012", sky: "5064364572", mbanner: "5396758258" };
   // Feste IAB-Formate: Superbanner 728×90, Wide Skyscraper 160×600. Die übrigen Plätze sind responsiv
   // (Billboard 970×250 / Leaderboard 728×90 / Mobile 320×100, Half Page 300×600, Medium Rectangle 300×250).
-  const FIXED = { superbanner: [728, 90], sky: [160, 600] };
+  const FIXED = { superbanner: [728, 90], sky: [160, 600], mbanner: [320, 100] };
 
   const gpc = navigator.globalPrivacyControl === true;
 
