@@ -7,3 +7,5 @@ Statische Website für https://rechenklarheit.de – 15 Rechner mit Rechenweg pl
 - `build.py` – erzeugt `docs/` (GitHub Pages)
 
 Bauen: `pip install jinja2 && python3 build.py`
+
+Tests (laufen beim Bauen mit, Build bricht bei Fehlern ab): `node test_calc.js` (Rechner), `node test_einwilligung.js` (Einwilligung: Google-CMP vs. Statistik-Zettel).

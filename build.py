@@ -11,7 +11,7 @@ from content.shop import PRODUCTS, SHOP_LIVE
 CALCS.insert(5, KREDITVERGLEICH)
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261105a"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261105b"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
@@ -49,6 +49,8 @@ def main():
     print(test.stdout.strip())
     n_tests = sum(int(x) for x in re.findall(r"(\d+) [A-ZÄÖÜ]", test.stdout))
     global N_TESTS; N_TESTS = n_tests
+    # Einwilligungs-Test (Statistik-Zettel/Google-CMP): bricht ebenfalls ab, zählt aber nicht zu den Rechner-Prüfungen.
+    print(subprocess.run(["node", str(ROOT / "test_einwilligung.js")], check=True, capture_output=True, text=True).stdout.strip())
     if OUT.exists(): shutil.rmtree(OUT)
     (OUT / "assets").mkdir(parents=True)
     for f in (ROOT / "assets").iterdir(): shutil.copy(f, OUT / "assets" / f.name)
