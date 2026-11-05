@@ -128,7 +128,7 @@
       steps: [line(`Laufzeit: ${m} Monate, Kredit ${eur(K)}`),
         line(`A: Rate ${eur(a.a)} × ${m} + ${eur(A[1])} + ${eur(A[2])} × ${m} = ${eur(a.total)}`),
         line(`B: Rate ${eur(b.a)} × ${m} + ${eur(B[1])} + ${eur(B[2])} × ${m} = ${eur(b.total)}`),
-        line(`Differenz: <mark>${eur(d)}</mark> zugunsten von Angebot ${win}`),
+        d < 0.005 ? line(`Beide Angebote kosten insgesamt <mark>${eur(a.total)}</mark>.`) : line(`Differenz: <mark>${eur(d)}</mark> zugunsten von Angebot ${win}`),
         line(`Effektivzins: A ${pc(a.eff)}, B ${pc(b.eff)} – Näherung für gleichbleibende Raten, ohne Restschuldversicherung`)] };
   };
 
