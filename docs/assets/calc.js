@@ -99,6 +99,39 @@
     return { result: eur(a), label: "Monatsrate", pre: ch, steps: [line(`Monatszins i = ${pc(p)} ÷ 12 = ${nf(i * 100, 4)} %`), line(`Rate = Kredit × i ÷ (1 − (1 + i)<sup>−${m}</sup>)`), line(`= <mark>${eur(a)}</mark> pro Monat, ${m} Raten`), line(`Zurückgezahlt gesamt: ${eur(total)} · Zinskosten: <b>${eur(interest)}</b>`), line(`Ohne Gebühren gerechnet. Der Effektivzins im Angebot enthält zusätzlich Kosten wie Bearbeitungsgebühren.`)], extra: table };
   };
 
+  /* Kreditvergleich: zwei Annuitätenkredite mit Gebühren; Effektivzins per Bisektion (Monatszins → (1+r)^12 − 1) */
+  const angebot = (K, m, p, fee, mon) => {
+    const i = p / 100 / 12, a = i === 0 ? K / m : K * i / (1 - Math.pow(1 + i, -m));
+    const total = a * m + fee + mon * m;
+    let lo = 0, hi = 0.1, r = 0;
+    for (let k = 0; k < 200; k++) {
+      r = (lo + hi) / 2; let pv = 0;
+      for (let t = 1; t <= m; t++) pv += (a + mon) / Math.pow(1 + r, t);
+      if (pv > K - fee) lo = r; else hi = r;
+    }
+    return { a, total, eff: (Math.pow(1 + r, 12) - 1) * 100 };
+  };
+  C.kreditvergleich = f => {
+    const K = val(f, "amount"), n = val(f, "years");
+    const A = ["a_rate", "a_fee", "a_monthly"].map(k => k === "a_rate" ? val(f, k) : opt(f, k));
+    const B = ["b_rate", "b_fee", "b_monthly"].map(k => k === "b_rate" ? val(f, k) : opt(f, k));
+    if (!Number.isFinite(K) || !Number.isFinite(n) || K <= 0 || n <= 0 || n > 30) return bad("Kreditbetrag und Laufzeit (bis 30 Jahre) eingeben.");
+    if (![...A, ...B].every(Number.isFinite)) return bad("Sollzins beider Angebote eingeben; Gebühren leer lassen = 0 €.");
+    if ([...A, ...B].some(x => x < 0) || A[0] > 30 || B[0] > 30) return bad("Zinsen und Gebühren dürfen nicht negativ sein, der Sollzins höchstens 30 %.");
+    if (A[1] >= K || B[1] >= K) return bad("Die Bearbeitungsgebühr muss kleiner als der Kreditbetrag sein.");
+    const m = Math.round(n * 12);
+    const a = angebot(K, m, A[0], A[1], A[2]), b = angebot(K, m, B[0], B[1], B[2]);
+    const d = Math.abs(a.total - b.total), win = a.total <= b.total ? "A" : "B";
+    const row = (t, x, y) => `<tr><td>${t}</td><td>${x}</td><td>${y}</td></tr>`;
+    const table = `<div class="scroll"><table class="tbl small"><thead><tr><th></th><th>Angebot A</th><th>Angebot B</th></tr></thead><tbody>${row("Monatsrate", eur(a.a), eur(b.a))}${row("Gebühren gesamt", eur(A[1] + A[2] * m), eur(B[1] + B[2] * m))}${row("Gesamtkosten", eur(a.total), eur(b.total))}${row("Effektivzins (Näherung)", pc(a.eff), pc(b.eff))}</tbody></table></div>`;
+    return { result: d < 0.005 ? "gleich teuer" : `Angebot ${win}`, label: d < 0.005 ? "Beide Angebote kosten gleich viel" : `günstiger um ${eur(d)}`, extra: table,
+      steps: [line(`Laufzeit: ${m} Monate, Kredit ${eur(K)}`),
+        line(`A: Rate ${eur(a.a)} × ${m} + ${eur(A[1])} + ${eur(A[2])} × ${m} = ${eur(a.total)}`),
+        line(`B: Rate ${eur(b.a)} × ${m} + ${eur(B[1])} + ${eur(B[2])} × ${m} = ${eur(b.total)}`),
+        line(`Differenz: <mark>${eur(d)}</mark> zugunsten von Angebot ${win}`),
+        line(`Effektivzins: A ${pc(a.eff)}, B ${pc(b.eff)} – Näherung für gleichbleibende Raten, ohne Restschuldversicherung`)] };
+  };
+
   C.inflation = f => {
     const a = val(f, "amount"), r = val(f, "rate"), n = val(f, "years");
     if (!Number.isFinite(a) || !Number.isFinite(r) || !Number.isFinite(n)) return bad("Betrag, Inflationsrate und Jahre eingeben.");
@@ -286,8 +319,77 @@
     let r; try { r = fn(form); } catch (e) { r = bad("Bitte die Eingaben prüfen."); }
     const out = $(`[data-out="${form.id}"]`) || form.querySelector("[data-out]"); if (!out || !r) return;
     if (!r.result) { out.innerHTML = `<p class="hint">${r.note}</p>`; return; }
-    out.innerHTML = `<div class="res"><span class="res-label">${r.label || "Ergebnis"}</span><output class="res-val">${r.result}</output></div><h3 class="way-h">Rechenweg</h3><ol class="way">${r.steps.join("")}</ol>${r.pre || ""}${r.extra || ""}<p class="share no-print"><button type="button" class="linkbtn" data-share>Link zu dieser Rechnung kopieren</button></p>`;
+    out.innerHTML = `<div class="res"><span class="res-label">${r.label || "Ergebnis"}</span><output class="res-val">${r.result}</output></div><h3 class="way-h">Rechenweg</h3><ol class="way">${r.steps.join("")}</ol>${r.pre || ""}${r.extra || ""}<p class="share no-print"><button type="button" class="btn-beleg" data-beleg>Als Beleg drucken oder als PDF sichern</button> <button type="button" class="linkbtn" data-share>Link zu dieser Rechnung kopieren</button></p>`;
+    form._rk = r;
+    clearTimeout(form._rkT); form._rkT = setTimeout(() => remember(form, r), 1500);
   }
+
+  /* ---------- Ereignisse für Google Analytics (wirken nur nach Einwilligung, siehe consent.js) */
+  const track = (name, p = {}) => { try { if (typeof window.gtag === "function") window.gtag("event", name, p); } catch (e) {} };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const plain = s => String(s).replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ");
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del(k) { try { localStorage.removeItem(k); } catch (e) {} } };
+
+  /* ---------- Beleg: Ergebnis mit Eingaben und Rechenweg als druckbares Blatt (Drucken oder „Als PDF sichern“) */
+  function inputsOf(f) {
+    const rows = [];
+    [...f.elements].forEach(el => {
+      if (!el.name || el.closest("[hidden]") || el.name === "preset" || el.type === "button") return;
+      const lab = el.closest("label"); let t = lab ? (lab.querySelector("[data-l]")?.textContent || lab.firstChild?.textContent || el.name) : el.name;
+      const leg = el.closest("fieldset")?.querySelector("legend")?.textContent;
+      if (leg) t = `${leg}: ${t}`;
+      const v = el.tagName === "SELECT" ? el.options[el.selectedIndex]?.text : el.value;
+      if (String(v).trim() !== "") rows.push([t.trim(), v]);
+    });
+    return rows;
+  }
+  function beleg(f) {
+    const r = f._rk; if (!r || !r.result) return;
+    const now = new Date(), url = `${location.origin}${location.pathname}?${params(f)}`;
+    const h1 = document.querySelector("h1")?.textContent || "Rechnung";
+    let el = document.getElementById("beleg");
+    if (!el) { el = document.createElement("div"); el.id = "beleg"; document.body.appendChild(el); }
+    el.innerHTML = `<div class="b-head">RECHENKLARHEIT · BELEG</div><h2>${esc(h1)}</h2>
+<p class="b-meta">${now.toLocaleDateString("de-AT")} · ${now.toLocaleTimeString("de-AT", { hour: "2-digit", minute: "2-digit" })}</p>
+<table>${inputsOf(f).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table>
+<div class="b-sum"><span>${esc(plain(r.label || "Ergebnis"))}</span><strong>${esc(plain(r.result))}</strong></div>
+<h3>Rechenweg</h3><ol>${r.steps.join("")}</ol>${r.extra || ""}
+<p class="b-foot">Ohne Gewähr. Ersetzt keine Steuer-, Rechts- oder Finanzberatung.<br>Rechnung nachvollziehen: ${esc(url)}</p>`;
+    document.body.classList.add("beleg-druck");
+    const done = () => { document.body.classList.remove("beleg-druck"); window.removeEventListener("afterprint", done); };
+    window.addEventListener("afterprint", done);
+    track("beleg_drucken", { rechner: f.dataset.calc });
+    window.print();
+    setTimeout(done, 1500);
+  }
+
+  /* ---------- Verlauf „Meine letzten Rechnungen“: nur im Browser (localStorage „rk-verlauf“), max. 12 Einträge */
+  const VKEY = "rk-verlauf";
+  const loadV = () => { try { const v = JSON.parse(store.get(VKEY) || "[]"); return Array.isArray(v) ? v.filter(x => x && typeof x.url === "string" && x.url.startsWith("/")) : []; } catch (e) { return []; } };
+  function remember(f, r) {
+    if (!r || !r.result) return;
+    const url = `${location.pathname}?${params(f)}`;
+    const h1 = (document.querySelector("h1")?.textContent || "").slice(0, 60);
+    const list = loadV().filter(x => x.url !== url);
+    list.unshift({ t: h1, l: plain(r.label || "").slice(0, 60), r: plain(r.result).slice(0, 30), url, ts: Date.now() });
+    store.set(VKEY, JSON.stringify(list.slice(0, 12)));
+    showV();
+  }
+  function showV() {
+    const list = loadV();
+    $$("[data-verlauf]").forEach(box => {
+      box.hidden = !list.length;
+      const ol = $("ol", box); if (!ol) return;
+      ol.innerHTML = list.map(x => `<li><a href="${esc(x.url)}"><span>${esc(x.t)}</span><b>${esc(x.r)}</b></a><small>${esc(x.l)}</small></li>`).join("");
+    });
+  }
+  document.addEventListener("click", e => {
+    if (e.target.closest("[data-beleg]")) beleg(e.target.closest("form"));
+    if (e.target.closest("[data-verlauf-clear]")) { store.del(VKEY); showV(); track("verlauf_loeschen"); }
+    if (e.target.closest("[data-verlauf] a")) track("verlauf_oeffnen");
+    if (e.target.closest("[data-share]")) track("link_teilen", { rechner: e.target.closest("form")?.dataset.calc });
+    const buy = e.target.closest("[data-shop-buy]"); if (buy) track("shop_kaufen_klick", { produkt: buy.dataset.shopBuy });
+  });
 
   function params(f) {
     const q = new URLSearchParams();
@@ -311,6 +413,7 @@
   });
 
   function init() {
+    showV();
     $$("form[data-calc]").forEach(f => {
       restore(f);
       f.addEventListener("input", () => run(f));

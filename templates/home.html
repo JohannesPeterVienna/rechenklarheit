@@ -8,9 +8,11 @@
   </div>
   <div class="sheet">{{ hero_form | safe }}</div>
 </div></section>
+<div class="wrap">{{ m.vorteile() }}</div>
 <div class="wrap layout">
   <div>
     <h2>Alle Rechner</h2>
+    <p class="muted">Das Formelblatt: jeder Rechner mit seiner Formel – ein Klick führt zum Rechner mit Rechenweg.</p>
     {{ m.calclist(calcs) }}
     {{ m.ad("rect") }}
     <h2>Was Rechenklarheit anders macht</h2>

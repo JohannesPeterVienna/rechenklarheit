@@ -1,14 +1,14 @@
-/* Rechenklarheit — Karopapier, Füllfeder-Blau, Textmarker für Ergebnisse */
+/* Rechenklarheit — Rechenheft (Karopapier), Füllerblau als einzige Farbe, Kassenbon-Beleg, Formelblatt */
 @font-face{font-family:"Space Grotesk";src:url("space-grotesk-latin-wght-normal.woff2") format("woff2");font-weight:300 700;font-display:swap}
 @font-face{font-family:"Inter";src:url("inter-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-display:swap}
 :root{
-  --paper:#FAFAF7;--sheet:#FFFFFF;--grid:#E4E8F0;--ink:#1E2227;--muted:#5A626E;--line:#DADFE7;--soft:#F0F2F6;
-  --pen:#2647C6;--pen-soft:#E7ECFC;--marker:#D8F86A;--red:#C8202B;--focus:#2647C6;
+  --paper:#FAFAF7;--sheet:#FFFFFF;--grid:#E8EAEE;--ink:#141414;--muted:#5A626E;--line:#DADFE7;--soft:#F0F2F6;
+  --pen:#2647C6;--pen-soft:#E9EDFB;--marker:#E9EDFB;--red:#B4232C;--focus:#2647C6;
   --head:"Space Grotesk",system-ui,sans-serif;--text:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--r:12px;--wrap:1160px;
 }
 @media (prefers-color-scheme:dark){:root{
   --paper:#111418;--sheet:#181C22;--grid:#232A34;--ink:#E8EBF0;--muted:#9AA3B2;--line:#2B323D;--soft:#1F252D;
-  --pen:#8DA6FF;--pen-soft:#1E2747;--marker:#5E7A00;--red:#FF6B74;--focus:#8DA6FF;
+  --pen:#8DA6FF;--pen-soft:#1E2747;--marker:#1E2747;--red:#FF6B74;--focus:#8DA6FF;
 }}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--text);font-feature-settings:"tnum" 1}
@@ -24,7 +24,7 @@ p{margin:0 0 1em}.lead{font-size:1.15rem;color:var(--muted);max-width:60ch}.mute
 .top{background:var(--sheet);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:20px;min-height:62px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font:650 1.15rem var(--head);letter-spacing:-.02em}
-.brand svg{width:28px;height:28px}
+.brand svg{width:28px;height:28px;color:var(--ink)}
 .nav{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
 .nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:8px;font-size:.95rem}
 .nav a:hover,.nav a[aria-current=page]{color:var(--ink);background:var(--soft)}
@@ -43,11 +43,11 @@ textarea{min-height:90px;resize:vertical}
 input:focus,select:focus,textarea:focus{border-color:var(--pen);outline:none;box-shadow:0 0 0 3px var(--pen-soft)}
 .res{display:flex;flex-direction:column;gap:2px;margin:16px 0 4px}
 .res-label{font-size:.85rem;color:var(--muted)}
-.res-val{font:650 clamp(2rem,5vw,2.9rem)/1.1 var(--head);letter-spacing:-.02em;color:var(--ink);background:linear-gradient(transparent 55%,var(--marker) 55%,var(--marker) 92%,transparent 92%);align-self:flex-start;padding:0 .1em}
+.res-val{font:650 clamp(2rem,5vw,2.9rem)/1.15 var(--head);letter-spacing:-.02em;color:var(--ink);border-bottom:4px double var(--ink);align-self:flex-start;padding:0 .05em}
 .way-h{font-size:.95rem;margin:14px 0 6px;color:var(--pen)}
 .way{margin:0;padding-left:1.4em;color:var(--pen);font-size:1rem;line-height:1.75}
 .way li{padding-left:.2em}
-.way mark{background:var(--marker);color:var(--ink);padding:0 .15em;border-radius:2px}
+.way mark{background:none;color:var(--ink);font-weight:650;border-bottom:2px solid var(--pen);padding:0 .1em}
 .hint{color:var(--muted);margin:14px 0 0}
 .tbl{width:100%;border-collapse:collapse;background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:12px}
 .tbl th,.tbl td{text-align:right;padding:8px 12px;border-bottom:1px solid var(--line)}
@@ -59,13 +59,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--pen);outline:none;box
 .tbl.text td,.tbl.text th{text-align:left}
 .scroll{overflow-x:auto}
 
-/* Rechner-Übersicht */
-.calcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;list-style:none;padding:0;margin:0}
-.calcs a{display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--sheet);text-decoration:none;color:var(--ink);height:100%}
-.calcs a:hover{border-color:var(--pen)}
-.calcs .sym{flex:none;width:42px;height:42px;border-radius:10px;background:var(--pen-soft);color:var(--pen);display:grid;place-items:center;font:650 1.2rem var(--head)}
+/* Formelblatt: Rechner als nummeriertes Verzeichnis mit Formel */
+.calcs{list-style:none;padding:0;margin:0;border-top:2px solid var(--ink)}
+.calcs a{display:grid;grid-template-columns:2.4em minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:baseline;padding:12px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.calcs a:hover{background:var(--pen-soft)}
+.calcs .no{font:500 .9rem ui-monospace,Menlo,monospace;color:var(--muted)}
 .calcs strong{display:block;font:600 1.05rem var(--head)}
-.calcs span.d{color:var(--muted);font-size:.9rem}
+.calcs span.d{color:var(--muted);font-size:.88rem}
+.calcs .fx{font:.85rem ui-monospace,Menlo,monospace;color:var(--pen);text-align:right}
+@media (max-width:640px){.calcs a{grid-template-columns:2em minmax(0,1fr)}.calcs .fx{grid-column:2;text-align:left}}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;list-style:none;padding:0;margin:0}
 .cards a{display:block;height:100%;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--sheet);text-decoration:none;color:var(--ink)}
 .cards strong{display:block;font:600 1.05rem/1.3 var(--head);margin-bottom:4px}.cards span{color:var(--muted);font-size:.92rem}
@@ -93,8 +95,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--pen);outline:none;box
 @media (max-width:520px){.sheet{padding:16px}.calcs{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{.top,.foot,.ad,.side,.crumbs{display:none!important}.layout{display:block}}
-:root{--marker-strong:#9DBF1E}
-@media (prefers-color-scheme:dark){:root{--marker-strong:#B6D84A}}
+:root{--marker-strong:#A8A8A2}
+@media (prefers-color-scheme:dark){:root{--marker-strong:#6E6E69}}
 .fields.sub{grid-column:1/-1;margin:0}
 .fields.sub[hidden]{display:none}
 .chart{margin:18px 0 6px}
@@ -120,3 +122,51 @@ main{overflow-wrap:break-word}main a{overflow-wrap:anywhere}
 
 /* Seitenleiste: zweiter Kasten mit den Ratgebern */
 .side .box+.box{margin-top:16px}
+
+/* Vorteile */
+.vorteile{margin:8px 0 10px}
+.vorteile h2{margin-top:.6em}
+.vorteile ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));border-top:2px solid var(--ink)}
+.vorteile li{padding:14px 16px 14px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:3px}
+.vorteile b{font:600 1.02rem var(--head)}
+.vorteile b::before{content:"✓";color:var(--pen);margin-right:8px}
+.vorteile span{color:var(--muted);font-size:.92rem}
+.vk{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:var(--muted)}
+.vk li::before{content:"✓ ";color:var(--pen)}
+
+/* Beleg-Knopf, Verlauf, Kreditvergleich */
+.btn-beleg{font:600 .9rem var(--text);border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);border-radius:6px;padding:8px 14px;min-height:40px;cursor:pointer;margin-right:12px}
+.btn-beleg:hover{background:var(--ink);color:var(--sheet)}
+.verlauf ol{list-style:none;padding:0;margin:0 0 10px}
+.verlauf li{padding:6px 0;border-bottom:1px dashed var(--line)}
+.verlauf a{display:flex;justify-content:space-between;gap:10px;text-decoration:none;color:var(--ink);font-size:.9rem}
+.verlauf a b{font-family:ui-monospace,Menlo,monospace;font-weight:600;white-space:nowrap}
+.verlauf small{color:var(--muted);font-size:.78rem}
+fieldset.offer{grid-column:1/-1;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;background:var(--sheet)}
+fieldset.offer legend{font:600 .9rem var(--head);padding:0 6px}
+
+/* Mobile Banner 320×100 nur auf dem Handy */
+.ad--mbanner{width:320px;min-height:100px;margin-bottom:120px}
+@media (min-width:768px){.ad--mbanner{display:none!important}}
+
+/* Beleg wie ein Kassenbon – nur beim Drucken sichtbar */
+#beleg{display:none}
+@media print{
+  body.beleg-druck > *:not(#beleg){display:none!important}
+  body.beleg-druck #beleg{display:block;max-width:120mm;margin:0 auto;font:10.5pt/1.5 ui-monospace,Menlo,monospace;color:#000}
+  #beleg .b-head{text-align:center;letter-spacing:.12em;font-size:9pt;border-bottom:1px dashed #000;padding-bottom:6px}
+  #beleg h2{font:700 13pt/1.3 Georgia,serif;margin:10px 0 2px}
+  #beleg .b-meta{margin:0 0 8px;color:#444}
+  #beleg table{width:100%;border-collapse:collapse;margin:6px 0}
+  #beleg td{padding:2px 0;vertical-align:top}#beleg td+td{text-align:right}
+  #beleg .b-sum{display:flex;justify-content:space-between;border-top:1px dashed #000;border-bottom:3px double #000;padding:6px 0;margin:8px 0;font-size:12pt}
+  #beleg h3{font-size:10pt;margin:10px 0 4px}#beleg ol{margin:0;padding-left:1.4em}
+  #beleg mark{background:none;font-weight:700}
+  #beleg .tbl{border:0;font-size:9pt}#beleg .tbl th,#beleg .tbl td{padding:2px 4px;border-bottom:1px dotted #999}
+  #beleg .b-foot{border-top:1px dashed #000;margin-top:10px;padding-top:6px;font-size:8.5pt;color:#333;overflow-wrap:anywhere}
+}
+
+/* Shop */
+.shop{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.shop-item{border:1px solid var(--line);border-top:2px solid var(--ink);background:var(--sheet);padding:18px}
+.shop-item h3{margin-top:0}

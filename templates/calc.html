@@ -2,7 +2,7 @@
 {% block main %}
 {{ m.crumbs(crumbs) }}
 <section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>{{ h1 }}</h1><p class="lead">{{ lead }}</p>{% if formula %}<p class="formula">{{ formula }}</p>{% endif %}{% if checked %}<p class="small muted">Geprüft am {{ checked }}</p>{% endif %}</div>
+  <div><h1>{{ h1 }}</h1><p class="lead">{{ lead }}</p>{% if formula %}<p class="formula">{{ formula }}</p>{% endif %}{% if checked %}<p class="small muted">Geprüft am {{ checked }}</p>{% endif %}{{ m.vorteile(True) }}</div>
   <div class="sheet">{{ form | safe }}</div>
 </div></section>
 <div class="wrap layout">
