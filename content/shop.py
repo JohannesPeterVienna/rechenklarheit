@@ -11,8 +11,8 @@ PRODUCTS = [
         "text": "Die Formeln aller Rechenklarheit-Rechner auf einem gestalteten Heft: Prozent, Mehrwertsteuer (AT und DE), Rabatt, "
                 "Zinseszins, Kredit, Dreisatz, Bruch, Durchschnitt, Stundenlohn, Strom- und Fahrtkosten, Aufschlag und Marge – "
                 "jeweils mit durchgerechnetem Beispiel und den typischen Fehlern. Zum Ausdrucken für Schule, Lehre und Alltag.",
-        "format": "PDF · A4 · zum Ausdrucken",
-        "price": "",          # Vorschlag 2,90 € – Entscheidung Johannes
+        "format": "PDF · A4 · 5 Seiten · zum Ausdrucken",
+        "price": "1,90 €",    # Preis festgelegt von Johannes am 5.11.2026
         "checkout": "",       # Lemon-Squeezy-Link, erst nach Freischaltung des Stores
     },
 ]
