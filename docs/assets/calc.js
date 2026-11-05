@@ -128,7 +128,7 @@
       steps: [line(`Laufzeit: ${m} Monate, Kredit ${eur(K)}`),
         line(`A: Rate ${eur(a.a)} × ${m} + ${eur(A[1])} + ${eur(A[2])} × ${m} = ${eur(a.total)}`),
         line(`B: Rate ${eur(b.a)} × ${m} + ${eur(B[1])} + ${eur(B[2])} × ${m} = ${eur(b.total)}`),
-        line(`Differenz: <mark>${eur(d)}</mark> zugunsten von Angebot ${win}`),
+        d < 0.005 ? line(`Beide Angebote kosten insgesamt <mark>${eur(a.total)}</mark>.`) : line(`Differenz: <mark>${eur(d)}</mark> zugunsten von Angebot ${win}`),
         line(`Effektivzins: A ${pc(a.eff)}, B ${pc(b.eff)} – Näherung für gleichbleibende Raten, ohne Restschuldversicherung`)] };
   };
 
@@ -325,7 +325,7 @@
   }
 
   /* ---------- Ereignisse für Google Analytics (wirken nur nach Einwilligung, siehe consent.js) */
-  const track = (name, p = {}) => { try { if (typeof window.gtag === "function") window.gtag("event", name, p); } catch (e) {} };
+  const track = (name, p = {}) => { try { if (typeof window.gtag === "function" && window["ga-disable-G-T00HRG2YVF"] === false) window.gtag("event", name, p); } catch (e) {} };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const plain = s => String(s).replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ");
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del(k) { try { localStorage.removeItem(k); } catch (e) {} } };
@@ -360,14 +360,15 @@
     window.addEventListener("afterprint", done);
     track("beleg_drucken", { rechner: f.dataset.calc });
     window.print();
-    setTimeout(done, 1500);
   }
 
   /* ---------- Verlauf „Meine letzten Rechnungen“: nur im Browser (localStorage „rk-verlauf“), max. 12 Einträge */
   const VKEY = "rk-verlauf";
-  const loadV = () => { try { const v = JSON.parse(store.get(VKEY) || "[]"); return Array.isArray(v) ? v.filter(x => x && typeof x.url === "string" && x.url.startsWith("/")) : []; } catch (e) { return []; } };
+  const loadV = () => { try { const v = JSON.parse(store.get(VKEY) || "[]"); return Array.isArray(v) ? v.filter(x => x && typeof x.url === "string" && x.url.startsWith("/") && !x.url.startsWith("//")) : []; } catch (e) { return []; } };
+  const VAN = "rk-verlauf-an";
+  const verlaufAn = () => store.get(VAN) === "1";
   function remember(f, r) {
-    if (!r || !r.result) return;
+    if (!r || !r.result || !verlaufAn()) return;
     const url = `${location.pathname}?${params(f)}`;
     const h1 = (document.querySelector("h1")?.textContent || "").slice(0, 60);
     const list = loadV().filter(x => x.url !== url);
@@ -378,11 +379,20 @@
   function showV() {
     const list = loadV();
     $$("[data-verlauf]").forEach(box => {
-      box.hidden = !list.length;
+      box.hidden = false;
+      const an = verlaufAn(), cb = $("[data-verlauf-an]", box);
+      if (cb) cb.checked = an;
+      $$("[data-verlauf-teil]", box).forEach(e => { e.hidden = !an || !list.length; });
       const ol = $("ol", box); if (!ol) return;
       ol.innerHTML = list.map(x => `<li><a href="${esc(x.url)}"><span>${esc(x.t)}</span><b>${esc(x.r)}</b></a><small>${esc(x.l)}</small></li>`).join("");
     });
   }
+  document.addEventListener("change", e => {
+    const cb = e.target.closest("[data-verlauf-an]"); if (!cb) return;
+    if (cb.checked) { store.set(VAN, "1"); $$("form[data-calc]").forEach(f => f._rk && remember(f, f._rk)); track("verlauf_an"); }
+    else { store.del(VAN); store.del(VKEY); }
+    showV();
+  });
   document.addEventListener("click", e => {
     if (e.target.closest("[data-beleg]")) beleg(e.target.closest("form"));
     if (e.target.closest("[data-verlauf-clear]")) { store.del(VKEY); showV(); track("verlauf_loeschen"); }
