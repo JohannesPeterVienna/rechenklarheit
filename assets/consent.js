@@ -81,8 +81,19 @@
         ins.dataset.fullWidthResponsive = "true";
       }
       box.appendChild(ins);
+      beobachteStatus(box, ins);
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     });
+  }
+
+  /* Rückfallebene für Browser ohne :has(): Erst wenn Google die Anzeige wirklich liefert
+     (data-ad-status="filled"), bekommt der Platz .ad--voll und wird in style.css sichtbar. */
+  function beobachteStatus(box, ins){
+    const hatHas = !!(window.CSS && CSS.supports && CSS.supports("selector(:has(a))"));
+    if (!hatHas) document.documentElement.classList.add("ohne-has");
+    const setzen = () => { if (ins.getAttribute("data-ad-status") === "filled") box.classList.add("ad--voll"); else box.classList.remove("ad--voll"); };
+    setzen();
+    if (window.MutationObserver) new MutationObserver(setzen).observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
   }
 
   /** Reine Entscheidung: true = messen, false = nicht messen, null = noch offen.

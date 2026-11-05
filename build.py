@@ -11,7 +11,7 @@ from content.shop import PRODUCTS, SHOP_LIVE
 CALCS.insert(5, KREDITVERGLEICH)
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261105b"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261105c"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
@@ -103,11 +103,12 @@ def main():
     assert "Bundesland" not in body
     write("privacy.html", "page.html", title="Datenschutz | Rechenklarheit", description="Datenschutzerklärung von Rechenklarheit.",
           h1="Datenschutzerklärung", lead="Stand: 5. November 2026", ads=False, robots="noindex,follow", body=body)
-    cards = "".join(f'<li class="shop-item"><h3>{p["title"]}</h3><p>{p["text"]}</p><p class="small muted">{p["format"]}</p>'
-                    + (f'<a class="btn-beleg" href="{p["checkout"]}" rel="noopener" data-shop-buy="{p["slug"]}">Kaufen · {p["price"]}</a>' if p["checkout"] and p["price"] else '<span class="small muted">In Vorbereitung</span>') + '</li>' for p in PRODUCTS)
-    write("shop.html", "page.html", title="Shop: Formelsammlung zum Ausdrucken | Rechenklarheit", description="Druckvorlagen von Rechenklarheit als PDF.",
-          h1="Shop", lead="Formeln mit Rechenweg zum Ausdrucken – für Schule, Lehre und Alltag.", ads=SHOP_LIVE, robots=None if SHOP_LIVE else "noindex,nofollow",
-          body=f'<ul class="shop">{cards}</ul><h2>Kostenlos oder gekauft?</h2><p>Alle Rechner auf Rechenklarheit bleiben kostenlos – mit Rechenweg, Beleg-Druck und Verlauf. Die Formelsammlung fasst die Formeln und Beispiele zusätzlich als gestaltetes Heft zum Ausdrucken zusammen.</p><h2>Bezahlung und Rechnung</h2><p>Die Bezahlung läuft über die gesicherte Bezahlseite unseres Zahlungsanbieters. Er stellt die Rechnung mit Umsatzsteuer aus und liefert den Download-Link per E-Mail. Auf dieser Website werden keine Zahlungsdaten eingegeben oder gespeichert.</p>')
+    if SHOP_LIVE:   # sonst wird shop.html gar nicht gebaut (404) – Schalter SHOP_AN in content/shop.py
+        cards = "".join(f'<li class="shop-item"><h3>{p["title"]}</h3><p>{p["text"]}</p><p class="small muted">{p["format"]}</p>'
+                        + (f'<a class="btn-beleg" href="{p["checkout"]}" rel="noopener" data-shop-buy="{p["slug"]}">Kaufen · {p["price"]}</a>' if p["checkout"] and p["price"] else '<span class="small muted">In Vorbereitung</span>') + '</li>' for p in PRODUCTS)
+        write("shop.html", "page.html", title="Shop: Formelsammlung zum Ausdrucken | Rechenklarheit", description="Druckvorlagen von Rechenklarheit als PDF.",
+              h1="Shop", lead="Formeln mit Rechenweg zum Ausdrucken – für Schule, Lehre und Alltag.", ads=SHOP_LIVE, robots=None if SHOP_LIVE else "noindex,nofollow",
+              body=f'<ul class="shop">{cards}</ul><h2>Kostenlos oder gekauft?</h2><p>Alle Rechner auf Rechenklarheit bleiben kostenlos – mit Rechenweg, Beleg-Druck und Verlauf. Die Formelsammlung fasst die Formeln und Beispiele zusätzlich als gestaltetes Heft zum Ausdrucken zusammen.</p><h2>Bezahlung und Rechnung</h2><p>Die Bezahlung läuft über die gesicherte Bezahlseite unseres Zahlungsanbieters. Er stellt die Rechnung mit Umsatzsteuer aus und liefert den Download-Link per E-Mail. Auf dieser Website werden keine Zahlungsdaten eingegeben oder gespeichert.</p>')
     write("404.html", "page.html", title="Seite nicht gefunden | Rechenklarheit", description="Diese Seite gibt es nicht.",
           h1="Diese Seite gibt es nicht", lead="Hier geht es zu allen Rechnern.", ads=False, robots="noindex",
           body="<p><a href='/'>Alle Rechner</a></p>")

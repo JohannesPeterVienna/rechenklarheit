@@ -1,6 +1,8 @@
 """Shop für Druckvorlagen (PDF) – Bezahlung über Lemon Squeezy (Store „AdStern Digital“, Merchant of Record).
 
-Unsichtbar (noindex, kein Link, nicht in der Sitemap), solange kein Produkt Checkout-Link UND Preis hat.
+Abgeschaltet (shop.html wird nicht gebaut → 404, kein Link, nicht in der Sitemap), solange SHOP_AN False ist.
+SHOP_AN erst auf True stellen, wenn ein echter Kauf funktioniert (nicht nur der Lemon-Squeezy-Testmodus) und
+mindestens ein Produkt Checkout-Link UND Preis hat.
 Produktdateien erzeugt produkte/formelsammlung.py (nicht in docs/ – sonst wären sie frei herunterladbar).
 """
 
@@ -17,4 +19,6 @@ PRODUCTS = [
     },
 ]
 
-SHOP_LIVE = any(p["checkout"] and p["price"] for p in PRODUCTS)
+SHOP_AN = False   # AdSense-Prüfung 5.11.2026: keine Shop-Seite ohne funktionierenden Kauf
+
+SHOP_LIVE = SHOP_AN and any(p["checkout"] and p["price"] for p in PRODUCTS)

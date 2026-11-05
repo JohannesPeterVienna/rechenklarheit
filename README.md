@@ -8,4 +8,6 @@ Statische Website für https://rechenklarheit.de – 15 Rechner mit Rechenweg pl
 
 Bauen: `pip install jinja2 && python3 build.py`
 
-Tests (laufen beim Bauen mit, Build bricht bei Fehlern ab): `node test_calc.js` (Rechner), `node test_einwilligung.js` (Einwilligung: Google-CMP vs. Statistik-Zettel).
+Tests (laufen beim Bauen mit, Build bricht bei Fehlern ab): `node test_calc.js` (Rechner), `node test_einwilligung.js` (Einwilligung: Google-CMP vs. Statistik-Zettel). Nach dem Bauen zusätzlich `node test_werbeflaechen.js` (Playwright: leere Werbeflächen unsichtbar, gefüllte mit Abstand sichtbar).
+
+Shop: abgeschaltet über `SHOP_AN = False` in `content/shop.py` (keine `shop.html`), bis ein echter Kauf funktioniert.
