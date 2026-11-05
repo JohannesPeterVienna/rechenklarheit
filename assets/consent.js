@@ -86,12 +86,13 @@
     });
   }
 
-  /* Rückfallebene für Browser ohne :has(): Erst wenn Google die Anzeige wirklich liefert
-     (data-ad-status="filled"), bekommt der Platz .ad--voll und wird in style.css sichtbar. */
+  /* Rückfallebene für Browser ohne :has(): Erst wenn Google antwortet (data-ad-status="filled" oder
+     "unfill-optimized"), bekommt der Platz .ad--voll und zeigt in style.css Beschriftung und Abstände.
+     Das <ins> selbst bleibt immer sichtbar. */
   function beobachteStatus(box, ins){
     const hatHas = !!(window.CSS && CSS.supports && CSS.supports("selector(:has(a))"));
     if (!hatHas) document.documentElement.classList.add("ohne-has");
-    const setzen = () => { if (ins.getAttribute("data-ad-status") === "filled") box.classList.add("ad--voll"); else box.classList.remove("ad--voll"); };
+    const setzen = () => { if (["filled", "unfill-optimized"].includes(ins.getAttribute("data-ad-status"))) box.classList.add("ad--voll"); else box.classList.remove("ad--voll"); };
     setzen();
     if (window.MutationObserver) new MutationObserver(setzen).observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
   }

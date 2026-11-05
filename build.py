@@ -11,7 +11,7 @@ from content.shop import PRODUCTS, SHOP_LIVE
 CALCS.insert(5, KREDITVERGLEICH)
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261105c"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261105d"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
