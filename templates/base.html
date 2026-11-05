@@ -46,7 +46,7 @@ if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle
 </div></header>
 <main id="inhalt">
 {% block main %}{% endblock %}
-{% if ads %}<div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" aria-hidden="true"></div><div class="ad ad--mbanner" data-ad="mbanner" aria-hidden="true"></div></div>{% endif %}
+{% if ads %}<div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" role="complementary" aria-label="Werbung"></div><div class="ad ad--mbanner" data-ad="mbanner" role="complementary" aria-label="Werbung"></div></div>{% endif %}
 </main>
 <footer class="foot"><div class="wrap">
   <div>Rechenklarheit – Rechner mit Rechenweg für Alltag, Schule und Finanzen. Alle Ergebnisse ohne Gewähr; Stand {{ updated }}.</div>
