@@ -155,9 +155,9 @@ fieldset.offer legend{font:600 .9rem var(--head);padding:0 6px}
 /* Werbefläche ohne gelieferte Anzeige: kein Platz, keine Mindesthöhe, kein Abstand, kein „Werbung“.
    Sichtbar erst, wenn Google an ins.adsbygoogle data-ad-status="filled" setzt. Breite bleibt (AdSense misst sie).
    :has() reicht in aktuellen Browsern; sonst markiert consent.js <html class="ohne-has"> und den Platz mit .ad--voll. */
-.ad.on:not(:has(> ins.adsbygoogle[data-ad-status="filled"])),
+.ad.on:not(:has(> ins.adsbygoogle[data-ad-status="filled"])){height:0!important;min-height:0!important;margin-block:0!important;padding:0!important;border:0!important;overflow:hidden!important}
 .ohne-has .ad.on:not(.ad--voll){height:0!important;min-height:0!important;margin-block:0!important;padding:0!important;border:0!important;overflow:hidden!important}
-.ad.on:not(:has(> ins.adsbygoogle[data-ad-status="filled"]))::before,
+.ad.on:not(:has(> ins.adsbygoogle[data-ad-status="filled"]))::before{content:none}
 .ohne-has .ad.on:not(.ad--voll)::before{content:none}
 
 /* Beleg wie ein Kassenbon – nur beim Drucken sichtbar */
