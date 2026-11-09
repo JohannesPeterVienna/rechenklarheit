@@ -17,7 +17,7 @@ NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertst
        ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True, trim_blocks=True, lstrip_blocks=True)
 PAGES = []
-LEGAL_ADDR = "AdStern :: Agentur für digitales Marketing<br>Seilerstätte 8, 1010 Wien, Österreich<br>E-Mail: <a href='mailto:office@adstern.com'>office@adstern.com</a><br>Web: <a href='https://www.adstern.com'>www.adstern.com</a>"
+LEGAL_ADDR = "AdStern – Agentur für digitales Marketing<br>Seilerstätte 8/8, 1010 Wien, Österreich<br>E-Mail: <a href='mailto:office@adstern.com'>office@adstern.com</a><br>Web: <a href='https://www.adstern.com'>www.adstern.com</a>"
 BYSLUG = {a["slug"]: a for a in ARTICLES}
 N_TESTS = 0
 
@@ -80,8 +80,8 @@ def main():
         crumbs = [("/", "Rechner"), ("/" + a["slug"] + ".html", a["title"])]
         ld = [crumbs_ld(crumbs), {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["description"],
               "inLanguage": "de", "datePublished": a["published"], "dateModified": CHECKED_ISO,
-              "author": {"@type": "Organization", "name": "AdStern", "url": "https://www.adstern.com"},
-              "publisher": {"@type": "Organization", "name": "AdStern", "url": "https://www.adstern.com"}}]
+              "author": {"@type": "Organization", "name": "AdStern – Agentur für digitales Marketing", "url": "https://www.adstern.com"},
+              "publisher": {"@type": "Organization", "name": "AdStern – Agentur für digitales Marketing", "url": "https://www.adstern.com"}}]
         t = f"{a['title']} | Rechenklarheit"
         if len(t) > 65: t = a.get("seo_title", a["title"])
         write(a["slug"] + ".html", "page.html", title=t, description=a["description"], h1=a["title"],
