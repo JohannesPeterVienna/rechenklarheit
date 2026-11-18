@@ -103,7 +103,7 @@ CALCS = [
 <div class="example"><strong>Deutschland:</strong> 119 € brutto ÷ 1,19 = {eur(_mw_n)} netto. Enthaltene Steuer: {eur(119-_mw_n)}.</div>
 <div class="warn"><strong>Typischer Fehler:</strong> 120 € minus 20 % ergibt {eur(96)} – das ist um {eur(4)} zu wenig, weil die 20 % auf den Nettobetrag gerechnet werden, nicht auf den Bruttobetrag. Genauso falsch: 119 € minus 19 % ergibt {eur(119*0.81)} statt 100 €.</div>
 <p><strong>Faustregel für den Steueranteil am Bruttobetrag:</strong> Bei 20 % ist es genau ein Sechstel ({de(20/120*100)} %) – in 60 € brutto stecken also 10 € Umsatzsteuer. Bei 19 % sind es 19/119, rund {de(19/119*100)} %, bei 13 % rund {de(13/113*100)} %, bei 10 % ein Elftel ({de(10/110*100)} %), bei 7 % 7/107, rund {de(7/107*100)} %, und bei 4,9 % rund 4,67 %.</p>
-<p>Mehr Beispiele und Sonderfälle im Ratgeber <a href="/mehrwertsteuer-herausrechnen.html">Mehrwertsteuer herausrechnen</a>.</p>
+<p>Die Teiler für alle Steuersätze, eine Schnelltabelle und die Rundung bei mehreren Positionen stehen weiter unten auf dieser Seite.</p>
 <h2>Neu seit Juli 2026: 4,9 % auf Grundnahrungsmittel in Österreich</h2>
 <p>Seit 1. Juli 2026 gilt in Österreich für ausgewählte Grundnahrungsmittel – laut Wirtschaftskammer etwa Brot, Milch, Butter, Eier sowie bestimmte Obst- und Gemüsesorten – ein Umsatzsteuersatz von 4,9 % statt 10 %. Auf einem Kassenbon können deshalb drei Sätze nebeneinander stehen: 4,9 % für das Brot, 10 % für andere Lebensmittel und 20 % für Drogerieartikel. Rechne jeden Satz getrennt heraus. Beispiel: 5,00 € brutto mit 4,9 % enthalten 5,00 ÷ 1,049 = {eur(5/1.049)} netto und {eur(5-5/1.049)} Steuer.</p>
 <p class="small muted">Welche Waren genau darunter fallen, legt das Umsatzsteuergesetz fest (Warenliste im Gesetz). Den Satz von 4,9 % ab 1. Juli 2026 bestätigt das <a href="https://www.usp.gv.at/aktuelles/gesetzliche-neuerungen/Bundesgesetzblatt/umsatzsteuergesetz.html" rel="noopener">Unternehmensserviceportal (USP)</a>; eine Übersicht bietet auch die <a href="https://www.wko.at/oe/oesterreich/oesterreich-isst-informiert-mehrwertsteuer-auf-lebensmittel" rel="noopener">Wirtschaftskammer Österreich</a>. Stand: November 2026.</p>
@@ -140,7 +140,7 @@ CALCS = [
 <p>Zinsen, die auf dem Konto bleiben, bringen im nächsten Jahr selbst Zinsen. Dadurch wächst das Kapital nicht gleichmäßig, sondern immer schneller.</p>
 <div class="example"><strong>100 € im Monat, 3 % Zinsen, 20 Jahre:</strong> Eingezahlt sind {eur(24000)}, am Ende stehen {eur(_z)} auf dem Konto. Rund {eur(_z-24000)} davon sind Zinsen.</div>
 <h2>Die 72er-Regel</h2>
-<p>Wie lange dauert es, bis sich ein Betrag verdoppelt? Teile 72 durch den Zinssatz: Bei 3 % sind es rund 24 Jahre, bei 6 % rund 12 Jahre. Genau gerechnet sind es bei 3 % {de(math.log(2)/math.log(1.03),1)} Jahre. Mehr dazu im Ratgeber <a href="/zinseszins-und-72er-regel.html">Zinseszins und 72er-Regel</a>.</p>
+<p>Wie lange dauert es, bis sich ein Betrag verdoppelt? Teile 72 durch den Zinssatz: Bei 3 % sind es rund 24 Jahre, bei 6 % rund 12 Jahre. Genau gerechnet sind es bei 3 % {de(math.log(2)/math.log(1.03),1)} Jahre. Wie genau die Regel bei verschiedenen Zinssätzen ist, zeigt die Tabelle weiter unten.</p>
 """,
 "related": ["zinseszins-und-72er-regel"],
 },

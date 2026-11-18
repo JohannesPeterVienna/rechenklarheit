@@ -243,3 +243,4 @@ input[type=date]{min-width:0}
   .rf td::before{content:attr(data-th);display:block;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 }
 @media print{.no-print{display:none!important}.rf-h{color:#000}}
+.jw{border-left:3px solid var(--pen);padding:2px 0 2px 12px;margin:12px 0 4px;color:var(--ink)}

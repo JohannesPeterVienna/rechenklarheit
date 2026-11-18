@@ -1,5 +1,5 @@
 """Erzeugt Rechenklarheit als statische Website in docs/ (GitHub Pages)."""
-import shutil, sys
+import re, shutil, sys
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 sys.path.insert(0, str(Path(__file__).parent))
@@ -19,6 +19,8 @@ _ALT = {a["slug"]: a for a in ARTICLES}
 for _alt, (_ziel, _titel) in MERGE.items():
     _c = next(c for c in CALCS if c["slug"] == _ziel)
     _plus = abschnitte(_ALT[_alt]["body"], _titel)
+    _plus = re.sub(r" ?Schneller geht es mit dem <a href=\"/%s\.html\">[^<]*</a>\." % _ziel, "", _plus)   # Satz verwies vom Ratgeber auf den Rechner – auf der Rechnerseite ein Selbstlink
+    assert f'href="/{_ziel}.html"' not in _plus and f'href="/{_alt}.html"' not in _c["body"], f"Selbstlink auf {_ziel}"
     _i = min([i for i in (_c["body"].find("<h2>Typische Fehler</h2>"), _c["body"].find("<h2>Häufige Fragen</h2>")) if i >= 0], default=-1)
     _c["body"] = _c["body"] + "\n" + _plus if _i < 0 else _c["body"][:_i] + _plus + "\n" + _c["body"][_i:]
 ARTICLES[:] = [a for a in ARTICLES if a["slug"] not in MERGE]

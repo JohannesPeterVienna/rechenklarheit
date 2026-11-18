@@ -114,13 +114,17 @@ const gesetz = [
   ["DE Höchstbetrag ohne Pkw", "pendler", { land: "de", km: 80, atage: 220, auto: 0, andere: "", gsde: "" }, 4500],
   ["DE mit Pkw kein Höchstbetrag", "pendler", { land: "de", km: 80, atage: 220, auto: 1, andere: "", gsde: "" }, 6688],
   ["DE andere Werbungskosten über dem Pauschbetrag", "pendler", { land: "de", km: 10, atage: 200, auto: 1, andere: 1500, gsde: 30 }, 760, ["Zusätzlich wirksam über dem Pauschbetrag", 760], ["Steuerersparnis (Überschlag)", 228]],
-  ["Verzug DE Verbraucher über Halbjahreswechsel", "verzug", { land: "de_v", betrag: 1200, von: "2026-03-01", bis: "2026-10-31" }, 51.51, ["Zinstage", 245]],
+  ["Verzug DE Verbraucher über Halbjahreswechsel", "verzug", { land: "de_v", betrag: 1200, von: "2026-03-01", bis: "2026-10-31" }, 51.52, ["Zinstage", 245]],   // 25,15 + 26,37: Summe der gerundeten Halbjahre
   ["Verzug DE Unternehmer, negativer Basiszins 2021", "verzug", { land: "de_u", betrag: 10000, von: "2021-01-01", bis: "2021-12-31" }, 812, ["Zinstage", 365]],
   ["Verzug AT fest 4 %, Schaltjahr", "verzug", { land: "at_v", betrag: 1000, von: "2024-01-01", bis: "2024-12-31" }, 40, ["Zinstage", 366]],
   ["Verzug AT Unternehmer: Stichtag 1.7.2026 = 1,53 %", "verzug", { land: "at_u", betrag: 36500, von: "2026-10-01", bis: "2026-10-10" }, 107.3],
   ["Verzug AT Unternehmer über Jahreswechsel 2023/24", "verzug", { land: "at_u", betrag: 5000, von: "2023-12-15", bis: "2024-07-10" }, 372.38],
   ["Seite Verzug AT Unternehmer 5.000 €", "verzug", { land: "at_u", betrag: 5000, von: "2026-01-15", bis: "2026-10-31" }, 426.26],
-  ["Seite Verzug AT 4 % 5.000 €", "verzug", { land: "at_v", betrag: 5000, von: "2026-01-15", bis: "2026-10-31" }, 158.9],
+  ["Seite Verzug AT 4 % 5.000 €", "verzug", { land: "at_v", betrag: 5000, von: "2026-01-15", bis: "2026-10-31" }, 158.91],
+  ["Verzug AT Arbeitsverhältnis: Basiszins vom ersten Zinstag bleibt über den 1.7. hinweg", "verzug", { land: "at_a", betrag: 2500, von: "2026-02-01", bis: "2026-10-31" }, 200.64, ["Zinstage", 273]],
+  ["Verzug AT Arbeitsverhältnis: Tageswert ab 16.9.2026 = 2,03 %", "verzug", { land: "at_a", betrag: 36500, von: "2026-09-16", bis: "2026-09-25" }, 112.3],
+  ["Verzug AT Arbeitsverhältnis: am 15.9.2026 noch 1,53 %", "verzug", { land: "at_a", betrag: 36500, von: "2026-09-15", bis: "2026-09-24" }, 107.3],
+  ["Verzug AT Arbeitsverhältnis 2020: −0,62 + 9,2", "verzug", { land: "at_a", betrag: 36600, von: "2020-03-01", bis: "2020-03-10" }, 85.8],
   ["Verzug ein Tag", "verzug", { land: "at_v", betrag: 36500, von: "2025-05-05", bis: "2025-05-05" }, 4],
 ];
 for (const [name, c, v, exp, ...mehr] of gesetz) {

@@ -41,7 +41,9 @@ def _at_halbjahre():
 
 
 BASIS_AT = _at_halbjahre()
-VERZUG = {"de_v": 5, "de_u": 9, "at_u": 9.2, "at_v": 4}     # Prozentpunkte über Basiszinssatz bzw. fester Satz (at_v)
+VERZUG = {"de_v": 5, "de_u": 9, "at_u": 9.2, "at_a": 9.2, "at_v": 4}     # Prozentpunkte über Basiszinssatz bzw. fester Satz (at_v)
+BASIS_AT_AB2020 = [x for x in BASIS_AT_AENDERUNGEN if x[0] >= "2020-01-01"]
+BASIS_AT_TAG = [("2020-01-01", [v for d, v in BASIS_AT_AENDERUNGEN if d <= "2020-01-01"][-1])] + BASIS_AT_AB2020   # Tageswerte für § 49a ASGG
 VERZUG_BIS = "2026-12-31"                                    # letzter Tag, für den der Basiszinssatz feststeht
 
 
@@ -84,8 +86,8 @@ row("AT", "Arbeitsweg", "Großes Pendlerpauschale (Massenverkehrsmittel mindeste
 row("AT", "Arbeitsweg", "Pendlerpauschale bei weniger Fahrten im Kalendermonat", "ab 11 Tagen voll · 8 bis 10 Tage zwei Drittel · 4 bis 7 Tage ein Drittel", "§ 16 Abs. 1 Z 6 lit. e EStG 1988", P16, "Fassung 24.12.2025 bis 31.12.2026", "", "/pendlerrechner.html?land=at&km=45&art=klein&tage=8")
 row("AT", "Arbeitsweg", "Pendlereuro je Kilometer der einfachen Fahrtstrecke, jährlich", f"{PENDLEREURO_AT} €", "§ 33 Abs. 5 Z 4 EStG 1988", RIS + "bgbl/1988/400/P33/NOR40279893", "Fassung 30.7.2026 bis 31.12.2026", "Absetzbetrag: mindert die Steuer direkt. Setzt Anspruch auf ein Pendlerpauschale voraus.", "/pendlerrechner.html?land=at&km=32&art=klein&tage=11")
 row("AT", "Arbeitsweg", "Kilometergeld: Pkw / Motorrad / Zuschlag je mitbeförderter Person / Fahrrad", "0,50 € / 0,25 € / 0,15 € / 0,25 € je km", "§ 10 Abs. 3 bis 5 Reisegebührenvorschrift 1955", RIS + "bgbl/1955/133/P10/NOR40269627", "Fassung in Kraft seit 1.7.2025", "Steuerfrei sind höchstens die Sätze der Bundesbediensteten (§ 26 Z 4 lit. a EStG 1988).", "/fahrtkosten-rechner.html")
-row("DE", "Arbeitsweg", "Entfernungspauschale je vollem Kilometer der Entfernung und Arbeitstag", "0,38 €", "§ 9 Abs. 1 Satz 3 Nr. 4 EStG", GII + "estg/__9.html", "abgerufene Fassung", "Höchstens 4.500 € im Kalenderjahr; mehr nur mit eigenem oder überlassenem Kraftwagen.", "/pendlerrechner.html?land=de&km=28&tage=220&auto=1")
-row("DE", "Arbeitsweg", "Arbeitnehmer-Pauschbetrag (Werbungskosten ohne Nachweis)", "1.230 €", "§ 9a Satz 1 Nr. 1 Buchst. a EStG", GII + "estg/__9a.html", "abgerufene Fassung", "Die Entfernungspauschale wirkt sich erst aus, soweit alle Werbungskosten zusammen diesen Betrag übersteigen.", "/pendlerrechner.html?land=de&km=28&tage=220&auto=1")
+row("DE", "Arbeitsweg", "Entfernungspauschale je vollem Kilometer der Entfernung und Arbeitstag", "0,38 €", "§ 9 Abs. 1 Satz 3 Nr. 4 EStG", GII + "estg/__9.html", "abgerufene Fassung", "Höchstens 4.500 € im Kalenderjahr; mehr nur mit eigenem oder überlassenem Kraftwagen.", "/pendlerrechner.html?land=de&km=28&atage=220&auto=1")
+row("DE", "Arbeitsweg", "Arbeitnehmer-Pauschbetrag (Werbungskosten ohne Nachweis)", "1.230 €", "§ 9a Satz 1 Nr. 1 Buchst. a EStG", GII + "estg/__9a.html", "abgerufene Fassung", "Die Entfernungspauschale wirkt sich erst aus, soweit alle Werbungskosten zusammen diesen Betrag übersteigen.", "/pendlerrechner.html?land=de&km=28&atage=220&auto=1")
 row("DE", "Arbeitsweg", "Wegstreckenentschädigung bei Dienstreisen des Bundes", "0,20 € je km (höchstens 130 €) · 0,30 € je km bei erheblichem dienstlichem Interesse", "§ 5 Abs. 1 und 2 BRKG", GII + "brkg_2005/__5.html", "abgerufene Fassung")
 
 row("AT", "Lohn und Einkommen", "Einkommensteuer-Tarif 2026: Grenzen der Tarifstufen", "bis 13.539 € 0 % · bis 21.992 € 20 % · bis 36.458 € 30 % · bis 70.365 € 40 % · bis 104.859 € 48 % · darüber 50 % · über 1 Mio. € 55 %", "§ 33 Abs. 1 EStG 1988", RIS + "bgbl/1988/400/P33/NOR40279893", "Fassung 30.7.2026 bis 31.12.2026", "Für 2027 nennt die Anmerkung zum Gesetzestext höhere Grenzen (BGBl. II Nr. 260/2026), erste Stufe 13.846 €.")
@@ -104,8 +106,9 @@ row("DE", "Kapitalerträge", "Einkommensteuer auf Einkünfte aus Kapitalvermöge
 row("DE", "Kapitalerträge", "Solidaritätszuschlag", "5,5 % der Bemessungsgrundlage", "§ 4 SolzG 1995", GII + "solzg_1995/__4.html", "abgerufene Fassung", "25 % × 1,055 = 26,375 % auf Kapitalerträge.", "/realzins-sparen-inflation.html")
 row("DE", "Kapitalerträge", "Sparer-Pauschbetrag (einzeln / zusammen veranlagte Ehegatten)", "1.000 € / 2.000 €", "§ 20 Abs. 9 EStG", GII + "estg/__20.html", "abgerufene Fassung", "", "/realzins-sparen-inflation.html")
 
-row("AT", "Zinsen und Verzug", "Gesetzliche Zinsen, auch Verzugszinsen außerhalb von Unternehmergeschäften", "4 % pro Jahr", "§ 1000 Abs. 1 und § 1333 Abs. 1 ABGB", RIS + "jgs/1811/946/P1000/NOR40117762", "Fassung in Kraft seit 11.6.2010", "", "/verzugszinsen-rechner.html?land=at_v&betrag=1200&von=2026-03-01&bis=2026-10-31")
+row("AT", "Zinsen und Verzug", "Gesetzliche Zinsen; Verzugszinsen, soweit keine Sonderregel gilt (etwa unter Privaten oder gegenüber Verbrauchern)", "4 % pro Jahr", "§ 1000 Abs. 1 und § 1333 Abs. 1 ABGB", RIS + "jgs/1811/946/P1000/NOR40117762", "Fassung in Kraft seit 11.6.2010", "Nicht für Geldforderungen zwischen Unternehmern (§ 456 UGB) und nicht für Forderungen im Zusammenhang mit einem Arbeitsverhältnis (§ 49a ASGG).", "/verzugszinsen-rechner.html?land=at_v&betrag=1200&von=2026-03-01&bis=2026-10-31")
 row("AT", "Zinsen und Verzug", "Verzugszinsen zwischen Unternehmern", "9,2 Prozentpunkte über dem Basiszinssatz", "§ 456 UGB", RIS + "drgbl/1897/219/P456/NOR40148644", "Fassung in Kraft seit 16.3.2013", "Maßgeblich ist der Basiszinssatz am ersten Kalendertag des Halbjahres.", "/verzugszinsen-rechner.html?land=at_u&betrag=5000&von=2026-01-15&bis=2026-10-31")
+row("AT", "Zinsen und Verzug", "Gesetzliche Zinsen für Forderungen im Zusammenhang mit einem Arbeitsverhältnis", "9,2 Prozentpunkte über dem Basiszinssatz", "§ 49a ASGG", RIS + "bgbl/1985/104/P49a/NOR40148637", "Fassung in Kraft seit 16.3.2013", "Maßgeblich ist der Basiszinssatz am Tag nach dem Eintritt der Fälligkeit. Beruht die Verzögerung auf einer vertretbaren Rechtsansicht des Schuldners, gelten nur die sonstigen Bestimmungen über die gesetzlichen Zinsen.", "/verzugszinsen-rechner.html?land=at_a&betrag=2500&von=2026-02-01&bis=2026-10-31")
 row("AT", "Zinsen und Verzug", "Pauschale für Betreibungskosten zwischen Unternehmern", "40 €", "§ 458 UGB", RIS + "drgbl/1897/219/P458/NOR40148646", "Fassung in Kraft seit 16.3.2013")
 row("AT", "Zinsen und Verzug", "Basiszinssatz der Oesterreichischen Nationalbank", f"{_de(BASIS_AT_AENDERUNGEN[-1][1])} % seit 16.9.2026 · am 1.7.2026: {_de(BASIS_AT[-1][1])} %", "OeNB, Basis- und Referenzzinssätze", OENB, "Tabelle zuletzt geändert am 5.10.2026", "Für § 456 UGB gilt im zweiten Halbjahr 2026 der Wert vom 1.7.2026.", "/verzugszinsen-rechner.html")
 row("DE", "Zinsen und Verzug", "Verzugszinssatz, wenn ein Verbraucher beteiligt ist", "5 Prozentpunkte über dem Basiszinssatz", "§ 288 Abs. 1 BGB", GII + "bgb/__288.html", "abgerufene Fassung", "", "/verzugszinsen-rechner.html?land=de_v&betrag=1200&von=2026-03-01&bis=2026-10-31")
@@ -133,7 +136,7 @@ def tabelle():
     rows = []
     for r in R:
         land = "Österreich" if r["land"] == "AT" else "Deutschland"
-        tool = f'<a href="{e(r["tool"])}">nachrechnen</a>' if r["tool"] else ""
+        tool = f'<a href="{e(r["tool"])}">{"nachrechnen" if "?" in r["tool"] else "zum Thema"}</a>' if r["tool"] else ""
         hin = f'<span class="rf-h">{e(r["hinweis"])}</span>' if r["hinweis"] else ""
         rows.append(
             f'<tr data-land="{r["land"]}" data-thema="{e(r["thema"])}"><td data-th="Land und Thema">{land}<span class="rf-h">{e(r["thema"])}</span></td>'
@@ -154,13 +157,14 @@ def tabelle():
 
 def seite():
     n_at = sum(1 for r in R if r["land"] == "AT")
-    return f"""<p>{len(R)} Sätze, Grenzen und Fristen, die in Alltagsrechnungen immer wieder gebraucht werden – {n_at} aus Österreich, {len(R) - n_at} aus Deutschland. Jede Zeile nennt die Fundstelle im Gesetz oder bei der amtlichen Stelle, die Fassung und das Datum, an dem wir den Wortlaut dort nachgelesen haben. Wo es einen passenden Rechner gibt, führt „nachrechnen“ direkt zu einer Beispielrechnung mit diesem Wert.</p>
+    return f"""<p>{len(R)} Sätze, Grenzen und Fristen, die in Alltagsrechnungen immer wieder gebraucht werden – {n_at} aus Österreich, {len(R) - n_at} aus Deutschland. Jede Zeile nennt die Fundstelle im Gesetz oder bei der amtlichen Stelle, die Fassung und das Datum, an dem wir den Wortlaut dort nachgelesen haben. „nachrechnen“ öffnet einen Rechner mit einer Beispielrechnung, in der dieser Wert vorkommt; „zum Thema“ führt zu einem Rechner oder Ratgeber, der den Wert erklärt, ihn aber nicht als Eingabe vorbelegt. Zeilen ohne Link haben kein passendes Werkzeug.</p>
+<p class="jw"><strong>Werte bis 31.12.2026; Aktualisierung Anfang Jänner 2027.</strong> Mehrere Fassungen laufen zum Jahresende aus; was sich ändert, steht unter der Tabelle.</p>
 {tabelle()}
 <h2>So ist die Tabelle entstanden</h2>
 <p>Alle Werte stammen aus dem Wortlaut der verlinkten Vorschrift, abgerufen am {ABRUF}: für Österreich aus der konsolidierten Fassung im Rechtsinformationssystem des Bundes (RIS), für Deutschland aus gesetze-im-internet.de, die Basiszinssätze aus den Tabellen der Oesterreichischen Nationalbank und der Deutschen Bundesbank. Zusammenfassungen anderer Websites haben wir nicht übernommen. Was wir nicht im Gesetzestext oder bei der zuständigen Stelle nachlesen konnten, steht nicht in der Tabelle – deshalb fehlen etwa Sozialversicherungssätze und Höchstbeitragsgrundlagen.</p>
 <p>„Abgerufene Fassung“ heißt bei deutschen Vorschriften: der Text, den gesetze-im-internet.de am Abruftag als geltend zeigte; die Seite nennt bei der Einzelnorm kein Inkrafttretensdatum. Bei österreichischen Vorschriften nennt das RIS zu jeder Fassung, seit wann und gegebenenfalls bis wann sie gilt; diese Daten stehen in der Spalte „Fundstelle“.</p>
 <h2>Was sich demnächst ändert</h2>
-<ul><li><strong>Verbraucherkredite in Österreich:</strong> Am 20. November 2026 tritt das Verbraucherkreditgesetz 2026 in Kraft (BGBl. I Nr. 36/2026, Umsetzung der Richtlinie (EU) 2023/2225). Es gilt für Verträge, die nach dem 19. November 2026 geschlossen werden; für ältere Verträge bleiben die bisherigen Bestimmungen anwendbar (§ 45 Abs. 2 und 3). Rücktritt und vorzeitige Rückzahlung stehen jetzt in § 25 und § 29.</li>
+<ul><li><strong>Verbraucherkredite in Österreich:</strong> Am 20. November 2026 tritt das Verbraucherkreditgesetz 2026 in Kraft (BGBl. I Nr. 36/2026, Umsetzung der Richtlinie (EU) 2023/2225). Es gilt für Verträge, die nach dem 19. November 2026 geschlossen werden; für ältere Verträge bleiben die bisherigen Bestimmungen anwendbar (§ 45 Abs. 2 und 3). Rücktritt und vorzeitige Rückzahlung stehen ab 20. November 2026 in § 25 und § 29.</li>
 <li><strong>Österreichische Steuerwerte 2027:</strong> Mehrere Fassungen im Einkommensteuergesetz laufen am 31. Dezember 2026 aus (Tarifstufen, Pendlereuro, Pendlerpauschale). Für die Tarifgrenzen und die Freigrenze beim Jahressechstel nennt der Gesetzestext die Werte für 2027 bereits in Anmerkungen; sie stehen in der Tabelle dabei.</li>
 <li><strong>Basiszinssätze:</strong> Der deutsche Basiszinssatz ändert sich jeweils zum 1. Jänner und 1. Juli. Der österreichische ändert sich mit den Zinsbeschlüssen; für Verzugszinsen zwischen Unternehmern zählt der Wert am ersten Tag des Halbjahres.</li>
 <li><strong>Mindestlohn Deutschland:</strong> 14,60 € ab 1. Jänner 2027 stehen bereits in der Verordnung.</li></ul>
@@ -172,5 +176,5 @@ def saetze_js():
     """Die Zahlen für calc.js als JSON – build.py vergleicht sie mit der Zeile zwischen /*SAETZE*/ … /*/SAETZE*/."""
     import json
     d = {"pendler": {k: [list(x) for x in v] for k, v in PENDLER_AT.items()}, "pendlereuro": PENDLEREURO_AT, "entf": ENTF_DE, "entfMax": ENTF_DE_MAX, "anp": AN_PAUSCH_DE,
-         "verzug": VERZUG, "verzugAb": BASIS_DE[0][0], "verzugBis": VERZUG_BIS, "basis": {"de": [list(x) for x in BASIS_DE], "at": [list(x) for x in BASIS_AT]}}
+         "verzug": VERZUG, "verzugAb": BASIS_DE[0][0], "verzugBis": VERZUG_BIS, "basis": {"de": [list(x) for x in BASIS_DE], "at": [list(x) for x in BASIS_AT], "atTag": [list(x) for x in BASIS_AT_TAG]}}
     return json.dumps(d, ensure_ascii=False, separators=(",", ":"))

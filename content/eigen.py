@@ -58,6 +58,7 @@ EX = {
                ("Deutschland, Firmenkunde: 5.000 €", dict(land="de_u", betrag=5000, von="2026-01-15", bis="2026-10-31")),
                ("Österreich, Unternehmer: 5.000 €", dict(land="at_u", betrag=5000, von="2026-01-15", bis="2026-10-31")),
                ("Österreich, 4 % fest: 1.200 €", dict(land="at_v", betrag=1200, von="2026-03-01", bis="2026-10-31")),
+               ("Österreich, offenes Gehalt: 2.500 €", dict(land="at_a", betrag=2500, von="2026-02-01", bis="2026-10-31")),
                ("über den Zinssprung 2024/2025", dict(land="de_u", betrag=10000, von="2024-10-01", bis="2025-03-31"))],
 }
 
@@ -223,7 +224,7 @@ PENDLER = {
     + select("auto", "Verkehrsmittel", [("1", "eigener oder überlassener Pkw"), ("0", "anderes (Bahn, Bus, Rad, Mitfahrt)")], "1")
     + inp("andere", "Andere Werbungskosten im Jahr (€, optional)", "")
     + inp("gsde", "Grenzsteuersatz (%, optional)", "")
-    + "</div>"),
+    + "</div>", '<p class="jw small"><strong>Gilt für das Kalenderjahr 2026, nicht für 2025.</strong> Werte bis 31.12.2026; Aktualisierung Anfang Jänner 2027.</p>'),
 "body": f"""
 <h2>Was der Rechner ausgibt</h2>
 <p>In beiden Ländern wird der Arbeitsweg über einen Abzug bei der Steuerberechnung berücksichtigt – die Pauschale selbst wird nicht ausgezahlt. Die Regeln sind aber verschieden gebaut:</p>
@@ -235,14 +236,15 @@ PENDLER = {
 <tr><td>Fundstelle</td><td>§ 16 Abs. 1 Z 6 und § 33 Abs. 5 Z 4 EStG 1988</td><td>§ 9 Abs. 1 Satz 3 Nr. 4 und § 9a EStG</td></tr>
 </tbody></table></div>
 <p>Alle Sätze stehen mit Link zum Gesetzestext, Fassung und Abrufdatum in der Tabelle <a href="{REF}?q=arbeitsweg">Sätze und Grenzwerte</a>. Stand der Werte: {R.ABRUF}.</p>
-<h2>Österreich: die Stufen des Pendlerpauschales</h2>
+<p><strong>Der Rechner gilt für das Kalenderjahr 2026.</strong> Für 2025 und frühere Jahre galten teils andere Sätze; sie sind hier nicht enthalten, weil wir die damaligen Fassungen nicht nachgelesen haben. Für eine Steuererklärung über 2025 ist der Rechner deshalb nicht geeignet.</p>
+<h2>Österreich: die Stufen des Pendlerpauschales (2026)</h2>
 {_stufen_tab()}
 <p>Dazu kommt der <strong>Pendlereuro</strong>: {R.PENDLEREURO_AT} € pro Jahr für jeden Kilometer der einfachen Strecke, wenn Anspruch auf ein Pendlerpauschale besteht. Für ihn gilt dieselbe Drittel-Regel. Die hier verwendete Fassung von § 33 Abs. 5 Z 4 gilt laut Rechtsinformationssystem bis 31. Dezember 2026; welche Werte ab 2027 gelten, haben wir nicht geprüft.</p>
 <div class="example"><strong>Durchgerechnet (konstruiertes Beispiel):</strong> 32 km, Massenverkehrsmittel zumutbar, 11 oder mehr Fahrten im Monat. Stufe „ab 20 km bis 40 km“: {eur(_a1[0])} Pendlerpauschale im Jahr, dazu 32 × {R.PENDLEREURO_AT} € = {eur(_a1[1])} Pendlereuro. Bei einem Grenzsteuersatz von 30 % senkt das Pauschale die Lohnsteuer um {eur(_a1[0] * 0.3)}, der Pendlereuro um weitere {eur(_a1[1])} – zusammen {eur(_a1[0] * 0.3 + _a1[1])} im Jahr.</div>
 <div class="example"><strong>Teilzeit:</strong> 45 km, zumutbar, 8 Fahrten im Monat. Stufe „über 40 km bis 60 km“: {eur(R.PENDLER_AT["klein"][1][1])}, davon zwei Drittel = {eur(_a2[0])}; Pendlereuro 45 × {R.PENDLEREURO_AT} € × 2/3 = {eur(_a2[1])}. Wäre das Massenverkehrsmittel auf mindestens der halben Strecke nicht zumutbar und führe man an 11 Tagen, wären es {eur(_a3[0])}.</div>
 <h3>Wann zählt ein Tag?</h3>
 <p>Das Gesetz stellt auf Fahrten von der Wohnung zur Arbeitsstätte im Kalendermonat ab. Für Feiertage, Urlaub und Krankenstand ist das Pauschale weiter zu berücksichtigen (lit. h). Wer ein arbeitgebereigenes Kraftfahrzeug für den Arbeitsweg nutzen darf, bekommt kein Pendlerpauschale; für ein arbeitgebereigenes Fahrrad oder Elektrofahrrad gilt das nicht (lit. b).</p>
-<h2>Deutschland: die Entfernungspauschale</h2>
+<h2>Deutschland: die Entfernungspauschale (2026)</h2>
 <p class="formula">volle Kilometer × Arbeitstage × {de(R.ENTF_DE, 2)} €</p>
 <p>Angesetzt wird die einfache Entfernung, nicht Hin- und Rückweg, und nur volle Kilometer. Maßgebend ist die kürzeste Straßenverbindung; eine längere darf angesetzt werden, wenn sie offensichtlich verkehrsgünstiger ist und regelmäßig benutzt wird.</p>
 <div class="example"><strong>Durchgerechnet (konstruiertes Beispiel):</strong> 28 km, 220 Arbeitstage: 28 × 220 × {de(R.ENTF_DE, 2)} € = {eur(_d1)}. Ohne weitere Werbungskosten liegen davon {eur(_d1 - R.AN_PAUSCH_DE)} über dem Arbeitnehmer-Pauschbetrag von {eur(R.AN_PAUSCH_DE)} – nur dieser Teil senkt das zu versteuernde Einkommen zusätzlich.</div>
@@ -282,9 +284,9 @@ def _vz(land, B, von, bis):
         ende = min(e, date(a.year, 12, 31) if a.month >= 7 else date(a.year, 6, 30))
         n = (ende - a).days + 1
         jahr = 366 if (a.year % 4 == 0 and (a.year % 100 != 0 or a.year % 400 == 0)) else 365
-        tab = {"de_v": R.BASIS_DE, "de_u": R.BASIS_DE, "at_u": R.BASIS_AT}.get(land)
-        satz = R.VERZUG[land] + (_basis(tab, a.isoformat()) if tab else 0)
-        s += B * satz / 100 * n / jahr
+        tab = {"de_v": R.BASIS_DE, "de_u": R.BASIS_DE, "at_u": R.BASIS_AT, "at_a": R.BASIS_AT_TAG}.get(land)
+        satz = R.VERZUG[land] + (_basis(tab, von if land == "at_a" else a.isoformat()) if tab else 0)
+        s += round(B * satz / 100 * n / jahr + 1e-9, 2)      # je Teilzeitraum auf Cent gerundet, wie calc.js
         a = ende + timedelta(days=1)
     return s
 
@@ -311,17 +313,18 @@ VERZUG = {
 "formula": "Zinsen = Betrag × Zinssatz × Tage ÷ Tage im Jahr",
 "form": form("verzug",
     select("land", "Rechtsgrundlage", [("de_v", "Deutschland – Verbraucher beteiligt (Basiszins + 5)"), ("de_u", "Deutschland – nur Unternehmer, Entgeltforderung (Basiszins + 9)"),
-                                        ("at_u", "Österreich – zwischen Unternehmern (Basiszins + 9,2)"), ("at_v", "Österreich – sonst (4 % fest)")], "de_v").replace('class="f"', 'class="f wide"', 1)
+                                        ("at_u", "Österreich – zwischen Unternehmern (Basiszins + 9,2, § 456 UGB)"), ("at_a", "Österreich – Forderung aus einem Arbeitsverhältnis (Basiszins + 9,2, § 49a ASGG)"), ("at_v", "Österreich – übrige Fälle, z. B. Privat/Verbraucher (4 % fest, § 1000 ABGB)")], "de_v").replace('class="f"', 'class="f wide"', 1)
     + inp("betrag", "Offener Betrag (€)", "1200")
     + '<label class="f"><span data-l="von">Erster Zinstag</span><input type="date" name="von" value="2026-03-01" min="2020-01-01" max="2026-12-31"></label>'
-    + '<label class="f"><span data-l="bis">Letzter Zinstag</span><input type="date" name="bis" value="2026-10-31" min="2020-01-01" max="2026-12-31"></label>'),
+    + '<label class="f"><span data-l="bis">Letzter Zinstag</span><input type="date" name="bis" value="2026-10-31" min="2020-01-01" max="2026-12-31"></label>', '<p class="jw small"><strong>Werte bis 31.12.2026; Aktualisierung Anfang Jänner 2027.</strong> Zinstage nach dem 31.12.2026 rechnet der Rechner noch nicht.</p>'),
 "body": f"""
 <h2>Welcher Zinssatz gilt für wen?</h2>
 <div class="scroll"><table class="tbl text"><thead><tr><th>Fall</th><th>Gesetzlicher Zinssatz</th><th>Im 2. Halbjahr 2026</th><th>Fundstelle</th></tr></thead><tbody>
 <tr><td>Deutschland, ein Verbraucher ist beteiligt</td><td>Basiszinssatz + 5 Prozentpunkte</td><td>{de(_bd + 5, 2)} %</td><td>§ 288 Abs. 1 BGB</td></tr>
 <tr><td>Deutschland, kein Verbraucher beteiligt, Entgeltforderung</td><td>Basiszinssatz + 9 Prozentpunkte</td><td>{de(_bd + 9, 2)} %</td><td>§ 288 Abs. 2 BGB</td></tr>
 <tr><td>Österreich, Geldforderungen zwischen Unternehmern</td><td>Basiszinssatz + 9,2 Prozentpunkte</td><td>{de(_ba + 9.2, 2)} %</td><td>§ 456 UGB</td></tr>
-<tr><td>Österreich, sonst</td><td>4 % pro Jahr</td><td>4,00 %</td><td>§ 1333 Abs. 1 in Verbindung mit § 1000 Abs. 1 ABGB</td></tr>
+<tr><td>Österreich, Forderungen im Zusammenhang mit einem Arbeitsverhältnis</td><td>Basiszinssatz am Tag nach der Fälligkeit + 9,2 Prozentpunkte</td><td>{de(R.BASIS_AT_TAG[-1][1] + 9.2, 2)} % bei Fälligkeit ab 15.9.2026, davor {de(R.BASIS_AT_TAG[-2][1] + 9.2, 2)} %</td><td>§ 49a ASGG</td></tr>
+<tr><td>Österreich, übrige Fälle – etwa unter Privaten oder gegenüber Verbrauchern</td><td>4 % pro Jahr</td><td>4,00 %</td><td>§ 1333 Abs. 1 in Verbindung mit § 1000 Abs. 1 ABGB</td></tr>
 </tbody></table></div>
 <p>Die Zuordnung in der Tabelle folgt dem Wortlaut der Vorschriften; ob dein Fall darunter fällt und ab welchem Tag Verzug besteht, beantwortet der Rechner nicht. Aus einem anderen Rechtsgrund – etwa einer vertraglichen Vereinbarung – kann der Gläubiger höhere Zinsen verlangen (§ 288 Abs. 3 BGB). Alle Fundstellen mit Link und Abrufdatum: <a href="{REF}?q=verzug">Sätze und Grenzwerte</a>.</p>
 <h2>Die Basiszinssätze je Halbjahr</h2>
@@ -330,17 +333,18 @@ VERZUG = {
 <p class="small muted">Quellen: Deutsche Bundesbank, „Basiszinssatz nach § 247 BGB“; Oesterreichische Nationalbank, „Basis- und Referenzzinssätze“ (Tabelle zuletzt geändert am 5.10.2026). Beide abgerufen am {R.ABRUF}. Der österreichische Basiszinssatz steht seit 16.9.2026 bei {de(R.BASIS_AT_AENDERUNGEN[-1][1], 2)} %; für das laufende Halbjahr bleibt nach § 456 UGB der Wert vom 1.7.2026 maßgeblich.</p>
 <h2>So rechnet der Rechner</h2>
 <ol><li>Der Zeitraum wird an jedem 1. Jänner und 1. Juli geteilt.</li>
-<li>Für jedes Teilstück gilt der Basiszinssatz des Halbjahres plus Aufschlag – oder in Österreich außerhalb von Unternehmergeschäften fest 4 %.</li>
+<li>Für jedes Teilstück gilt der Basiszinssatz des Halbjahres plus Aufschlag. Zwei Ausnahmen in Österreich: Bei Forderungen aus einem Arbeitsverhältnis bleibt der Basiszinssatz vom Tag nach der Fälligkeit für den ganzen Zeitraum stehen (§ 49a ASGG; der Rechner nimmt dafür den ersten Zinstag), und in den übrigen Fällen gelten fest 4 %.</li>
 <li>Zinsen des Teilstücks = Betrag × Zinssatz × Zinstage ÷ Tage des Kalenderjahres (365, im Schaltjahr 366). Erster und letzter Zinstag zählen mit.</li>
-<li>Die Teilbeträge werden ungerundet addiert; gerundet wird die Summe.</li></ol>
+<li>Jeder Teilbetrag wird auf Cent gerundet; die Summe ist die Summe dieser gerundeten Teilbeträge, damit Tabelle und Ergebnis zusammenpassen. Gegenüber einer Rechnung, die erst am Ende rundet, kann das um einen Cent je Teilzeitraum abweichen.</li></ol>
 <div class="example"><strong>Durchgerechnet (konstruiertes Beispiel):</strong> 1.200 € sind in Deutschland gegenüber einem Verbraucher vom 1. März bis 31. Oktober 2026 offen. Bis 30. Juni gilt {de(R.BASIS_DE[-2][1] + 5, 2)} % (122 Tage), ab 1. Juli {de(_bd + 5, 2)} % (123 Tage). Zusammen ergibt das {eur(_v1)}.</div>
-<div class="example"><strong>Österreich, 5.000 € vom 15. Jänner bis 31. Oktober 2026:</strong> zwischen Unternehmern {eur(_v2)}, mit den gesetzlichen 4 % dagegen {eur(_v3)}. Der Unterschied kommt allein aus dem Zinssatz – {de(_ba + 9.2, 2)} % gegenüber 4 %.</div>
+<div class="example"><strong>Österreich, 5.000 € vom 15. Jänner bis 31. Oktober 2026:</strong> zwischen Unternehmern {eur(_v2)}, mit den 4 % der Auffangregel dagegen {eur(_v3)}. Der Unterschied kommt allein aus dem Zinssatz – {de(_ba + 9.2, 2)} % gegenüber 4 %.</div>
 <h2>Typische Fehler</h2>
 <div class="warn"><strong>Mit einem einzigen Zinssatz über mehrere Halbjahre rechnen:</strong> Ändert sich der Basiszinssatz, ändert sich der Verzugszins mit. Von Anfang 2024 bis Mitte 2025 ist der deutsche Basiszinssatz von {de(dict(R.BASIS_DE)["2024-01-01"], 2)} % auf {de(dict(R.BASIS_DE)["2025-07-01"], 2)} % gefallen.</div>
 <div class="warn"><strong>„9 Prozent“ statt „9 Prozentpunkte über dem Basiszinssatz“:</strong> Der Aufschlag kommt zum Basiszinssatz dazu. Bei negativem Basiszinssatz lag der Verzugszins unter dem Aufschlag – 2020 bis Mitte 2022 in Deutschland bei {de(dict(R.BASIS_DE)["2020-01-01"] + 9, 2)} % statt 9 %. <a href="/prozent-oder-prozentpunkte.html">Prozent oder Prozentpunkte?</a></div>
 <div class="warn"><strong>Zinsen auf Zinsen rechnen:</strong> Der Rechner rechnet einfache Zinsen auf den offenen Betrag.</div>
 <h2>Grenzen des Rechners</h2>
-<ul><li><strong>Zeitraum:</strong> 1. Jänner 2020 bis 31. Dezember 2026. Der Basiszinssatz für 2027 steht noch nicht fest; ältere Halbjahre haben wir nicht aufgenommen.</li>
+<ul><li><strong>Österreich, 4 %:</strong> Der feste Satz ist die Auffangregel des ABGB. Er gilt nicht für Geldforderungen zwischen Unternehmern (§ 456 UGB) und nicht für Forderungen im Zusammenhang mit einem Arbeitsverhältnis – etwa offenes Entgelt –, für die § 49a ASGG 9,2 Prozentpunkte über dem Basiszinssatz vorsieht. Beruht die Verzögerung dort auf einer vertretbaren Rechtsansicht des Schuldners, bleibt es nach § 49a Satz 2 bei den sonstigen gesetzlichen Zinsen. Welche Regel zutrifft, entscheidet der Rechner nicht.</li>
+<li><strong>Zeitraum:</strong> 1. Jänner 2020 bis 31. Dezember 2026. Der Basiszinssatz für 2027 steht noch nicht fest; ältere Halbjahre haben wir nicht aufgenommen.</li>
 <li><strong>Zählweise:</strong> Das Gesetz nennt einen Jahreszinssatz, aber keine Formel für Teilzeiträume. Der Rechner zählt Kalendertage und teilt durch die Tage des jeweiligen Kalenderjahres. Andere Rechner, die immer durch 365 oder mit 30-Tage-Monaten rechnen, kommen auf leicht andere Beträge.</li>
 <li><strong>Nicht enthalten:</strong> die Pauschale von 40 € bei Unternehmergeschäften (§ 288 Abs. 5 BGB, § 458 UGB), Mahn- und Inkassokosten, Teilzahlungen während des Verzugs, vertragliche Zinssätze und Zinseszinsen.</li>
 <li><strong>Keine Rechtsberatung.</strong> Wann Verzug eintritt und ob ein Verbraucher- oder Unternehmergeschäft vorliegt, ist eine Rechtsfrage.</li></ul>

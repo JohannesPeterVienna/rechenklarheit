@@ -316,7 +316,7 @@
 
 
   /* ---------- Sätze aus Gesetz und amtlichen Tabellen. Einzige Quelle ist content/referenz.py; build.py bricht ab, wenn diese Zeile abweicht. */
-  /*SAETZE*/const S = {"pendler":{"klein":[[20,696],[40,1356],[60,2016]],"gross":[[2,372],[20,1476],[40,2568],[60,3672]]},"pendlereuro":6,"entf":0.38,"entfMax":4500,"anp":1230,"verzug":{"de_v":5,"de_u":9,"at_u":9.2,"at_v":4},"verzugAb":"2020-01-01","verzugBis":"2026-12-31","basis":{"de":[["2020-01-01",-0.88],["2020-07-01",-0.88],["2021-01-01",-0.88],["2021-07-01",-0.88],["2022-01-01",-0.88],["2022-07-01",-0.88],["2023-01-01",1.62],["2023-07-01",3.12],["2024-01-01",3.62],["2024-07-01",3.37],["2025-01-01",2.27],["2025-07-01",1.27],["2026-01-01",1.27],["2026-07-01",1.52]],"at":[["2020-01-01",-0.62],["2020-07-01",-0.62],["2021-01-01",-0.62],["2021-07-01",-0.62],["2022-01-01",-0.62],["2022-07-01",-0.62],["2023-01-01",1.88],["2023-07-01",3.38],["2024-01-01",3.88],["2024-07-01",3.88],["2025-01-01",2.53],["2025-07-01",1.53],["2026-01-01",1.53],["2026-07-01",1.53]]}};/*/SAETZE*/
+  /*SAETZE*/const S = {"pendler":{"klein":[[20,696],[40,1356],[60,2016]],"gross":[[2,372],[20,1476],[40,2568],[60,3672]]},"pendlereuro":6,"entf":0.38,"entfMax":4500,"anp":1230,"verzug":{"de_v":5,"de_u":9,"at_u":9.2,"at_a":9.2,"at_v":4},"verzugAb":"2020-01-01","verzugBis":"2026-12-31","basis":{"de":[["2020-01-01",-0.88],["2020-07-01",-0.88],["2021-01-01",-0.88],["2021-07-01",-0.88],["2022-01-01",-0.88],["2022-07-01",-0.88],["2023-01-01",1.62],["2023-07-01",3.12],["2024-01-01",3.62],["2024-07-01",3.37],["2025-01-01",2.27],["2025-07-01",1.27],["2026-01-01",1.27],["2026-07-01",1.52]],"at":[["2020-01-01",-0.62],["2020-07-01",-0.62],["2021-01-01",-0.62],["2021-07-01",-0.62],["2022-01-01",-0.62],["2022-07-01",-0.62],["2023-01-01",1.88],["2023-07-01",3.38],["2024-01-01",3.88],["2024-07-01",3.88],["2025-01-01",2.53],["2025-07-01",1.53],["2026-01-01",1.53],["2026-07-01",1.53]],"atTag":[["2020-01-01",-0.62],["2022-07-27",-0.12],["2022-09-14",0.63],["2022-11-02",1.38],["2022-12-21",1.88],["2023-02-08",2.38],["2023-03-22",2.88],["2023-06-21",3.38],["2023-09-20",3.88],["2024-09-18",3.03],["2024-12-18",2.53],["2025-03-12",2.03],["2025-06-11",1.53],["2026-09-16",2.03]]}};/*/SAETZE*/
 
   const ganz = x => Number.isFinite(x) && Math.floor(x) === x;
   C.pendler = f => {
@@ -329,7 +329,7 @@
       if (!Number.isFinite(gs) || gs < 0 || gs > 45) return bad("Grenzsteuersatz zwischen 0 und 45 % eingeben oder leer lassen.");
       const voll = Math.floor(km), roh = voll * tage * S.entf, ep = auto ? roh : Math.min(roh, S.entfMax);
       const wirksam = Math.max(0, ep + andere - S.anp) - Math.max(0, andere - S.anp);
-      const st = [line(`Volle Kilometer der einfachen Entfernung: ${nf(voll, 0)}${voll !== km ? ` (aus ${nf(km, 2)} km – angebrochene Kilometer zählen nicht)` : ""}`),
+      const st = [line(`Sätze für das Kalenderjahr 2026 – nicht für die Steuererklärung 2025.`), line(`Volle Kilometer der einfachen Entfernung: ${nf(voll, 0)}${voll !== km ? ` (aus ${nf(km, 2)} km – angebrochene Kilometer zählen nicht)` : ""}`),
         line(`Entfernungspauschale = ${nf(voll, 0)} km × ${nf(tage, 0)} Arbeitstage × ${eur(S.entf)} = ${eur(roh)} (§ 9 Abs. 1 Satz 3 Nr. 4 EStG)`)];
       if (!auto && roh > S.entfMax) st.push(line(`Ohne eigenen oder überlassenen Kraftwagen gilt der Höchstbetrag: <mark>${eur(S.entfMax)}</mark> im Kalenderjahr`));
       else st.push(line(`Anzusetzen: <mark>${eur(ep)}</mark> im Kalenderjahr${auto && roh > S.entfMax ? ` – mit eigenem oder überlassenem Kraftwagen gilt der Höchstbetrag von ${eur(S.entfMax)} nicht` : ""}`));
@@ -337,7 +337,7 @@
       const k = [["Entfernungspauschale pro Jahr", ep, "eur"], ["Zusätzlich wirksam über dem Pauschbetrag", wirksam, "eur"]];
       if (gs > 0) { st.push(line(`Überschlag mit ${pc(gs)} Grenzsteuersatz: ${eur(wirksam)} × ${nf(gs / 100, 4)} = ${eur(wirksam * gs / 100)} weniger Einkommensteuer (ohne Solidaritätszuschlag und Kirchensteuer)`)); k.push(["Steuerersparnis (Überschlag)", wirksam * gs / 100, "eur"]); }
       st.push(line(`Die Pauschale ist ein Abzug vom Einkommen, kein Auszahlungsbetrag.`));
-      return { result: eur(ep), label: "Entfernungspauschale pro Jahr (Werbungskosten)", steps: st, k };
+      return { result: eur(ep), label: "Entfernungspauschale 2026 pro Jahr (Werbungskosten)", steps: st, k };
     }
     const art = sel(f, "art") === "gross" ? "gross" : "klein", tage = val(f, "tage"), gs = num(sel(f, "gsat") || "0");
     if (!ganz(km)) return bad("Für Österreich bitte die Entfernung in ganzen Kilometern eingeben, wie sie der Pendlerrechner des Finanzministeriums ausweist.");
@@ -346,20 +346,20 @@
     const T = S.pendler[art], lit = art === "gross" ? "d" : "c";
     let base = 0, stufe = "";
     T.forEach(([ab, e], j) => { const drin = j === 0 ? km >= ab : km > ab; if (drin) { base = e; stufe = `${j === 0 ? "ab" : "über"} ${ab} km${T[j + 1] ? ` bis ${T[j + 1][0]} km` : ""}`; } });
-    if (!base) return { result: eur(0), label: "kein Pendlerpauschale", k: [["Pendlerpauschale pro Jahr", 0, "eur"], ["Pendlereuro pro Jahr", 0, "eur"]],
+    if (!base) return { result: eur(0), label: "kein Pendlerpauschale (Regeln 2026)", k: [["Pendlerpauschale pro Jahr", 0, "eur"], ["Pendlereuro pro Jahr", 0, "eur"]],
       steps: [line(art === "gross" ? `Das große Pendlerpauschale beginnt bei mindestens ${T[0][0]} km einfacher Strecke (§ 16 Abs. 1 Z 6 lit. d EStG 1988).` : `Das kleine Pendlerpauschale beginnt bei mindestens ${T[0][0]} km einfacher Strecke (§ 16 Abs. 1 Z 6 lit. c EStG 1988).`),
         line(`Bei ${nf(km, 0)} km steht deshalb weder ein Pendlerpauschale noch ein Pendlereuro zu. Die Fahrtkosten sind mit dem Verkehrsabsetzbetrag abgegolten (lit. a).`),
         ...(art === "klein" && km >= S.pendler.gross[0][0] ? [line(`Ist ein Massenverkehrsmittel mindestens auf der halben Strecke nicht zumutbar, kommt ab ${S.pendler.gross[0][0]} km das große Pendlerpauschale in Frage.`)] : [])] };
     const [z, n, wort] = tage >= 11 ? [1, 1, "voll"] : tage >= 8 ? [2, 3, "zu zwei Dritteln"] : tage >= 4 ? [1, 3, "zu einem Drittel"] : [0, 1, "nicht"];
     const pp = base * z / n, pe = S.pendlereuro * km * z / n;
-    const st = [line(`${art === "gross" ? "Großes" : "Kleines"} Pendlerpauschale, Stufe „${stufe}“: ${eur(base)} jährlich (§ 16 Abs. 1 Z 6 lit. ${lit} EStG 1988)`),
+    const st = [line(`Sätze für das Kalenderjahr 2026 – nicht für 2025; die verwendeten Fassungen gelten bis 31.12.2026.`), line(`${art === "gross" ? "Großes" : "Kleines"} Pendlerpauschale, Stufe „${stufe}“: ${eur(base)} jährlich (§ 16 Abs. 1 Z 6 lit. ${lit} EStG 1988)`),
       line(`${nf(tage, 0)} Fahrten im Kalendermonat: Das Pauschale steht ${wort} zu (lit. e: ab 11 Tagen voll, 8 bis 10 Tage zwei Drittel, 4 bis 7 Tage ein Drittel).`),
       line(`Pendlerpauschale${n > 1 ? ` = ${eur(base)} × ${z}/${n} =` : z ? ":" : ` = ${eur(base)} × 0 =`} <mark>${eur(pp)}</mark> pro Jahr, das sind ${eur(pp / 12)} pro Monat (Freibetrag)`),
       line(`Pendlereuro = ${nf(km, 0)} km × ${eur(S.pendlereuro)}${n > 1 ? ` × ${z}/${n}` : z ? "" : " × 0"} = <b>${eur(pe)}</b> pro Jahr (Absetzbetrag, § 33 Abs. 5 Z 4 EStG 1988)`)];
     const k = [["Pendlerpauschale pro Jahr", pp, "eur"], ["Pendlereuro pro Jahr", pe, "eur"]];
     if (gs > 0) { const ent = pp * gs / 100 + pe; st.push(line(`Überschlag mit ${pc(gs, 0)} Grenzsteuersatz: ${eur(pp)} × ${nf(gs / 100, 2)} + ${eur(pe)} = ${eur(ent)} weniger Lohnsteuer im Jahr`)); k.push(["Steuerentlastung (Überschlag)", ent, "eur"]); }
     else st.push(line(`Der Freibetrag senkt die Steuer um deinen Grenzsteuersatz, der Pendlereuro in voller Höhe. Wähle oben einen Grenzsteuersatz für den Überschlag.`));
-    return { result: eur(pp), label: "Pendlerpauschale pro Jahr (Freibetrag)", steps: st, k };
+    return { result: eur(pp), label: "Pendlerpauschale 2026 pro Jahr (Freibetrag)", steps: st, k };
   };
 
   /* Verzugszinsen: taggenau, je Halbjahr mit dem dann geltenden Basiszinssatz; Zinstage ÷ Tage des Kalenderjahres; keine Zinseszinsen */
@@ -367,7 +367,7 @@
   const TAG = 864e5, dat = t => { const d = new Date(t); return `${d.getUTCDate()}.${d.getUTCMonth() + 1}.${d.getUTCFullYear()}`; };
   C.verzug = f => {
     const land = sel(f, "land"), B = val(f, "betrag"), von = tag(sel(f, "von")), bis = tag(sel(f, "bis"));
-    const W = { de_v: ["de", S.verzug.de_v, "§ 288 Abs. 1 BGB"], de_u: ["de", S.verzug.de_u, "§ 288 Abs. 2 BGB"], at_u: ["at", S.verzug.at_u, "§ 456 UGB"], at_v: ["", S.verzug.at_v, "§ 1000 Abs. 1, § 1333 Abs. 1 ABGB"] }[land];
+    const W = { de_v: ["de", S.verzug.de_v, "§ 288 Abs. 1 BGB"], de_u: ["de", S.verzug.de_u, "§ 288 Abs. 2 BGB"], at_u: ["at", S.verzug.at_u, "§ 456 UGB"], at_a: ["atTag", S.verzug.at_a, "§ 49a ASGG"], at_v: ["", S.verzug.at_v, "§ 1000 Abs. 1, § 1333 Abs. 1 ABGB"] }[land];
     if (!W) return bad("Bitte eine Rechtsgrundlage auswählen.");
     if (!Number.isFinite(B) || B <= 0 || B > 1e9) return bad("Bitte den offenen Betrag eingeben (größer als 0).");
     if (!Number.isFinite(von) || !Number.isFinite(bis)) return bad("Bitte ersten und letzten Zinstag als Datum eingeben.");
@@ -375,21 +375,24 @@
     if (von < min) return bad(`Der Rechner kennt die Basiszinssätze ab ${dat(min)}. Bitte einen späteren ersten Zinstag wählen.`);
     if (bis > max) return bad(`Der Basiszinssatz steht nur bis ${dat(max)} fest. Bitte einen früheren letzten Zinstag wählen.`);
     if (bis < von) return bad("Der letzte Zinstag liegt vor dem ersten.");
-    const basis = t => { if (!W[0]) return 0; const iso = new Date(t).toISOString().slice(0, 10); let v = NaN; for (const [ab, w] of S.basis[W[0]]) if (ab <= iso) v = w; return v; };
+    const fest = land === "at_a";   // § 49a ASGG: Basiszinssatz vom Tag nach der Fälligkeit (= erster Zinstag), für den ganzen Zeitraum
+    const basis = t => { if (!W[0]) return 0; const iso = new Date(fest ? von : t).toISOString().slice(0, 10); let v = NaN; for (const [ab, w] of S.basis[W[0]]) if (ab <= iso) v = w; return v; };
     const rows = []; let sum = 0, tage = 0, a = von;
     while (a <= bis) {
       const d = new Date(a), y = d.getUTCFullYear(), h2 = d.getUTCMonth() >= 6;
       const ende = Math.min(bis, h2 ? Date.UTC(y, 11, 31) : Date.UTC(y, 5, 30));
       const n = Math.round((ende - a) / TAG) + 1, jahr = (Date.UTC(y + 1, 0, 1) - Date.UTC(y, 0, 1)) / TAG;
-      const b = basis(a), satz = W[0] ? b + W[1] : W[1], z = B * satz / 100 * n / jahr;
+      const b = basis(a), satz = W[0] ? b + W[1] : W[1], z = Math.round(B * satz / 100 * n / jahr * 100 + 1e-7) / 100;   // je Teilzeitraum auf Cent gerundet, damit Zeilen und Summe zusammenpassen
       if (!Number.isFinite(satz)) return bad("Für diesen Zeitraum liegt kein Basiszinssatz vor.");
       rows.push({ a, ende, n, jahr, b, satz, z }); sum += z; tage += n; a = ende + TAG;
     }
-    const st = [line(W[0] ? `Zinssatz = Basiszinssatz + ${nf(W[1], 1)} Prozentpunkte (${W[2]}); der Basiszinssatz wird je Halbjahr angesetzt.` : `Zinssatz = ${nf(W[1], 0)} % pro Jahr, fest (${W[2]}).`)];
+    const st = [line(fest ? `Zinssatz = Basiszinssatz am ${dat(von)} (${nf(basis(von), 2)} %) + ${nf(W[1], 1)} Prozentpunkte (${W[2]}: maßgeblich ist der Tag nach dem Eintritt der Fälligkeit – hier der erste Zinstag).` : W[0] ? `Zinssatz = Basiszinssatz + ${nf(W[1], 1)} Prozentpunkte (${W[2]}); der Basiszinssatz wird je Halbjahr angesetzt.` : `Zinssatz = ${nf(W[1], 0)} % pro Jahr, fest (${W[2]}).`)];
     rows.forEach(r => st.push(line(`${dat(r.a)} bis ${dat(r.ende)}: ${eur(B)} × ${pc(r.satz)}${W[0] ? ` (${nf(r.b, 2)} + ${nf(W[1], 1)})` : ""} × ${r.n} ÷ ${r.jahr} Tage = ${eur(r.z)}`)));
-    st.push(line(`Summe: <mark>${eur(sum)}</mark> für ${nf(tage, 0)} Zinstage · Forderung samt Zinsen: ${eur(B + sum)}`));
+    st.push(line(`Summe${rows.length > 1 ? " der gerundeten Teilbeträge" : ""}: <mark>${eur(sum)}</mark> für ${nf(tage, 0)} Zinstage · Forderung samt Zinsen: ${eur(B + sum)}`));
     if (land === "de_u" || land === "at_u") st.push(line(`Zusätzlich kann der Gläubiger eine Pauschale von 40 € verlangen (${land === "de_u" ? "§ 288 Abs. 5 BGB" : "§ 458 UGB"}); sie ist hier nicht eingerechnet.`));
-    st.push(line(`Einfache Zinsen ohne Zinseszins; erster und letzter Zinstag zählen mit.`));
+    if (land === "at_v") st.push(line(`Die 4 % gelten nur, soweit keine Sonderregel greift: zwischen Unternehmern § 456 UGB, bei Forderungen aus einem Arbeitsverhältnis § 49a ASGG.`));
+    if (fest) st.push(line(`Beruht die Verzögerung auf einer vertretbaren Rechtsansicht des Schuldners, gelten nach § 49a ASGG nur die sonstigen gesetzlichen Zinsen.`));
+    st.push(line(`Einfache Zinsen ohne Zinseszins; erster und letzter Zinstag zählen mit. Basiszinssätze bis ${dat(max)}.`));
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Zeitraum</th><th>Tage</th><th>Zinssatz</th><th>Zinsen</th></tr></thead><tbody>${rows.map(r => `<tr><td>${dat(r.a)}–${dat(r.ende)}</td><td>${r.n}</td><td>${pc(r.satz)}</td><td>${eur(r.z)}</td></tr>`).join("")}</tbody></table></div>`;
     return { result: eur(sum), label: `Verzugszinsen für ${nf(tage, 0)} Tage`, steps: st, extra: table, k: [["Verzugszinsen", sum, "eur"], ["Forderung samt Zinsen", B + sum, "eur"], ["Zinstage", tage, "Tage"]],
       csv: { name: "verzugszinsen", head: ["Von", "Bis", "Tage", "Zinssatz in %", "Zinsen in Euro"], rows: rows.map(r => [dat(r.a), dat(r.ende), String(r.n), nf(r.satz), nf(r.z)]) } };

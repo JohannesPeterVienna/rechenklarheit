@@ -51,6 +51,8 @@ const BOESE = ['"><img src=x onerror="window.__xss=1">', "<script>window.__xss=1
       check(m.h1 === 1, `${w}px ${s}: ${m.h1} h1`);
       check(page._err.length === 0, `${w}px ${s}: JS-Fehler ${page._err.join(" | ")}`);
       m.hrefs.forEach(x => links.add(x));
+      if (w === 390) { const selbst = await page.evaluate(() => [...document.querySelectorAll("main .prose a[href], main .cards a[href]")].map(a => a.getAttribute("href")).filter(h => h.split("#")[0].split("?")[0] === location.pathname && !h.includes("#") && !h.includes("?")));
+        check(selbst.length === 0, `${s}: Link auf sich selbst im Inhalt: ${selbst.join(" ")}`); }
     }
     await ctx.close();
   }
@@ -157,6 +159,25 @@ const BOESE = ['"><img src=x onerror="window.__xss=1">', "<script>window.__xss=1
   check(csv.split("\r\n").length - 2 === await page.locator("#saetze tbody tr:visible").count() && /§ 288 Abs\. 1 BGB/.test(csv), "Referenz-CSV enthält die angezeigten Zeilen");
   await page.goto(BASE + "/saetze-und-grenzwerte.html?q=" + encodeURIComponent('<img src=x onerror="window.__xss=1">'));
   check(!(await page.evaluate(() => window.__xss)) && await page.locator("[data-filter-empty]").isVisible(), "Referenztabelle: Suchwort aus der Adresse ist harmlos");
+  // „nachrechnen“ nur bei Links mit Eingaben; jeder Parameter muss ein echtes, sichtbares Feld des Zielrechners sein und ankommen
+  const tl = await page.evaluate(() => [...document.querySelectorAll("#saetze td:last-child a")].map(a => [a.getAttribute("href"), a.textContent]));
+  check(tl.every(([h, t]) => t === (h.includes("?") ? "nachrechnen" : "zum Thema")), "Referenztabelle: Linktext passt zum Ziel");
+  for (const h of [...new Set(tl.map(x => x[0]))].filter(h => h.includes("?"))) {
+    await page.goto(BASE + h);
+    const fehlt = await page.evaluate(() => { const f = document.querySelector("form[data-calc]"); if (!f) return ["kein Rechner"];
+      return [...new URLSearchParams(location.search)].filter(([k, v]) => { const el = f.elements[k]; return !el || el.closest("[hidden]") || (el.value !== v && el.value.replace(",", ".") !== v); }).map(x => x.join("=")); });
+    check(fehlt.length === 0, `nachrechnen ${h}: Parameter ohne passendes Feld: ${fehlt.join(", ")}`);
+    check(await page.locator("form[data-calc] .res-val").count() === 1, `nachrechnen ${h}: Ergebnis`);
+  }
+  await page.goto(BASE + "/saetze-und-grenzwerte.html");
+  // Anzeigenfläche steht nach dem Inhalt, mindestens 250 px von Filterformular und Tabellenkopf entfernt
+  const abst = await page.evaluate(() => { const ad = document.querySelector("article .ad--billboard"), f = document.querySelector(".rf-filter"); const r = e => { const b = e.getBoundingClientRect(); return [b.top + scrollY, b.bottom + scrollY]; };
+    return { n: document.querySelectorAll("article .ad--billboard").length, d: r(ad)[0] - r(f)[1], nach: !!(document.querySelector("#saetze").compareDocumentPosition(ad) & 4) }; });
+  check(abst.n === 1 && abst.nach && abst.d >= 250, `Sätze-Seite: Anzeige ${Math.round(abst.d)} px unter dem Filter`);
+  for (const s of ["/saetze-und-grenzwerte.html", "/pendlerrechner.html", "/verzugszinsen-rechner.html"]) { await page.goto(BASE + s); check(/Werte bis 31\.12\.2026; Aktualisierung Anfang Jänner 2027/.test(await page.locator(".jw").first().innerText()), `${s}: Hinweis zum Jahreswechsel sichtbar`); }
+  await page.goto(BASE + "/pendlerrechner.html");
+  check(/Kalenderjahr 2026, nicht für 2025/.test(await page.locator("form .jw").innerText()) && /2026/.test(await page.locator(".res-label").innerText()) && /nicht für 2025/.test(await page.locator(".way li").first().innerText()), "Pendler: Jahr 2026 an Formular und Ergebnis");
+  await page.goto(BASE + "/saetze-und-grenzwerte.html");
   // „nachrechnen“-Links führen zu einem Ergebnis
   const tools = await page.evaluate(() => [...new Set([...document.querySelectorAll("#saetze td:last-child a")].map(a => a.getAttribute("href")))]);
   for (const t of tools) { await page.goto(BASE + t); const e = await page.evaluate(() => document.querySelector("form[data-calc] .res-val, article h1")?.textContent || ""); check(e !== "", `nachrechnen ${t}`); }

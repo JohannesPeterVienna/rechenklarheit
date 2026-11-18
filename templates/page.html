@@ -5,8 +5,9 @@
   <article>
     <h1>{{ h1 }}</h1>{% if lead %}<p class="lead">{{ lead }}</p>{% endif %}
     {% if checked %}<p class="small muted">Geprüft am {{ checked }}{% if changed %} · zuletzt geändert am {{ changed }}{% endif %}</p>{% endif %}
-    {% if ads %}{{ m.ad("billboard") }}{% endif %}
+    {% if ads and not wide %}{{ m.ad("billboard") }}{% endif %}
     <div class="prose{% if wide %} prose-wide{% endif %}">{{ body | safe }}</div>
+    {% if ads and wide %}{{ m.ad("billboard") }}{% endif %}{# breite Seiten mit Filterformular: Anzeige erst nach dem Inhalt, weit weg von den Bedienelementen #}
     {% if related %}<h2>Weiterlesen</h2><ul class="cards">{% for a in related %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>{% endif %}
   </article>
   {% if ads %}{{ m.sidebar(calcs, "", articles) }}{% else %}<aside></aside>{% endif %}
