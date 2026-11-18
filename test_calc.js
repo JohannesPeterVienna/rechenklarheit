@@ -89,4 +89,61 @@ for (const [name, k, v, exp] of pages) { const r = C[k](form(v)); check(name, r 
 { const b = C.bruch(form({ a: 84, b: 126, op: "*", c: 1, d: 1 })); check("Seite Bruch 84/126 = 2/3", b.result === "2/3", b.result);
   const m = C.bruch(form({ a: 11, b: 4, op: "*", c: 4, d: 3 })); check("Seite Bruch 11/4 × 4/3 = 11/3", m.result === "11/3", m.result);
   const k = C.kredit(form({ amount: 20000, rate: 4.5, years: 5 })); check("Seite Kredit Zinsen 1. Jahr", /<td>1<\/td><td>825,35/.test(k.extra || ""), "Tilgungsplan Jahr 1"); }
-if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen + ${rejects2.length + 10} Gegenbeispiele + ${pages.length + 3} Seitenbeispiele OK`);
+// Gesetzliche Sätze (18.11.2026): Pendlerrechner und Verzugszinsen, von Hand nachgerechnet; Stufengrenzen einzeln
+const k = (r, name) => { const x = (r.k || []).find(y => y[0] === name); return x ? x[1] : NaN; };
+const gesetz = [
+  ["AT klein 32 km voll", "pendler", { land: "at", km: 32, art: "klein", tage: 11, gsat: 30 }, 696, ["Pendlereuro pro Jahr", 192], ["Steuerentlastung (Überschlag)", 400.8]],
+  ["AT klein 45 km, 8 Fahrten = zwei Drittel", "pendler", { land: "at", km: 45, art: "klein", tage: 8, gsat: 0 }, 904, ["Pendlereuro pro Jahr", 180]],
+  ["AT groß 45 km voll", "pendler", { land: "at", km: 45, art: "gross", tage: 11, gsat: 0 }, 2568, ["Pendlereuro pro Jahr", 270]],
+  ["AT klein genau 20 km", "pendler", { land: "at", km: 20, art: "klein", tage: 11, gsat: 0 }, 696],
+  ["AT klein 19 km: nichts", "pendler", { land: "at", km: 19, art: "klein", tage: 11, gsat: 0 }, 0, ["Pendlereuro pro Jahr", 0]],
+  ["AT klein genau 40 km bleibt in Stufe 1", "pendler", { land: "at", km: 40, art: "klein", tage: 11, gsat: 0 }, 696],
+  ["AT klein 41 km", "pendler", { land: "at", km: 41, art: "klein", tage: 11, gsat: 0 }, 1356],
+  ["AT klein genau 60 km", "pendler", { land: "at", km: 60, art: "klein", tage: 11, gsat: 0 }, 1356],
+  ["AT klein 61 km", "pendler", { land: "at", km: 61, art: "klein", tage: 11, gsat: 0 }, 2016],
+  ["AT groß genau 2 km", "pendler", { land: "at", km: 2, art: "gross", tage: 11, gsat: 0 }, 372],
+  ["AT groß 1 km: nichts", "pendler", { land: "at", km: 1, art: "gross", tage: 11, gsat: 0 }, 0],
+  ["AT groß genau 20 km", "pendler", { land: "at", km: 20, art: "gross", tage: 11, gsat: 0 }, 372],
+  ["AT groß 21 km", "pendler", { land: "at", km: 21, art: "gross", tage: 11, gsat: 0 }, 1476],
+  ["AT groß 61 km", "pendler", { land: "at", km: 61, art: "gross", tage: 11, gsat: 0 }, 3672],
+  ["AT 7 Fahrten = ein Drittel", "pendler", { land: "at", km: 30, art: "klein", tage: 7, gsat: 0 }, 232, ["Pendlereuro pro Jahr", 60]],
+  ["AT 10 Fahrten = zwei Drittel", "pendler", { land: "at", km: 30, art: "klein", tage: 10, gsat: 0 }, 464],
+  ["AT 3 Fahrten = nichts", "pendler", { land: "at", km: 30, art: "klein", tage: 3, gsat: 0 }, 0, ["Pendlereuro pro Jahr", 0]],
+  ["DE 28 km, 220 Tage", "pendler", { land: "de", km: 28, atage: 220, auto: 1, andere: "", gsde: "" }, 2340.8, ["Zusätzlich wirksam über dem Pauschbetrag", 1110.8]],
+  ["DE nur volle Kilometer", "pendler", { land: "de", km: "28,9", atage: 220, auto: 1, andere: "", gsde: "" }, 2340.8],
+  ["DE Höchstbetrag ohne Pkw", "pendler", { land: "de", km: 80, atage: 220, auto: 0, andere: "", gsde: "" }, 4500],
+  ["DE mit Pkw kein Höchstbetrag", "pendler", { land: "de", km: 80, atage: 220, auto: 1, andere: "", gsde: "" }, 6688],
+  ["DE andere Werbungskosten über dem Pauschbetrag", "pendler", { land: "de", km: 10, atage: 200, auto: 1, andere: 1500, gsde: 30 }, 760, ["Zusätzlich wirksam über dem Pauschbetrag", 760], ["Steuerersparnis (Überschlag)", 228]],
+  ["Verzug DE Verbraucher über Halbjahreswechsel", "verzug", { land: "de_v", betrag: 1200, von: "2026-03-01", bis: "2026-10-31" }, 51.51, ["Zinstage", 245]],
+  ["Verzug DE Unternehmer, negativer Basiszins 2021", "verzug", { land: "de_u", betrag: 10000, von: "2021-01-01", bis: "2021-12-31" }, 812, ["Zinstage", 365]],
+  ["Verzug AT fest 4 %, Schaltjahr", "verzug", { land: "at_v", betrag: 1000, von: "2024-01-01", bis: "2024-12-31" }, 40, ["Zinstage", 366]],
+  ["Verzug AT Unternehmer: Stichtag 1.7.2026 = 1,53 %", "verzug", { land: "at_u", betrag: 36500, von: "2026-10-01", bis: "2026-10-10" }, 107.3],
+  ["Verzug AT Unternehmer über Jahreswechsel 2023/24", "verzug", { land: "at_u", betrag: 5000, von: "2023-12-15", bis: "2024-07-10" }, 372.38],
+  ["Seite Verzug AT Unternehmer 5.000 €", "verzug", { land: "at_u", betrag: 5000, von: "2026-01-15", bis: "2026-10-31" }, 426.26],
+  ["Seite Verzug AT 4 % 5.000 €", "verzug", { land: "at_v", betrag: 5000, von: "2026-01-15", bis: "2026-10-31" }, 158.9],
+  ["Verzug ein Tag", "verzug", { land: "at_v", betrag: 36500, von: "2025-05-05", bis: "2025-05-05" }, 4],
+];
+for (const [name, c, v, exp, ...mehr] of gesetz) {
+  const r = C[c](form(v)); check(name, r && r.result !== null && Math.abs(num(r.result) - exp) < 0.006, r && (r.result || r.note));
+  for (const [kn, kv] of mehr) check(name + " / " + kn, r && Math.abs(k(r, kn) - kv) < 0.006, r && k(r, kn));
+}
+const gesetzNein = [
+  ["pendler", { land: "at", km: "32,5", art: "klein", tage: 11, gsat: 0 }], ["pendler", { land: "at", km: 32, art: "klein", tage: 40, gsat: 0 }],
+  ["pendler", { land: "at", km: -3, art: "klein", tage: 11, gsat: 0 }], ["pendler", { land: "de", km: 28, atage: 0, auto: 1, andere: "", gsde: "" }],
+  ["pendler", { land: "de", km: 28, atage: 220, auto: 1, andere: "abc", gsde: "" }], ["pendler", { land: "de", km: "<img src=x onerror=alert(1)>", atage: 220, auto: 1, andere: "", gsde: "" }],
+  ["verzug", { land: "de_v", betrag: 1200, von: "2026-10-31", bis: "2026-03-01" }], ["verzug", { land: "de_v", betrag: 1200, von: "2019-12-31", bis: "2026-03-01" }],
+  ["verzug", { land: "de_v", betrag: 1200, von: "2026-03-01", bis: "2027-01-01" }], ["verzug", { land: "de_v", betrag: 1200, von: "2026-02-30", bis: "2026-03-01" }],
+  ["verzug", { land: "de_v", betrag: 0, von: "2026-03-01", bis: "2026-03-31" }], ["verzug", { land: "xx", betrag: 100, von: "2026-03-01", bis: "2026-03-31" }],
+  ["verzug", { land: "de_v", betrag: 100, von: "javascript:alert(1)", bis: "2026-03-31" }],
+];
+for (const [c, v] of gesetzNein) { const r = C[c](form(v)); check("nicht abgelehnt: " + c, r && r.result === null && !/[<>]/.test(r.note || ""), JSON.stringify(v)); }
+// CSV: Formel-Zeichen werden entschärft, einfache Zahlen bleiben Zahlen, Anführungszeichen verdoppelt
+const Z = window.RK_CSV.zelle;
+const csvFaelle = [["=1+1", `"'=1+1"`], ["+49 1", `"'+49 1"`], ["-abc", `"'-abc"`], ["@SUM(A1)", `"'@SUM(A1)"`], ["\tx", `"'\tx"`], ["-5,2", `"-5,2"`], ["-1.234,50", `"-1.234,50"`], ['a"b', `"a""b"`], ["zwei\nZeilen", `"zwei Zeilen"`], ["1.3.2026", `"1.3.2026"`]];
+for (const [ein, aus] of csvFaelle) check("CSV-Zelle " + JSON.stringify(ein), Z(ein) === aus, Z(ein));
+check("CSV mit BOM und Strichpunkt", window.RK_CSV.csvText(["a", "b"], [["1", "=2"]]) === `\ufeff"a";"b"\r\n"1";"'=2"\r\n`, "csvText");
+// Kennzahlen für den Szenario-Vergleich sind vorhanden und endlich
+for (const [c, v] of [["kredit", { amount: 20000, rate: 4.5, years: 5 }], ["zins", { start: 0, monthly: 100, rate: 3, years: 20 }], ["mwst", { dir: "b2n", amount: 120, rate: 20 }], ["rabatt", { price: 200, r1: 20, r2: 10, skonto: "" }], ["marge", { mode: "ekvk", ek: 60, b: 100, vat: 20 }], ["tip", { bill: 87.4, pct: 10, round: 1, people: 4 }]]) {
+  const r = C[c](form(v)); check("Kennzahlen " + c, r && Array.isArray(r.k) && r.k.length >= 2 && r.k.every(x => Number.isFinite(x[1])), r && JSON.stringify(r.k)); }
+const nGesetz = gesetz.length + gesetzNein.length, nWerkzeug = csvFaelle.length + 1 + 6;
+if (bad) process.exit(1); console.log(`Rechner-Test: ${cases.length} Fälle + ${rejects.length} Ablehnungen + ${rejects2.length + 10} Gegenbeispiele + ${pages.length + 3} Seitenbeispiele + ${nGesetz} Gesetzesfälle + ${nWerkzeug} Werkzeugprüfungen OK`);

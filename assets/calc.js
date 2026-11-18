@@ -43,9 +43,9 @@
     const dir = sel(f, "dir");
     if (!Number.isFinite(amt) || !Number.isFinite(rate)) return bad("Betrag und Steuersatz eingeben.");
     const q = 1 + rate / 100;
-    if (dir === "n2b") { const t = amt * rate / 100; return { result: eur(amt + t), label: `brutto bei ${pc(rate, 1)}`, steps: [line(`Steuer = ${eur(amt)} × ${nf(rate, 2)} ÷ 100 = ${eur(t)}`), line(`Brutto = ${eur(amt)} + ${eur(t)} = <mark>${eur(amt + t)}</mark>`)] }; }
+    if (dir === "n2b") { const t = amt * rate / 100; return { result: eur(amt + t), label: `brutto bei ${pc(rate, 1)}`, k: [["Netto", amt, "eur"], ["Steuer", t, "eur"], ["Brutto", amt + t, "eur"]], steps: [line(`Steuer = ${eur(amt)} × ${nf(rate, 2)} ÷ 100 = ${eur(t)}`), line(`Brutto = ${eur(amt)} + ${eur(t)} = <mark>${eur(amt + t)}</mark>`)] }; }
     const n = amt / q, t = amt - n;
-    return { result: eur(n), label: `netto bei ${pc(rate, 1)}`, steps: [line(`Netto = Brutto ÷ ${nf(q, 4)}`), line(`= ${eur(amt)} ÷ ${nf(q, 4)} = <mark>${eur(n)}</mark>`), line(`Enthaltene Steuer = ${eur(amt)} − ${eur(n)} = ${eur(t)}`), line(`Nicht ${pc(rate, 1)} vom Bruttobetrag abziehen – das ergäbe ${eur(amt * (1 - rate / 100))} und wäre zu wenig.`)] };
+    return { result: eur(n), label: `netto bei ${pc(rate, 1)}`, k: [["Netto", n, "eur"], ["Steuer", t, "eur"], ["Brutto", amt, "eur"]], steps: [line(`Netto = Brutto ÷ ${nf(q, 4)}`), line(`= ${eur(amt)} ÷ ${nf(q, 4)} = <mark>${eur(n)}</mark>`), line(`Enthaltene Steuer = ${eur(amt)} − ${eur(n)} = ${eur(t)}`), line(`Nicht ${pc(rate, 1)} vom Bruttobetrag abziehen – das ergäbe ${eur(amt * (1 - rate / 100))} und wäre zu wenig.`)] };
   };
 
   C.rabatt = f => {
@@ -57,7 +57,7 @@
     const tot = (1 - x / p) * 100;
     st.push(line(`Endpreis: <mark>${eur(x)}</mark>`));
     st.push(line(`Gesamtersparnis: ${eur(p - x)} = <b>${pc(tot)}</b>${(r1 && r2) ? ` – nicht ${pc(r1 + r2 + sk)}, weil jeder Rabatt auf den schon reduzierten Preis wirkt` : ""}`));
-    return { result: eur(x), label: `Ersparnis ${pc(tot)}`, steps: st };
+    return { result: eur(x), label: `Ersparnis ${pc(tot)}`, steps: st, k: [["Endpreis", x, "eur"], ["Ersparnis", p - x, "eur"], ["Gesamtrabatt", tot, "pct"]] };
   };
 
   C.zins = f => {
@@ -78,7 +78,7 @@
     const span = whole ? `${nf(months / 12, 0)} ${months === 12 ? "Jahr" : "Jahren"}` : `${nf(months / 12, 2)} Jahren (${months} ${months === 1 ? "Monat" : "Monaten"})`;
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Jahr</th><th>Eingezahlt</th><th>Zinsen gesamt</th><th>Kapital</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${eur(r[1])}</td><td>${eur(r[2])}</td><td>${eur(r[3])}</td></tr>`).join("")}</tbody></table></div>`;
     const ch = chart(rows.map(r => ({ label: r[0], a: r[1], b: Math.max(r[2], 0) })), ["a", "b"], ["var(--pen)", "var(--marker-strong)"], ["Eingezahlt", "Zinsen"]);
-    return { result: eur(k), label: `nach ${span}`, pre: ch, steps: [line(`Monatszins = ${pc(p)} ÷ 12 = ${pc(p / 12, 4)}`), line(`Jeden Monat (${months} Monate): Kapital × ${nf(1 + i, 6)} + ${eur(rate)} Sparrate`), line(`Eingezahlt: ${eur(paid)} · davon Zinsen: <mark>${eur(int)}</mark>`), line(`Zinsen machen ${pc(k ? int / k * 100 : 0, 1)} des Endkapitals aus.`)], extra: table };
+    return { result: eur(k), label: `nach ${span}`, pre: ch, k: [["Endkapital", k, "eur"], ["Eingezahlt", paid, "eur"], ["Zinsen", int, "eur"]], csv: { name: "sparplan", head: ["Jahr", "Eingezahlt", "Zinsen gesamt", "Kapital"], rows: rows.map(r => [r[0], nf(r[1]), nf(r[2]), nf(r[3])]) }, steps: [line(`Monatszins = ${pc(p)} ÷ 12 = ${pc(p / 12, 4)}`), line(`Jeden Monat (${months} Monate): Kapital × ${nf(1 + i, 6)} + ${eur(rate)} Sparrate`), line(`Eingezahlt: ${eur(paid)} · davon Zinsen: <mark>${eur(int)}</mark>`), line(`Zinsen machen ${pc(k ? int / k * 100 : 0, 1)} des Endkapitals aus.`)], extra: table };
   };
 
   C.kredit = f => {
@@ -96,7 +96,7 @@
     }
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Jahr</th><th>Zinsen</th><th>Tilgung</th><th>Restschuld</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td>${eur(r[1])}</td><td>${eur(r[2])}</td><td>${eur(r[3])}</td></tr>`).join("")}</tbody></table></div>`;
     const ch = chart(rows.map(r => ({ label: r[0], a: r[2], b: r[1] })), ["a", "b"], ["var(--pen)", "var(--red)"], ["Tilgung", "Zinsen"]);
-    return { result: eur(a), label: "Monatsrate", pre: ch, steps: [line(`Monatszins i = ${pc(p)} ÷ 12 = ${nf(i * 100, 4)} %`), line(`Rate = Kredit × i ÷ (1 − (1 + i)<sup>−${m}</sup>)`), line(`= <mark>${eur(a)}</mark> pro Monat, ${m} Raten`), line(`Zurückgezahlt gesamt: ${eur(total)} · Zinskosten: <b>${eur(interest)}</b>`), line(`Ohne Gebühren gerechnet. Der Effektivzins im Angebot enthält zusätzlich Kosten wie Bearbeitungsgebühren.`)], extra: table };
+    return { result: eur(a), label: "Monatsrate", pre: ch, k: [["Monatsrate", a, "eur"], ["Zinskosten", interest, "eur"], ["Zurückgezahlt gesamt", total, "eur"]], csv: { name: "tilgungsplan", head: ["Jahr", "Zinsen", "Tilgung", "Restschuld"], rows: rows.map(r => [String(r[0]), nf(r[1]), nf(r[2]), nf(r[3])]) }, steps: [line(`Monatszins i = ${pc(p)} ÷ 12 = ${nf(i * 100, 4)} %`), line(`Rate = Kredit × i ÷ (1 − (1 + i)<sup>−${m}</sup>)`), line(`= <mark>${eur(a)}</mark> pro Monat, ${m} Raten`), line(`Zurückgezahlt gesamt: ${eur(total)} · Zinskosten: <b>${eur(interest)}</b>`), line(`Ohne Gebühren gerechnet. Der Effektivzins im Angebot enthält zusätzlich Kosten wie Bearbeitungsgebühren.`)], extra: table };
   };
 
   /* Kreditvergleich: zwei Annuitätenkredite mit Gebühren; Effektivzins per Bisektion (Monatszins → (1+r)^12 − 1) */
@@ -124,7 +124,7 @@
     const d = Math.abs(a.total - b.total), win = a.total <= b.total ? "A" : "B";
     const row = (t, x, y) => `<tr><td>${t}</td><td>${x}</td><td>${y}</td></tr>`;
     const table = `<div class="scroll"><table class="tbl small"><thead><tr><th></th><th>Angebot A</th><th>Angebot B</th></tr></thead><tbody>${row("Monatsrate", eur(a.a), eur(b.a))}${row("Gebühren gesamt", eur(A[1] + A[2] * m), eur(B[1] + B[2] * m))}${row("Gesamtkosten", eur(a.total), eur(b.total))}${row("Effektivzins (Näherung)", pc(a.eff), pc(b.eff))}</tbody></table></div>`;
-    return { result: d < 0.005 ? "gleich teuer" : `Angebot ${win}`, label: d < 0.005 ? "Beide Angebote kosten gleich viel" : `günstiger um ${eur(d)}`, extra: table,
+    return { result: d < 0.005 ? "gleich teuer" : `Angebot ${win}`, label: d < 0.005 ? "Beide Angebote kosten gleich viel" : `günstiger um ${eur(d)}`, extra: table, k: [["Gesamtkosten A", a.total, "eur"], ["Gesamtkosten B", b.total, "eur"], ["Effektivzins A", a.eff, "pct"], ["Effektivzins B", b.eff, "pct"]],
       steps: [line(`Laufzeit: ${m} Monate, Kredit ${eur(K)}`),
         line(`A: Rate ${eur(a.a)} × ${m} + ${eur(A[1])} + ${eur(A[2])} × ${m} = ${eur(a.total)}`),
         line(`B: Rate ${eur(b.a)} × ${m} + ${eur(B[1])} + ${eur(B[2])} × ${m} = ${eur(b.total)}`),
@@ -137,7 +137,7 @@
     if (!Number.isFinite(a) || !Number.isFinite(r) || !Number.isFinite(n)) return bad("Betrag, Inflationsrate und Jahre eingeben.");
     if (a < 0 || n < 0 || r <= -100) return bad("Betrag und Jahre dürfen nicht negativ sein.");
     const q = Math.pow(1 + r / 100, n);
-    return { result: eur(a / q), label: `Kaufkraft von ${eur(a)} in ${nf(n, 0)} Jahren`, steps: [line(`Preisfaktor = (1 + ${nf(r / 100, 4)})<sup>${nf(n, 0)}</sup> = ${nf(q, 4)}`), line(`Was heute ${eur(a)} kostet, kostet dann ${eur(a * q)}.`), line(`Kaufkraft = ${eur(a)} ÷ ${nf(q, 4)} = <mark>${eur(a / q)}</mark>`), line(`Verlust an Kaufkraft: ${pc((1 - 1 / q) * 100, 1)}`)] };
+    return { result: eur(a / q), label: `Kaufkraft von ${eur(a)} in ${nf(n, 0)} Jahren`, k: [["Kaufkraft", a / q, "eur"], ["Preis dann", a * q, "eur"], ["Kaufkraftverlust", (1 - 1 / q) * 100, "pct"]], steps: [line(`Preisfaktor = (1 + ${nf(r / 100, 4)})<sup>${nf(n, 0)}</sup> = ${nf(q, 4)}`), line(`Was heute ${eur(a)} kostet, kostet dann ${eur(a * q)}.`), line(`Kaufkraft = ${eur(a)} ÷ ${nf(q, 4)} = <mark>${eur(a / q)}</mark>`), line(`Verlust an Kaufkraft: ${pc((1 - 1 / q) * 100, 1)}`)] };
   };
 
   C.dreisatz = f => {
@@ -169,7 +169,7 @@
     const whole = Math.trunc(rn / rm), rest = Math.abs(rn % rm);
     const mixed = rm !== 1 && Math.abs(rn) > rm ? ` = ${whole} ${rest}/${rm}` : "";
     st.push(line(`Ergebnis: <mark>${rm === 1 ? rn : `${rn}/${rm}`}</mark>${mixed} ≈ ${nf(rn / rm, 6)}`));
-    return { result: rm === 1 ? `${rn}` : `${rn}/${rm}`, label: `≈ ${nf(rn / rm, 6)}`, steps: st };
+    return { result: rm === 1 ? `${rn}` : `${rn}/${rm}`, label: `≈ ${nf(rn / rm, 6)}`, steps: st, k: [["Dezimalwert", rn / rm, "num"]] };
   };
 
   const UNITS = {
@@ -233,10 +233,10 @@
     const hpy = hours * 52, hpm = hpy / 12;
     if (dir === "m2h") {
       const year = amount * salaries, h = year / hpy;
-      return { result: eur(h), label: "brutto pro Stunde", steps: [line(`Jahresgehalt = ${eur(amount)} × ${salaries} = ${eur(year)}`), line(`Jahresstunden = ${nf(hours, 2)} × 52 Wochen = ${nf(hpy, 1)}`), line(`Stundenlohn = ${eur(year)} ÷ ${nf(hpy, 1)} = <mark>${eur(h)}</mark>`), salaries === 14 ? line(`Mit 14 Gehältern (Urlaubs- und Weihnachtsgeld) ist der Stundenlohn um ein Sechstel höher als mit 12.`) : line(`Bei 12 Gehältern ohne Sonderzahlungen.`)] };
+      return { result: eur(h), label: "brutto pro Stunde", k: [["Stundenlohn", h, "eur"], ["Jahresbrutto", year, "eur"]], steps: [line(`Jahresgehalt = ${eur(amount)} × ${salaries} = ${eur(year)}`), line(`Jahresstunden = ${nf(hours, 2)} × 52 Wochen = ${nf(hpy, 1)}`), line(`Stundenlohn = ${eur(year)} ÷ ${nf(hpy, 1)} = <mark>${eur(h)}</mark>`), salaries === 14 ? line(`Mit 14 Gehältern (Urlaubs- und Weihnachtsgeld) ist der Stundenlohn um ein Sechstel höher als mit 12.`) : line(`Bei 12 Gehältern ohne Sonderzahlungen.`)] };
     }
     const year = amount * hpy, mon = year / salaries;
-    return { result: eur(mon), label: `brutto pro Monat (${salaries}×)`, steps: [line(`Jahresstunden = ${nf(hours, 2)} × 52 = ${nf(hpy, 1)} (≈ ${nf(hpm, 1)} pro Monat)`), line(`Jahresbrutto = ${eur(amount)} × ${nf(hpy, 1)} = ${eur(year)}`), line(`Monatsgehalt = ${eur(year)} ÷ ${salaries} = <mark>${eur(mon)}</mark>`)] };
+    return { result: eur(mon), label: `brutto pro Monat (${salaries}×)`, k: [["Monatsgehalt", mon, "eur"], ["Jahresbrutto", year, "eur"]], steps: [line(`Jahresstunden = ${nf(hours, 2)} × 52 = ${nf(hpy, 1)} (≈ ${nf(hpm, 1)} pro Monat)`), line(`Jahresbrutto = ${eur(amount)} × ${nf(hpy, 1)} = ${eur(year)}`), line(`Monatsgehalt = ${eur(year)} ÷ ${salaries} = <mark>${eur(mon)}</mark>`)] };
   };
 
   /* Achsenwerte: ganze Zahlen mit Tausenderpunkt wie in den Tabellen (z. B. 4.524), ab einer Million kompakt (1,2 Mio.) */
@@ -265,13 +265,13 @@
     const ct = price / 100;
     if (mode === "label") {
       const kwh = val(f, "kwh"); if (!Number.isFinite(kwh) || kwh < 0) return bad("Bitte den Jahresverbrauch in kWh eingeben.");
-      return { result: eur(kwh * ct), label: "Stromkosten pro Jahr", steps: [line(`${nf(kwh, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(kwh * ct)}</mark> pro Jahr`), line(`Pro Monat: ${eur(kwh * ct / 12)} · pro Tag: ${eur(kwh * ct / 365)}`), line(`Spart ein neues Gerät 30 % ein, sind das ${eur(kwh * ct * .3)} im Jahr.`)] };
+      return { result: eur(kwh * ct), label: "Stromkosten pro Jahr", k: [["Kosten pro Jahr", kwh * ct, "eur"], ["Verbrauch pro Jahr", kwh, "kWh"]], steps: [line(`${nf(kwh, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(kwh * ct)}</mark> pro Jahr`), line(`Pro Monat: ${eur(kwh * ct / 12)} · pro Tag: ${eur(kwh * ct / 365)}`), line(`Spart ein neues Gerät 30 % ein, sind das ${eur(kwh * ct * .3)} im Jahr.`)] };
     }
     const w = val(f, "watt"), h = val(f, "hours"), d = val(f, "days");
     if (![w, h, d].every(Number.isFinite)) return bad("Leistung, Stunden pro Tag (bis 24) und Tage pro Jahr eingeben.");
     if (w < 0 || h < 0 || h > 24 || d < 0 || d > 366) return bad("Leistung darf nicht negativ sein; Stunden pro Tag 0–24, Tage pro Jahr 0–366.");
     const day = w * h / 1000, year = day * d;
-    return { result: eur(year * ct), label: "Stromkosten pro Jahr", steps: [line(`Pro Tag: ${nf(w, 1)} W × ${nf(h, 2)} h ÷ 1.000 = ${nf(day, 3)} kWh`), line(`Pro Jahr: ${nf(day, 3)} kWh × ${nf(d, 0)} Tage = ${nf(year, 1)} kWh`), line(`${nf(year, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(year * ct)}</mark>`), line(`Pro Monat ${eur(year * ct / 12)} · pro Betriebsstunde ${eur(w / 1000 * ct)}`)] };
+    return { result: eur(year * ct), label: "Stromkosten pro Jahr", k: [["Kosten pro Jahr", year * ct, "eur"], ["Verbrauch pro Jahr", year, "kWh"]], steps: [line(`Pro Tag: ${nf(w, 1)} W × ${nf(h, 2)} h ÷ 1.000 = ${nf(day, 3)} kWh`), line(`Pro Jahr: ${nf(day, 3)} kWh × ${nf(d, 0)} Tage = ${nf(year, 1)} kWh`), line(`${nf(year, 1)} kWh × ${nf(price, 2)} Cent = <mark>${eur(year * ct)}</mark>`), line(`Pro Monat ${eur(year * ct / 12)} · pro Betriebsstunde ${eur(w / 1000 * ct)}`)] };
   };
 
   C.fahrt = f => {
@@ -284,7 +284,7 @@
     if (![km, c, p].every(Number.isFinite)) return bad("Strecke, Verbrauch und Preis eingeben.");
     if (km <= 0 || c < 0 || p < 0) return bad("Strecke muss größer als 0 sein, Verbrauch und Preis dürfen nicht negativ sein.");
     const dist = km * t, q = dist * c / 100, cost = q * p, u = ev ? "kWh" : "l";
-    return { result: eur(cost / n), label: n > 1 ? `pro Person (${n} Personen)` : "Kosten der Fahrt", steps: [line(`Strecke: ${nf(km, 1)} km${t === 2 ? " × 2 (hin und zurück)" : ""} = ${nf(dist, 1)} km`), line(`Verbrauch: ${nf(dist, 1)} km × ${nf(c, 2)} ${u} ÷ 100 = ${nf(q, 2)} ${u}`), line(`Kosten: ${nf(q, 2)} ${u} × ${eur(p)} = ${n > 1 ? eur(cost) : `<mark>${eur(cost)}</mark>`}`), ...(n > 1 ? [line(`Pro Person: ${eur(cost)} ÷ ${n} = <mark>${eur(cost / n)}</mark>`)] : []), line(`Das sind ${nf(cost / dist * 100, 2)} € pro 100 km.`)] };
+    return { result: eur(cost / n), label: n > 1 ? `pro Person (${n} Personen)` : "Kosten der Fahrt", k: [["Kosten der Fahrt", cost, "eur"], ["pro Person", cost / n, "eur"], ["pro 100 km", cost / dist * 100, "eur"]], steps: [line(`Strecke: ${nf(km, 1)} km${t === 2 ? " × 2 (hin und zurück)" : ""} = ${nf(dist, 1)} km`), line(`Verbrauch: ${nf(dist, 1)} km × ${nf(c, 2)} ${u} ÷ 100 = ${nf(q, 2)} ${u}`), line(`Kosten: ${nf(q, 2)} ${u} × ${eur(p)} = ${n > 1 ? eur(cost) : `<mark>${eur(cost)}</mark>`}`), ...(n > 1 ? [line(`Pro Person: ${eur(cost)} ÷ ${n} = <mark>${eur(cost / n)}</mark>`)] : []), line(`Das sind ${nf(cost / dist * 100, 2)} € pro 100 km.`)] };
   };
 
   C.tip = f => {
@@ -294,7 +294,7 @@
     const st = [line(`Trinkgeld: ${eur(b)} × ${nf(p, 0)} % = ${eur(tip)}`), line(`Zusammen: ${eur(raw)}${r > 0 ? ` → aufgerundet auf ${eur(tot)}` : ""}`)];
     if (r > 0) st.push(line(`Tatsächliches Trinkgeld: ${eur(tot - b)} (${pc(eff, 1)})`));
     st.push(n > 1 ? line(`Pro Person: ${eur(tot)} ÷ ${n} = <mark>${eur(tot / n)}</mark>`) : line(`Zu zahlen: <mark>${eur(tot)}</mark>`));
-    return { result: eur(n > 1 ? tot / n : tot), label: n > 1 ? `pro Person (gesamt ${eur(tot)})` : "Gesamtbetrag", steps: st };
+    return { result: eur(n > 1 ? tot / n : tot), label: n > 1 ? `pro Person (gesamt ${eur(tot)})` : "Gesamtbetrag", steps: st, k: [["Gesamtbetrag", tot, "eur"], ["Trinkgeld", tot - b, "eur"], ["pro Person", tot / n, "eur"]] };
   };
 
   C.marge = f => {
@@ -311,16 +311,98 @@
     st.push(line(`Rohgewinn: ${eur(vk)} − ${eur(ek)} = ${eur(g)}`), line(`Aufschlag (auf den Einkauf): ${eur(g)} ÷ ${eur(ek)} = <mark>${pc(auf)}</mark>`), line(`Handelsspanne (vom Verkauf): ${eur(g)} ÷ ${eur(vk)} = <mark>${pc(sp)}</mark>`));
     if (vat > 0) st.push(line(`Bruttopreis mit ${nf(vat, 0)} % USt: ${eur(vk * (1 + vat / 100))}`));
     if (g < 0) st.push(line(`<b>Achtung:</b> Der Verkaufspreis liegt unter dem Einkaufspreis.`));
-    return { result: mode === "ekvk" ? pc(sp) : eur(vk), label: mode === "ekvk" ? "Handelsspanne (Marge)" : "Verkaufspreis netto", steps: st };
+    return { result: mode === "ekvk" ? pc(sp) : eur(vk), label: mode === "ekvk" ? "Handelsspanne (Marge)" : "Verkaufspreis netto", steps: st, k: [["Verkaufspreis netto", vk, "eur"], ["Rohgewinn", g, "eur"], ["Aufschlag", auf, "pct"], ["Handelsspanne", sp, "pct"]] };
+  };
+
+
+  /* ---------- Sätze aus Gesetz und amtlichen Tabellen. Einzige Quelle ist content/referenz.py; build.py bricht ab, wenn diese Zeile abweicht. */
+  /*SAETZE*/const S = {"pendler":{"klein":[[20,696],[40,1356],[60,2016]],"gross":[[2,372],[20,1476],[40,2568],[60,3672]]},"pendlereuro":6,"entf":0.38,"entfMax":4500,"anp":1230,"verzug":{"de_v":5,"de_u":9,"at_u":9.2,"at_v":4},"verzugAb":"2020-01-01","verzugBis":"2026-12-31","basis":{"de":[["2020-01-01",-0.88],["2020-07-01",-0.88],["2021-01-01",-0.88],["2021-07-01",-0.88],["2022-01-01",-0.88],["2022-07-01",-0.88],["2023-01-01",1.62],["2023-07-01",3.12],["2024-01-01",3.62],["2024-07-01",3.37],["2025-01-01",2.27],["2025-07-01",1.27],["2026-01-01",1.27],["2026-07-01",1.52]],"at":[["2020-01-01",-0.62],["2020-07-01",-0.62],["2021-01-01",-0.62],["2021-07-01",-0.62],["2022-01-01",-0.62],["2022-07-01",-0.62],["2023-01-01",1.88],["2023-07-01",3.38],["2024-01-01",3.88],["2024-07-01",3.88],["2025-01-01",2.53],["2025-07-01",1.53],["2026-01-01",1.53],["2026-07-01",1.53]]}};/*/SAETZE*/
+
+  const ganz = x => Number.isFinite(x) && Math.floor(x) === x;
+  C.pendler = f => {
+    const land = sel(f, "land"), km = val(f, "km");
+    if (!Number.isFinite(km) || km < 0 || km > 1000) return bad("Bitte die einfache Entfernung in Kilometern eingeben (0 bis 1.000).");
+    if (land === "de") {
+      const tage = val(f, "atage"), auto = sel(f, "auto") === "1", andere = opt(f, "andere"), gs = opt(f, "gsde");
+      if (!ganz(tage) || tage < 1 || tage > 366) return bad("Arbeitstage pro Jahr als ganze Zahl von 1 bis 366 eingeben.");
+      if (!Number.isFinite(andere) || andere < 0) return bad("Andere Werbungskosten müssen eine Zahl ab 0 sein (leer = 0 €).");
+      if (!Number.isFinite(gs) || gs < 0 || gs > 45) return bad("Grenzsteuersatz zwischen 0 und 45 % eingeben oder leer lassen.");
+      const voll = Math.floor(km), roh = voll * tage * S.entf, ep = auto ? roh : Math.min(roh, S.entfMax);
+      const wirksam = Math.max(0, ep + andere - S.anp) - Math.max(0, andere - S.anp);
+      const st = [line(`Volle Kilometer der einfachen Entfernung: ${nf(voll, 0)}${voll !== km ? ` (aus ${nf(km, 2)} km – angebrochene Kilometer zählen nicht)` : ""}`),
+        line(`Entfernungspauschale = ${nf(voll, 0)} km × ${nf(tage, 0)} Arbeitstage × ${eur(S.entf)} = ${eur(roh)} (§ 9 Abs. 1 Satz 3 Nr. 4 EStG)`)];
+      if (!auto && roh > S.entfMax) st.push(line(`Ohne eigenen oder überlassenen Kraftwagen gilt der Höchstbetrag: <mark>${eur(S.entfMax)}</mark> im Kalenderjahr`));
+      else st.push(line(`Anzusetzen: <mark>${eur(ep)}</mark> im Kalenderjahr${auto && roh > S.entfMax ? ` – mit eigenem oder überlassenem Kraftwagen gilt der Höchstbetrag von ${eur(S.entfMax)} nicht` : ""}`));
+      st.push(line(`Arbeitnehmer-Pauschbetrag: ${eur(S.anp)} werden ohne Nachweis abgezogen (§ 9a EStG). Mit ${eur(andere)} anderen Werbungskosten wirken von der Pauschale zusätzlich <b>${eur(wirksam)}</b>.`));
+      const k = [["Entfernungspauschale pro Jahr", ep, "eur"], ["Zusätzlich wirksam über dem Pauschbetrag", wirksam, "eur"]];
+      if (gs > 0) { st.push(line(`Überschlag mit ${pc(gs)} Grenzsteuersatz: ${eur(wirksam)} × ${nf(gs / 100, 4)} = ${eur(wirksam * gs / 100)} weniger Einkommensteuer (ohne Solidaritätszuschlag und Kirchensteuer)`)); k.push(["Steuerersparnis (Überschlag)", wirksam * gs / 100, "eur"]); }
+      st.push(line(`Die Pauschale ist ein Abzug vom Einkommen, kein Auszahlungsbetrag.`));
+      return { result: eur(ep), label: "Entfernungspauschale pro Jahr (Werbungskosten)", steps: st, k };
+    }
+    const art = sel(f, "art") === "gross" ? "gross" : "klein", tage = val(f, "tage"), gs = num(sel(f, "gsat") || "0");
+    if (!ganz(km)) return bad("Für Österreich bitte die Entfernung in ganzen Kilometern eingeben, wie sie der Pendlerrechner des Finanzministeriums ausweist.");
+    if (!ganz(tage) || tage < 0 || tage > 31) return bad("Fahrten pro Kalendermonat als ganze Zahl von 0 bis 31 eingeben.");
+    if (!Number.isFinite(gs)) return bad("Bitte einen Grenzsteuersatz auswählen.");
+    const T = S.pendler[art], lit = art === "gross" ? "d" : "c";
+    let base = 0, stufe = "";
+    T.forEach(([ab, e], j) => { const drin = j === 0 ? km >= ab : km > ab; if (drin) { base = e; stufe = `${j === 0 ? "ab" : "über"} ${ab} km${T[j + 1] ? ` bis ${T[j + 1][0]} km` : ""}`; } });
+    if (!base) return { result: eur(0), label: "kein Pendlerpauschale", k: [["Pendlerpauschale pro Jahr", 0, "eur"], ["Pendlereuro pro Jahr", 0, "eur"]],
+      steps: [line(art === "gross" ? `Das große Pendlerpauschale beginnt bei mindestens ${T[0][0]} km einfacher Strecke (§ 16 Abs. 1 Z 6 lit. d EStG 1988).` : `Das kleine Pendlerpauschale beginnt bei mindestens ${T[0][0]} km einfacher Strecke (§ 16 Abs. 1 Z 6 lit. c EStG 1988).`),
+        line(`Bei ${nf(km, 0)} km steht deshalb weder ein Pendlerpauschale noch ein Pendlereuro zu. Die Fahrtkosten sind mit dem Verkehrsabsetzbetrag abgegolten (lit. a).`),
+        ...(art === "klein" && km >= S.pendler.gross[0][0] ? [line(`Ist ein Massenverkehrsmittel mindestens auf der halben Strecke nicht zumutbar, kommt ab ${S.pendler.gross[0][0]} km das große Pendlerpauschale in Frage.`)] : [])] };
+    const [z, n, wort] = tage >= 11 ? [1, 1, "voll"] : tage >= 8 ? [2, 3, "zu zwei Dritteln"] : tage >= 4 ? [1, 3, "zu einem Drittel"] : [0, 1, "nicht"];
+    const pp = base * z / n, pe = S.pendlereuro * km * z / n;
+    const st = [line(`${art === "gross" ? "Großes" : "Kleines"} Pendlerpauschale, Stufe „${stufe}“: ${eur(base)} jährlich (§ 16 Abs. 1 Z 6 lit. ${lit} EStG 1988)`),
+      line(`${nf(tage, 0)} Fahrten im Kalendermonat: Das Pauschale steht ${wort} zu (lit. e: ab 11 Tagen voll, 8 bis 10 Tage zwei Drittel, 4 bis 7 Tage ein Drittel).`),
+      line(`Pendlerpauschale${n > 1 ? ` = ${eur(base)} × ${z}/${n} =` : z ? ":" : ` = ${eur(base)} × 0 =`} <mark>${eur(pp)}</mark> pro Jahr, das sind ${eur(pp / 12)} pro Monat (Freibetrag)`),
+      line(`Pendlereuro = ${nf(km, 0)} km × ${eur(S.pendlereuro)}${n > 1 ? ` × ${z}/${n}` : z ? "" : " × 0"} = <b>${eur(pe)}</b> pro Jahr (Absetzbetrag, § 33 Abs. 5 Z 4 EStG 1988)`)];
+    const k = [["Pendlerpauschale pro Jahr", pp, "eur"], ["Pendlereuro pro Jahr", pe, "eur"]];
+    if (gs > 0) { const ent = pp * gs / 100 + pe; st.push(line(`Überschlag mit ${pc(gs, 0)} Grenzsteuersatz: ${eur(pp)} × ${nf(gs / 100, 2)} + ${eur(pe)} = ${eur(ent)} weniger Lohnsteuer im Jahr`)); k.push(["Steuerentlastung (Überschlag)", ent, "eur"]); }
+    else st.push(line(`Der Freibetrag senkt die Steuer um deinen Grenzsteuersatz, der Pendlereuro in voller Höhe. Wähle oben einen Grenzsteuersatz für den Überschlag.`));
+    return { result: eur(pp), label: "Pendlerpauschale pro Jahr (Freibetrag)", steps: st, k };
+  };
+
+  /* Verzugszinsen: taggenau, je Halbjahr mit dem dann geltenden Basiszinssatz; Zinstage ÷ Tage des Kalenderjahres; keine Zinseszinsen */
+  const tag = s => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s || "").trim()); if (!m) return NaN; const t = Date.UTC(+m[1], +m[2] - 1, +m[3]); const d = new Date(t); return d.getUTCFullYear() === +m[1] && d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3] ? t : NaN; };
+  const TAG = 864e5, dat = t => { const d = new Date(t); return `${d.getUTCDate()}.${d.getUTCMonth() + 1}.${d.getUTCFullYear()}`; };
+  C.verzug = f => {
+    const land = sel(f, "land"), B = val(f, "betrag"), von = tag(sel(f, "von")), bis = tag(sel(f, "bis"));
+    const W = { de_v: ["de", S.verzug.de_v, "§ 288 Abs. 1 BGB"], de_u: ["de", S.verzug.de_u, "§ 288 Abs. 2 BGB"], at_u: ["at", S.verzug.at_u, "§ 456 UGB"], at_v: ["", S.verzug.at_v, "§ 1000 Abs. 1, § 1333 Abs. 1 ABGB"] }[land];
+    if (!W) return bad("Bitte eine Rechtsgrundlage auswählen.");
+    if (!Number.isFinite(B) || B <= 0 || B > 1e9) return bad("Bitte den offenen Betrag eingeben (größer als 0).");
+    if (!Number.isFinite(von) || !Number.isFinite(bis)) return bad("Bitte ersten und letzten Zinstag als Datum eingeben.");
+    const min = tag(S.verzugAb), max = tag(S.verzugBis);
+    if (von < min) return bad(`Der Rechner kennt die Basiszinssätze ab ${dat(min)}. Bitte einen späteren ersten Zinstag wählen.`);
+    if (bis > max) return bad(`Der Basiszinssatz steht nur bis ${dat(max)} fest. Bitte einen früheren letzten Zinstag wählen.`);
+    if (bis < von) return bad("Der letzte Zinstag liegt vor dem ersten.");
+    const basis = t => { if (!W[0]) return 0; const iso = new Date(t).toISOString().slice(0, 10); let v = NaN; for (const [ab, w] of S.basis[W[0]]) if (ab <= iso) v = w; return v; };
+    const rows = []; let sum = 0, tage = 0, a = von;
+    while (a <= bis) {
+      const d = new Date(a), y = d.getUTCFullYear(), h2 = d.getUTCMonth() >= 6;
+      const ende = Math.min(bis, h2 ? Date.UTC(y, 11, 31) : Date.UTC(y, 5, 30));
+      const n = Math.round((ende - a) / TAG) + 1, jahr = (Date.UTC(y + 1, 0, 1) - Date.UTC(y, 0, 1)) / TAG;
+      const b = basis(a), satz = W[0] ? b + W[1] : W[1], z = B * satz / 100 * n / jahr;
+      if (!Number.isFinite(satz)) return bad("Für diesen Zeitraum liegt kein Basiszinssatz vor.");
+      rows.push({ a, ende, n, jahr, b, satz, z }); sum += z; tage += n; a = ende + TAG;
+    }
+    const st = [line(W[0] ? `Zinssatz = Basiszinssatz + ${nf(W[1], 1)} Prozentpunkte (${W[2]}); der Basiszinssatz wird je Halbjahr angesetzt.` : `Zinssatz = ${nf(W[1], 0)} % pro Jahr, fest (${W[2]}).`)];
+    rows.forEach(r => st.push(line(`${dat(r.a)} bis ${dat(r.ende)}: ${eur(B)} × ${pc(r.satz)}${W[0] ? ` (${nf(r.b, 2)} + ${nf(W[1], 1)})` : ""} × ${r.n} ÷ ${r.jahr} Tage = ${eur(r.z)}`)));
+    st.push(line(`Summe: <mark>${eur(sum)}</mark> für ${nf(tage, 0)} Zinstage · Forderung samt Zinsen: ${eur(B + sum)}`));
+    if (land === "de_u" || land === "at_u") st.push(line(`Zusätzlich kann der Gläubiger eine Pauschale von 40 € verlangen (${land === "de_u" ? "§ 288 Abs. 5 BGB" : "§ 458 UGB"}); sie ist hier nicht eingerechnet.`));
+    st.push(line(`Einfache Zinsen ohne Zinseszins; erster und letzter Zinstag zählen mit.`));
+    const table = `<div class="scroll"><table class="tbl small"><thead><tr><th>Zeitraum</th><th>Tage</th><th>Zinssatz</th><th>Zinsen</th></tr></thead><tbody>${rows.map(r => `<tr><td>${dat(r.a)}–${dat(r.ende)}</td><td>${r.n}</td><td>${pc(r.satz)}</td><td>${eur(r.z)}</td></tr>`).join("")}</tbody></table></div>`;
+    return { result: eur(sum), label: `Verzugszinsen für ${nf(tage, 0)} Tage`, steps: st, extra: table, k: [["Verzugszinsen", sum, "eur"], ["Forderung samt Zinsen", B + sum, "eur"], ["Zinstage", tage, "Tage"]],
+      csv: { name: "verzugszinsen", head: ["Von", "Bis", "Tage", "Zinssatz in %", "Zinsen in Euro"], rows: rows.map(r => [dat(r.a), dat(r.ende), String(r.n), nf(r.satz), nf(r.z)]) } };
   };
 
   function run(form) {
     const fn = C[form.dataset.calc]; if (!fn) return;
     let r; try { r = fn(form); } catch (e) { r = bad("Bitte die Eingaben prüfen."); }
     const out = $(`[data-out="${form.id}"]`) || form.querySelector("[data-out]"); if (!out || !r) return;
-    if (!r.result) { out.innerHTML = `<p class="hint">${r.note}</p>`; return; }
-    out.innerHTML = `<div class="res"><span class="res-label">${r.label || "Ergebnis"}</span><output class="res-val">${r.result}</output></div><h3 class="way-h">Rechenweg</h3><ol class="way">${r.steps.join("")}</ol>${r.pre || ""}${r.extra || ""}<p class="share no-print"><button type="button" class="btn-beleg" data-beleg>Als Beleg drucken oder als PDF sichern</button> <button type="button" class="linkbtn" data-share>Link zu dieser Rechnung kopieren</button></p>`;
-    form._rk = r;
+    if (!r.result) { form._rk = null; out.innerHTML = `<p class="hint">${r.note}</p>`; return; }
+    form._rk = r; form._cmp = vergleich(form, r);
+    const acts = `<div class="acts no-print"><button type="button" class="btn-beleg" data-pin>${form._A ? "Szenario A neu setzen" : "Als Szenario A merken"}</button>${form._A ? `<button type="button" class="btn-beleg" data-unpin>Vergleich beenden</button>` : ""}<button type="button" class="btn-beleg" data-copy>Ergebnis kopieren</button><button type="button" class="btn-beleg" data-share>Link kopieren</button><button type="button" class="btn-beleg" data-beleg>Als Beleg drucken oder PDF</button>${r.csv ? `<button type="button" class="btn-beleg" data-csv>Tabelle als CSV</button>` : ""}</div>`;
+    out.innerHTML = `<div class="res"><span class="res-label">${r.label || "Ergebnis"}</span><output class="res-val">${r.result}</output></div><h3 class="way-h">Rechenweg</h3><ol class="way">${r.steps.join("")}</ol>${form._cmp}${r.pre || ""}${r.extra || ""}${acts}${form._A ? "" : `<p class="small muted no-print">Szenario merken, dann Werte ändern: Der Rechner zeigt beide Ergebnisse nebeneinander.</p>`}`;
     clearTimeout(form._rkT); form._rkT = setTimeout(() => remember(form, r), 1500);
   }
 
@@ -329,6 +411,44 @@
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const plain = s => String(s).replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ");
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }, del(k) { try { localStorage.removeItem(k); } catch (e) {} } };
+
+  /* ---------- Vergleich zweier Szenarien: A wird gemerkt, die aktuelle Eingabe ist B. Nichts davon wird gespeichert. */
+  const kennzahlen = r => { if (r.k) return r.k; const x = num(plain(r.result).replace(/[^\d,.\-]/g, "")); return Number.isFinite(x) ? [[plain(r.label || "Ergebnis"), x, /%/.test(r.result) ? "pct" : /€/.test(r.result) ? "eur" : "num"]] : []; };
+  const zeig = (v, u) => u === "eur" ? eur(v) : u === "pct" ? pc(v) : u === "num" ? nf(v, 4) : `${nf(v, 2)} ${u}`;
+  const diff = (a, b, u) => { const d = b - a; if (Math.abs(d) < 5e-7) return "gleich"; const vz = d > 0 ? "+" : "−", ab = Math.abs(d);
+    if (u === "pct") return `${vz}${nf(ab, 2)} Prozentpunkte`;
+    return `${vz}${zeig(ab, u)}${a !== 0 ? ` (${vz}${pc(ab / Math.abs(a) * 100, 1)})` : ""}`; };
+  function vergleich(f, r) {
+    const A = f._A; if (!A) return "";
+    const ka = kennzahlen(A.r), kb = kennzahlen(r), rows = [];
+    kb.forEach(([n, v, u]) => { const x = ka.find(y => y[0] === n && y[2] === u); if (x) rows.push(`<tr><td>${esc(n)}</td><td>${zeig(x[1], u)}</td><td>${zeig(v, u)}</td><td>${diff(x[1], v, u)}</td></tr>`); });
+    const jetzt = inputsOf(f), anders = [];
+    jetzt.forEach(([n, v]) => { const x = A.inputs.find(y => y[0] === n); if (x && x[1] !== v) anders.push(`${esc(n)}: ${esc(x[1])} → ${esc(v)}`); });
+    const kopf = `<h3 class="way-h">Vergleich: Szenario A und B</h3>`;
+    if (!rows.length) return `<div class="cmp">${kopf}<p class="small">A: ${esc(plain(A.r.label || ""))} ${esc(plain(A.r.result))} · B: ${esc(plain(r.label || ""))} ${esc(plain(r.result))}. Die beiden Rechnungen haben keine gemeinsame Kennzahl – für eine Gegenüberstellung dieselbe Rechenart wählen.</p></div>`;
+    return `<div class="cmp">${kopf}<div class="scroll"><table class="tbl small"><thead><tr><th></th><th>A (gemerkt)</th><th>B (jetzt)</th><th>B gegenüber A</th></tr></thead><tbody>${rows.join("")}</tbody></table></div><p class="small muted">${anders.length ? `Geändert: ${anders.join(" · ")}` : "Noch nichts geändert – ändere oben einen Wert, um Szenario B zu rechnen."}</p></div>`;
+  }
+  function merke(f) { const r = f._rk; if (!r || !r.result) return; f._A = { r, inputs: inputsOf(f), q: params(f).toString() }; }
+
+  /* ---------- CSV: Strichpunkt-getrennt mit BOM für Tabellenprogramme. Zellen, die als Formel gelesen würden (= + - @ Tab), bekommen ein Hochkomma. */
+  const zelle = v => { let s = String(v == null ? "" : v).replace(/\r?\n/g, " "); if (/^[=+\-@\t\r]/.test(s) && !/^-?\d+([.,]\d+)*$/.test(s)) s = "'" + s; return `"${s.replace(/"/g, '""')}"`; };
+  const csvText = (head, rows) => "\ufeff" + [head, ...rows].map(z => z.map(zelle).join(";")).join("\r\n") + "\r\n";
+  function laden(name, text) {
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "text/csv;charset=utf-8" })); a.download = `rechenklarheit-${name}.csv`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  async function kopiere(text, b, ok) {
+    try { await navigator.clipboard.writeText(text); b.textContent = ok; }
+    catch (e) { const t = document.createElement("textarea"); t.className = "sharelink"; t.readOnly = true; t.value = text; t.setAttribute("aria-label", "Zum Kopieren markiert"); b.replaceWith(t); t.focus(); t.select(); }
+  }
+  function alsText(f) {
+    const r = f._rk, h1 = document.querySelector("h1")?.textContent.trim() || "Rechnung";
+    const z = [`${h1} – Rechenklarheit`, `${plain(r.label || "Ergebnis")}: ${plain(r.result)}`, "", "Eingaben:", ...inputsOf(f).map(([k, v]) => `  ${k}: ${v}`), "", "Rechenweg:", ...r.steps.map((s, i) => `  ${i + 1}. ${plain(s)}`)];
+    if (f._A) { const ka = kennzahlen(f._A.r); z.push("", "Vergleich mit Szenario A:"); kennzahlen(r).forEach(([n, v, u]) => { const x = ka.find(y => y[0] === n && y[2] === u); if (x) z.push(`  ${n}: A ${zeig(x[1], u)} · B ${zeig(v, u)} · ${diff(x[1], v, u)}`); }); }
+    z.push("", `Nachrechnen: ${link(f)}`, "Ohne Gewähr. Keine Steuer-, Rechts- oder Finanzberatung.");
+    return z.join("\n");
+  }
+  const link = f => { const q = params(f); if (f._A) q.set("vgl", f._A.q); return `${location.origin}${location.pathname}?${q}`; };
 
   /* ---------- Beleg: Ergebnis mit Eingaben und Rechenweg als druckbares Blatt (Drucken oder „Als PDF sichern“) */
   function inputsOf(f) {
@@ -345,7 +465,7 @@
   }
   function beleg(f) {
     const r = f._rk; if (!r || !r.result) return;
-    const now = new Date(), url = `${location.origin}${location.pathname}?${params(f)}`;
+    const now = new Date(), url = link(f);
     const h1 = document.querySelector("h1")?.textContent || "Rechnung";
     let el = document.getElementById("beleg");
     if (!el) { el = document.createElement("div"); el.id = "beleg"; document.body.appendChild(el); }
@@ -353,7 +473,7 @@
 <p class="b-meta">${now.toLocaleDateString("de-AT")} · ${now.toLocaleTimeString("de-AT", { hour: "2-digit", minute: "2-digit" })}</p>
 <table>${inputsOf(f).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table>
 <div class="b-sum"><span>${esc(plain(r.label || "Ergebnis"))}</span><strong>${esc(plain(r.result))}</strong></div>
-<h3>Rechenweg</h3><ol>${r.steps.join("")}</ol>${r.extra || ""}
+<h3>Rechenweg</h3><ol>${r.steps.join("")}</ol>${f._cmp || ""}${r.extra || ""}
 <p class="b-foot">Ohne Gewähr. Ersetzt keine Steuer-, Rechts- oder Finanzberatung.<br>Rechnung nachvollziehen: ${esc(url)}</p>`;
     document.body.classList.add("beleg-druck");
     const done = () => { document.body.classList.remove("beleg-druck"); window.removeEventListener("afterprint", done); };
@@ -395,6 +515,11 @@
   });
   document.addEventListener("click", e => {
     if (e.target.closest("[data-beleg]")) beleg(e.target.closest("form"));
+    const pin = e.target.closest("[data-pin],[data-unpin]");
+    if (pin) { const f = pin.closest("form"); if (pin.hasAttribute("data-pin")) { merke(f); track("szenario_merken", { rechner: f.dataset.calc }); } else f._A = null; run(f); (f.querySelector(f._A ? "[data-unpin]" : "[data-pin]") || f).focus(); }
+    const cp = e.target.closest("[data-copy]"); if (cp) { const f = cp.closest("form"); if (f._rk) kopiere(alsText(f), cp, "Kopiert ✓"); track("ergebnis_kopieren", { rechner: f.dataset.calc }); }
+    const cs = e.target.closest("[data-csv]"); if (cs) { const f = cs.closest("form"), c = f._rk && f._rk.csv; if (c) laden(c.name, csvText(c.head, c.rows)); }
+    const ex = e.target.closest("[data-ex]"); if (ex) { const f = document.getElementById(ex.dataset.for) || ex.closest("form"); if (f) { setze(f, new URLSearchParams(ex.dataset.ex)); sync(f); run(f); $$("[data-ex]", ex.parentNode).forEach(b => b.setAttribute("aria-pressed", b === ex ? "true" : "false")); track("beispiel", { rechner: f.dataset.calc }); } }
     if (e.target.closest("[data-verlauf-clear]")) { store.del(VKEY); showV(); track("verlauf_loeschen"); }
     if (e.target.closest("[data-verlauf] a")) track("verlauf_oeffnen");
     if (e.target.closest("[data-share]")) track("link_teilen", { rechner: e.target.closest("form")?.dataset.calc });
@@ -406,43 +531,66 @@
     [...f.elements].forEach(el => { if (el.name && !el.closest("[hidden]") && el.name !== "preset") q.set(el.name, el.value); });
     return q;
   }
-  function restore(f) {
-    const q = new URLSearchParams(location.search); if (![...q.keys()].length) return;
-    ["mode", "fuel", "cat", "dir"].forEach(k => { if (q.has(k) && f.elements[k]) f.elements[k].value = q.get(k); });
+  function setze(f, q) {
+    ["mode", "fuel", "cat", "dir", "land"].forEach(k => { if (q.has(k) && f.elements[k]) f.elements[k].value = q.get(k); });
     if (f.elements.cat) run(f); // Einheiten-Optionen aufbauen
     if (f.dataset.calc === "fahrt") f.dataset.fuel = sel(f, "fuel");
     if (f.dataset.calc === "marge") f.dataset.mode = sel(f, "mode");
     if (f.elements.preset) { f.elements.preset.value = ""; }
     q.forEach((v, k) => { const el = f.elements[k]; if (el && !(el instanceof RadioNodeList)) el.value = v; });
   }
-  document.addEventListener("click", async e => {
+  document.addEventListener("click", e => {
     const b = e.target.closest("[data-share]"); if (!b) return;
-    const f = b.closest("form"); const url = `${location.origin}${location.pathname}?${params(f)}`;
-    try { await navigator.clipboard.writeText(url); b.textContent = "Link kopiert ✓"; } catch { b.outerHTML = `<input class="sharelink" readonly value="${url}" onfocus="this.select()">`; }
+    const f = b.closest("form"), url = link(f);
+    kopiere(url, b, "Link kopiert ✓");
     history.replaceState(null, "", url);
   });
+  /* Abhängige Anzeige nach programmatischem Setzen: ein-/ausgeblendete Felder und Beschriftungen */
+  function sync(f) {
+    $$("[data-show-when]", f).forEach(el => { const [name, v] = el.dataset.showWhen.split("="); el.hidden = sel(f, name) !== v; });
+    if (f._sync) f._sync();
+  }
+
+  /* ---------- Filter für Referenztabellen: Suche über alle Spalten, Land und Thema; angezeigte Zeilen als CSV */
+  function filter(form) {
+    const tb = document.getElementById(form.dataset.filter); if (!tb) return;
+    const zeilen = $$("tbody tr", tb), norm = s => String(s).toLowerCase().replace(/\s+/g, " ");
+    const upd = () => {
+      const q = norm(form.elements.q.value).split(" ").filter(Boolean), land = form.elements.land.value, th = form.elements.thema.value; let n = 0;
+      zeilen.forEach(tr => { const t = norm(tr.textContent); const ok = (!land || tr.dataset.land === land) && (!th || tr.dataset.thema === th) && q.every(w => t.includes(w)); tr.hidden = !ok; if (ok) n++; });
+      const c = $(`[data-filter-count="${form.dataset.filter}"]`), leer = $(`[data-filter-empty="${form.dataset.filter}"]`);
+      if (c) c.textContent = n === zeilen.length ? `${n} Einträge` : `${n} von ${zeilen.length} Einträgen`;
+      if (leer) leer.hidden = n > 0;
+    };
+    form.addEventListener("input", upd); form.addEventListener("change", upd);
+    $("[data-filter-reset]", form)?.addEventListener("click", () => { form.reset(); upd(); form.elements.q.focus(); });
+    $("[data-filter-csv]", form)?.addEventListener("click", () => {
+      const head = ["Land", "Thema", "Was", "Hinweis", "Wert", "Fundstelle", "Link", "Fassung und Abruf"];
+      const t = (el, s) => (s ? el.querySelector(s) : el)?.textContent.trim() || "";
+      const rows = zeilen.filter(tr => !tr.hidden).map(tr => { const c = tr.cells; return [c[0].firstChild.textContent.trim(), tr.dataset.thema, t(c[1], "b"), t(c[1], ".rf-h"), t(c[2]), t(c[3], "a"), c[3].querySelector("a")?.href || "", t(c[3], ".rf-h")]; });
+      laden("saetze-und-grenzwerte", csvText(head, rows));
+    });
+    const q0 = new URLSearchParams(location.search).get("q"); if (q0) form.elements.q.value = q0.slice(0, 80);
+    upd();
+  }
 
   function init() {
     showV();
+    $$("form[data-filter]").forEach(filter);
     $$("form[data-calc]").forEach(f => {
-      restore(f);
+      if (f.dataset.calc === "percent") { // Modus-Beschriftungen des Prozentrechners
+        const L = { anteil: ["Grundwert", "Prozentsatz (%)"], satz: ["Prozentwert", "Grundwert"], grund: ["Prozentwert", "Prozentsatz (%)"], veraenderung: ["Alter Wert", "Neuer Wert"], rabatt: ["Preis (€)", "Rabatt (%)"], ursprung: ["Endpreis (€)", "Rabatt (%)"] };
+        f._sync = () => { const p = L[sel(f, "mode")]; if (p) { $("[data-l=a]", f).textContent = p[0]; $("[data-l=b]", f).textContent = p[1]; } };
+      }
+      const q = new URLSearchParams(location.search), vgl = q.get("vgl"); q.delete("vgl"); q.delete("q");
+      if (vgl) { setze(f, new URLSearchParams(vgl)); sync(f); run(f); merke(f); }   // geteilter Link mit Vergleich: zuerst Szenario A
+      if ([...q.keys()].length) setze(f, q);
       f.addEventListener("input", () => run(f));
-      f.addEventListener("change", () => run(f));
+      f.addEventListener("change", () => { sync(f); run(f); });
       f.addEventListener("submit", e => { e.preventDefault(); run(f); });
-      $$("[data-show-when]", f).forEach(el => {
-        const [name, v] = el.dataset.showWhen.split("=");
-        const upd = () => { el.hidden = sel(f, name) !== v; };
-        f.addEventListener("change", upd); upd();
-      });
-      run(f);
-    });
-    // Modus-Beschriftungen des Prozentrechners
-    $$("form[data-calc=percent]").forEach(f => {
-      const L = { anteil: ["Grundwert", "Prozentsatz (%)"], satz: ["Prozentwert", "Grundwert"], grund: ["Prozentwert", "Prozentsatz (%)"], veraenderung: ["Alter Wert", "Neuer Wert"], rabatt: ["Preis (€)", "Rabatt (%)"], ursprung: ["Endpreis (€)", "Rabatt (%)"] };
-      const upd = () => { const m = sel(f, "mode"); const [x, y] = L[m]; $("[data-l=a]", f).textContent = x; $("[data-l=b]", f).textContent = y; };
-      f.elements.mode.addEventListener("change", upd); upd();
+      sync(f); run(f);
     });
   }
-  window.RK_CALC = C; // für automatische Tests
+  window.RK_CALC = C; window.RK_CSV = { zelle, csvText }; // für automatische Tests
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", init) : init();
 })();

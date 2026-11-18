@@ -8,13 +8,36 @@ from content.articles import ARTICLES
 from content.pages import home_why, home_method, HOME_PUBLISHER, about_body
 from content.kreditvergleich import KREDITVERGLEICH
 from content.shop import PRODUCTS, SHOP_LIVE
+from content import referenz
+from content.eigen import NEU, MERGE, ARTIKEL_PLUS, mit_beispielen, abschnitte
 CALCS.insert(5, KREDITVERGLEICH)
+CALCS += NEU
+
+# Eigenwert 18.11.2026: vier Ratgeber, die sich mit einer Rechnerseite überschnitten, sind in diese eingearbeitet.
+# Die übernommenen Abschnitte stehen vor „Typische Fehler“ bzw. „Häufige Fragen“ der Zielseite; die alte Adresse leitet weiter (siehe main()).
+_ALT = {a["slug"]: a for a in ARTICLES}
+for _alt, (_ziel, _titel) in MERGE.items():
+    _c = next(c for c in CALCS if c["slug"] == _ziel)
+    _plus = abschnitte(_ALT[_alt]["body"], _titel)
+    _i = min([i for i in (_c["body"].find("<h2>Typische Fehler</h2>"), _c["body"].find("<h2>Häufige Fragen</h2>")) if i >= 0], default=-1)
+    _c["body"] = _c["body"] + "\n" + _plus if _i < 0 else _c["body"][:_i] + _plus + "\n" + _c["body"][_i:]
+ARTICLES[:] = [a for a in ARTICLES if a["slug"] not in MERGE]
+for _a in ARTICLES:   # eigene Grafik und „ausprobieren“ direkt nach dem ersten Absatz
+    _i = _a["body"].find("</p>") + 4
+    _a["body"] = _a["body"][:_i] + "\n" + ARTIKEL_PLUS[_a["slug"]] + _a["body"][_i:]
+    _a["related"] = [s for s in _a["related"] if s not in MERGE]
+for _c in CALCS:
+    _c["calc"] = _c["form"].split('data-calc="')[1].split('"')[0]
+    _c["form"] = mit_beispielen(_c["form"], _c["calc"])
+UMLEITUNG = {f'href="/{alt}.html"': f'href="/{ziel}.html"' for alt, (ziel, _) in MERGE.items()}
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261105d"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261118a"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
+CHANGED = "18. November 2026"; CHANGED_ISO = "2026-11-18"   # Seiten, die am 18.11.2026 geändert oder neu angelegt wurden (lastmod, dateModified)
+NEU_SLUGS = {c["slug"] for c in NEU}
 NAV = [("/", "Alle Rechner"), ("/prozentrechner.html", "Prozent"), ("/mehrwertsteuer-rechner.html", "Mehrwertsteuer"),
-       ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/#ratgeber", "Ratgeber")]
+       ("/zinseszins-rechner.html", "Zinsen"), ("/kreditrechner.html", "Kredit"), ("/saetze-und-grenzwerte.html", "Sätze"), ("/#ratgeber", "Ratgeber")]
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True, trim_blocks=True, lstrip_blocks=True)
 PAGES = []
 LEGAL_ADDR = "AdStern – Agentur für digitales Marketing<br>Seilerstätte 8/8, 1010 Wien, Österreich<br>E-Mail: <a href='mailto:office@adstern.com'>office@adstern.com</a><br>Web: <a href='https://www.adstern.com'>www.adstern.com</a>"
@@ -32,9 +55,12 @@ def write(path, template, **ctx):
         body = base["body"]
         cut = body.find("<h2", body.find("<h2") + 1) if body.count("<h2") > 1 else -1
         base["body_first"], base["body_rest"] = (body[:cut], body[cut:]) if cut > 0 else (body, "")
-    (OUT / path).write_text(env.get_template(template).render(**base), encoding="utf-8")
+    html = env.get_template(template).render(**base)
+    for alt, neu in UMLEITUNG.items():      # Links auf zusammengelegte Ratgeber zeigen direkt auf die Zielseite
+        html = html.replace(alt, neu)
+    (OUT / path).write_text(html, encoding="utf-8")
     if base.get("robots") is None:
-        PAGES.append((base["path"], ctx.get("priority", 0.6)))
+        PAGES.append((base["path"], ctx.get("priority", 0.6), ctx.get("mod", CHANGED_ISO)))
 
 
 def crumbs_ld(items):
@@ -51,6 +77,10 @@ def main():
     global N_TESTS; N_TESTS = n_tests
     # Einwilligungs-Test (Statistik-Zettel/Google-CMP): bricht ebenfalls ab, zählt aber nicht zu den Rechner-Prüfungen.
     print(subprocess.run(["node", str(ROOT / "test_einwilligung.js")], check=True, capture_output=True, text=True).stdout.strip())
+    # Gesetzliche Sätze: calc.js muss genau die Zahlen aus content/referenz.py enthalten.
+    js = (ROOT / "assets" / "calc.js").read_text(encoding="utf-8")
+    m = re.search(r"/\*SAETZE\*/const S = (.*?);/\*/SAETZE\*/", js)
+    assert m and m.group(1) == referenz.saetze_js(), "calc.js: Sätze weichen von content/referenz.py ab"
     if OUT.exists(): shutil.rmtree(OUT)
     (OUT / "assets").mkdir(parents=True)
     for f in (ROOT / "assets").iterdir(): shutil.copy(f, OUT / "assets" / f.name)
@@ -61,7 +91,7 @@ def main():
     <a href="/prozent-oder-prozentpunkte.html">Prozent und Prozentpunkten</a>. Beide erklären wir mit Beispielen.</p>"""
     write("index.html", "home.html", title="Rechenklarheit: Rechner mit Rechenweg für Prozent, MwSt. und Zinsen",
           description="Kostenlose Online-Rechner mit Rechenweg: Prozentrechner, Mehrwertsteuer für Österreich und Deutschland, Rabatt, Zinseszins, Kredit, Dreisatz, Brüche, Einheiten.",
-          hero_form=PERCENT_FORM, intro=intro, why=home_why(n_tests), method=home_method(n_tests), publisher=HOME_PUBLISHER,
+          hero_form=mit_beispielen(PERCENT_FORM, "percent"), intro=intro, why=home_why(n_tests), method=home_method(n_tests), publisher=HOME_PUBLISHER,
           articles=ARTICLES, priority=1.0, active="/",
           jsonld=[{"@context": "https://schema.org", "@type": "WebSite", "name": "Rechenklarheit", "url": SITE + "/", "inLanguage": "de"}])
 
@@ -74,19 +104,38 @@ def main():
         if len(t) > 65: t = c["title"]          # Google kürzt ab ca. 60–65 Zeichen
         write(c["slug"] + ".html", "calc.html", title=t, description=c["description"], h1=c["h1"],
               lead=c["lead"], formula=c.get("formula"), form=c["form"], body=c["body"], slug=c["slug"], crumbs=crumbs,
-              related=[BYSLUG[s] for s in c.get("related", []) if s in BYSLUG], jsonld=ld, priority=0.9, checked=CHECKED)
+              related=[BYSLUG[s] for s in c.get("related", []) if s in BYSLUG], jsonld=ld, priority=0.9,
+              checked=CHANGED if c["slug"] in NEU_SLUGS else CHECKED, changed=None if c["slug"] in NEU_SLUGS else CHANGED)
 
     for a in ARTICLES:
         crumbs = [("/", "Rechner"), ("/" + a["slug"] + ".html", a["title"])]
         ld = [crumbs_ld(crumbs), {"@context": "https://schema.org", "@type": "Article", "headline": a["title"], "description": a["description"],
-              "inLanguage": "de", "datePublished": a["published"], "dateModified": CHECKED_ISO,
+              "inLanguage": "de", "datePublished": a["published"], "dateModified": CHANGED_ISO,
               "author": {"@type": "Organization", "name": "AdStern – Agentur für digitales Marketing", "url": "https://www.adstern.com"},
               "publisher": {"@type": "Organization", "name": "AdStern – Agentur für digitales Marketing", "url": "https://www.adstern.com"}}]
         t = f"{a['title']} | Rechenklarheit"
         if len(t) > 65: t = a.get("seo_title", a["title"])
         write(a["slug"] + ".html", "page.html", title=t, description=a["description"], h1=a["title"],
               lead=a["teaser"], body=a["body"], crumbs=crumbs, related=[BYSLUG[s] for s in a["related"]], jsonld=ld, priority=0.7,
-              checked=CHECKED)
+              checked=CHECKED, changed=CHANGED)
+
+    # Referenztabelle: Sätze und Grenzwerte aus Gesetz und amtlichen Quellen
+    crumbs = [("/", "Rechner"), ("/saetze-und-grenzwerte.html", "Sätze und Grenzwerte")]
+    write("saetze-und-grenzwerte.html", "page.html", title="Sätze und Grenzwerte 2026: Österreich und Deutschland", h1="Sätze und Grenzwerte",
+          description="Steuersätze, Pendlerpauschale, Entfernungspauschale, Verzugszinsen, Basiszinssatz, Kredit-Fristen: Werte aus dem Gesetzestext mit Fundstelle, Fassung und Abrufdatum – durchsuchbar.",
+          lead="Steuersätze, Pauschalen, Zinssätze und Fristen aus Österreich und Deutschland – aus dem Gesetzestext, mit Fundstelle, Fassung und Abrufdatum.",
+          body=referenz.seite(), crumbs=crumbs, jsonld=[crumbs_ld(crumbs)], priority=0.8, checked=CHANGED, wide=True)
+
+    # Zusammengelegte Ratgeber: alte Adresse bleibt als Weiterleitung (noindex, canonical, meta refresh; nicht in der Sitemap)
+    for alt, (ziel, _) in MERGE.items():
+        z = next(c for c in CALCS if c["slug"] == ziel)
+        (OUT / f"{alt}.html").write_text(f'''<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weitergeleitet: {z["h1"]} | Rechenklarheit</title>
+<meta name="robots" content="noindex,follow"><link rel="canonical" href="{SITE}/{ziel}.html">
+<meta http-equiv="refresh" content="0; url=/{ziel}.html"></head>
+<body><p>Dieser Ratgeber ist jetzt Teil der Seite <a href="/{ziel}.html">{z["h1"]}</a>.</p></body></html>
+''', encoding="utf-8")
 
     write("about.html", "page.html", title="Über Rechenklarheit", description="Wer hinter Rechenklarheit steht und wie die Rechner arbeiten.",
           h1="Über Rechenklarheit", lead="Rechner, die zeigen, wie gerechnet wird.", priority=0.3,
@@ -100,9 +149,13 @@ def main():
     body = (ROOT / "content" / "privacy_body.html").read_text(encoding="utf-8")
     body = body.replace("Kalender, Planer und Rechner arbeiten", "Alle Rechner arbeiten").replace(
         " Damit die Seite sich dein Bundesland merkt, speichern wir es im lokalen Speicher deines Browsers (localStorage). Diese Speicherung ist für die von dir gewünschte Funktion erforderlich (§ 165 Abs. 3 TKG 2021). Du kannst sie jederzeit über die Browser-Einstellungen löschen.", " Wenn du in der Seitenleiste „Verlauf in diesem Browser speichern“ einschaltest, speichern wir die letzten zwölf Rechnungen (Rechner, Ergebnis und Link mit deinen Eingaben) im lokalen Speicher deines Browsers (localStorage); sie verlassen dein Gerät nicht. Ohne dieses Einschalten wird nichts gespeichert. Die Speicherung erfolgt auf deinen ausdrücklichen Wunsch (§ 165 Abs. 3 TKG 2021); Ausschalten, „Verlauf löschen“ oder die Browser-Einstellungen entfernen sie jederzeit.")
+    # 18.11.2026: geteilte Links enthalten die Eingaben (und bei einem Vergleich beide Szenarien) in der Adresse – genau benennen.
+    alt = "Alle Rechner arbeiten ausschließlich in deinem Browser. Deine Eingaben werden nicht an uns übertragen."
+    assert alt in body
+    body = body.replace(alt, alt + " Eine Ausnahme sind geteilte Links: Kopierst du unter einem Ergebnis den „Link“, stehen deine Eingaben – bei einem Vergleich die beider Szenarien – in der Adresse des Links. Wird ein solcher Link aufgerufen, ist diese Adresse wie bei jedem Seitenaufruf Teil der Verbindungsdaten beim Hosting-Anbieter und wird, nur mit Einwilligung in die Statistik, als Seitenadresse an Google Analytics übermittelt. Ohne Klick auf „Link kopieren“ und beim Anklicken der Beispiele ändert sich die Adresse nicht. „Ergebnis kopieren“, „Tabelle als CSV“ und der Vergleich zweier Szenarien arbeiten nur in deinem Browser und speichern nichts.")
     assert "Bundesland" not in body
     write("privacy.html", "page.html", title="Datenschutz | Rechenklarheit", description="Datenschutzerklärung von Rechenklarheit.",
-          h1="Datenschutzerklärung", lead="Stand: 5. November 2026", ads=False, robots="noindex,follow", body=body)
+          h1="Datenschutzerklärung", lead="Stand: 18. November 2026", ads=False, robots="noindex,follow", body=body)
     if SHOP_LIVE:   # sonst wird shop.html gar nicht gebaut (404) – Schalter SHOP_AN in content/shop.py
         cards = "".join(f'<li class="shop-item"><h3>{p["title"]}</h3><p>{p["text"]}</p><p class="small muted">{p["format"]}</p>'
                         + (f'<a class="btn-beleg" href="{p["checkout"]}" rel="noopener" data-shop-buy="{p["slug"]}">Kaufen · {p["price"]}</a>' if p["checkout"] and p["price"] else '<span class="small muted">In Vorbereitung</span>') + '</li>' for p in PRODUCTS)
@@ -118,7 +171,7 @@ def main():
     (OUT / "google9bf1079fd4bf073e.html").write_text("google-site-verification: google9bf1079fd4bf073e.html")
     (OUT / "ads.txt").write_text("google.com, pub-7811071715414905, DIRECT, f08c47fec0942fa0\n")
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
-    urls = "".join(f"<url><loc>{SITE}{p}</loc><lastmod>{CHECKED_ISO}</lastmod><priority>{pr}</priority></url>" for p, pr in PAGES)
+    urls = "".join(f"<url><loc>{SITE}{p}</loc><lastmod>{mod}</lastmod><priority>{pr}</priority></url>" for p, pr, mod in PAGES)
     (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     print(f"{len(PAGES)} indexierbare Seiten")
 
