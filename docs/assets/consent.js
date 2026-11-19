@@ -50,10 +50,19 @@
 
   // Anzeigenblöcke: Block-IDs werden nach der AdSense-Freigabe hier eingetragen.
   // AdSense-Anzeigenblöcke (Konto pub-7811071715414905, gemeinsame Blöcke „Themen-Websites – …“, angelegt 17.10. und 5.11.2026)
-  const SLOTS = { billboard: "7497607759", rect: "1292301217", half: "1292301217", superbanner: "5774811012", sky: "5064364572", mbanner: "5396758258" };
+  const SLOTS = { billboard: "7497607759", rect: "1292301217", half: "1292301217", superbanner: "5774811012", sky: "5064364572", mbanner: "5396758258",
+                  kopf: "7497607759", kopfflach: "7497607759" };   // Kopfplatz unter der Kopfzeile: derselbe responsive Block wie das Billboard
   // Feste IAB-Formate: Superbanner 728×90, Wide Skyscraper 160×600. Die übrigen Plätze sind responsiv
   // (Billboard 970×250 / Leaderboard 728×90 / Mobile 320×100, Half Page 300×600, Medium Rectangle 300×250).
   const FIXED = { superbanner: [728, 90], sky: [160, 600], mbanner: [320, 100] };
+
+  /* Kopfplatz: responsiver Block mit genauer Größe je Bildschirmbreite („How to modify your responsive ad code“, AdSense-Hilfe 9183363:
+     Größe per style am <ins>, ohne data-ad-format und data-full-width-responsive). Grenzen wie in style.css (.kopfplatz). */
+  function kopfGroesse(art){
+    const ab = px => window.matchMedia(`(min-width:${px}px)`).matches;
+    if (ab(1024)) return `display:block;width:100%;max-width:970px;height:${art === "kopf" ? 250 : 90}px;margin:0 auto`;
+    return ab(768) ? "display:inline-block;width:728px;height:90px" : "display:inline-block;width:320px;height:100px";
+  }
 
   const gpc = navigator.globalPrivacyControl === true;
 
@@ -74,7 +83,10 @@
       const ins = document.createElement("ins");
       ins.className = "adsbygoogle"; ins.dataset.adClient = PUB; ins.dataset.adSlot = id;
       const fixed = FIXED[box.dataset.ad];
-      if (fixed) { ins.style.cssText = `display:inline-block;width:${fixed[0]}px;height:${fixed[1]}px`; }
+      const frei = Boolean(box.parentElement && box.parentElement.classList.contains("platz"));   // Platz ist freigehalten → genaue Größe
+      if (box.dataset.ad === "kopf" || box.dataset.ad === "kopfflach") { ins.style.cssText = kopfGroesse(box.dataset.ad); }
+      else if (frei && box.dataset.ad === "half") { ins.style.cssText = "display:inline-block;width:300px;height:600px"; }
+      else if (fixed) { ins.style.cssText = `display:inline-block;width:${fixed[0]}px;height:${fixed[1]}px`; }
       else {
         ins.style.display = "block";
         ins.dataset.adFormat = box.dataset.ad === "half" ? "vertical" : "auto";
@@ -92,7 +104,13 @@
   function beobachteStatus(box, ins){
     const hatHas = !!(window.CSS && CSS.supports && CSS.supports("selector(:has(a))"));
     if (!hatHas) document.documentElement.classList.add("ohne-has");
-    const setzen = () => { if (["filled", "unfill-optimized"].includes(ins.getAttribute("data-ad-status"))) box.classList.add("ad--voll"); else box.classList.remove("ad--voll"); };
+    /* Freigehaltener Platz (.platz): Die Hülle hält den Platz frei. Meldet Google "unfilled", fällt sie zusammen (.leer). */
+    const platz = box.parentElement && box.parentElement.classList.contains("platz") ? box.parentElement : null;
+    const setzen = () => {
+      const st = ins.getAttribute("data-ad-status");
+      if (["filled", "unfill-optimized"].includes(st)) box.classList.add("ad--voll"); else box.classList.remove("ad--voll");
+      if (platz) { if (st === "unfilled") platz.classList.add("leer"); else platz.classList.remove("leer"); }
+    };
     setzen();
     if (window.MutationObserver) new MutationObserver(setzen).observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
   }

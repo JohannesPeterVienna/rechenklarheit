@@ -170,10 +170,11 @@ const BOESE = ['"><img src=x onerror="window.__xss=1">', "<script>window.__xss=1
     check(await page.locator("form[data-calc] .res-val").count() === 1, `nachrechnen ${h}: Ergebnis`);
   }
   await page.goto(BASE + "/saetze-und-grenzwerte.html");
-  // Anzeigenfläche steht nach dem Inhalt, mindestens 250 px von Filterformular und Tabellenkopf entfernt
-  const abst = await page.evaluate(() => { const ad = document.querySelector("article .ad--billboard"), f = document.querySelector(".rf-filter"); const r = e => { const b = e.getBoundingClientRect(); return [b.top + scrollY, b.bottom + scrollY]; };
-    return { n: document.querySelectorAll("article .ad--billboard").length, d: r(ad)[0] - r(f)[1], nach: !!(document.querySelector("#saetze").compareDocumentPosition(ad) & 4) }; });
-  check(abst.n === 1 && abst.nach && abst.d >= 250, `Sätze-Seite: Anzeige ${Math.round(abst.d)} px unter dem Filter`);
+  // Seit 19.11.2026: Der große Anzeigenplatz steht unter der Kopfzeile vor der Überschrift, mindestens 150 px über dem Filterformular;
+  // zwischen Überschrift, Filter und Tabelle steht keine Anzeigenfläche (gefüllt vermessen in test_erster_bildschirm.js).
+  const abst = await page.evaluate(() => { const ad = document.querySelector(".kopfplatz .ad--kopf"), f = document.querySelector(".rf-filter"), h = document.querySelector("h1"); const r = e => { const b = e.getBoundingClientRect(); return [b.top + scrollY, b.bottom + scrollY]; };
+    return { n: document.querySelectorAll("article .ad").length, kopf: document.querySelectorAll(".kopfplatz .ad--kopf").length, d: r(f)[0] - r(ad.parentElement)[1], vor: !!(ad.compareDocumentPosition(h) & 4) }; });
+  check(abst.n === 0 && abst.kopf === 1 && abst.vor && abst.d >= 150, `Sätze-Seite: Kopfplatz vor der Überschrift, Filter ${Math.round(abst.d)} px darunter, keine Anzeige im Tabellenbereich`);
   for (const s of ["/saetze-und-grenzwerte.html", "/pendlerrechner.html", "/verzugszinsen-rechner.html"]) { await page.goto(BASE + s); check(/Werte bis 31\.12\.2026; Aktualisierung Anfang Jänner 2027/.test(await page.locator(".jw").first().innerText()), `${s}: Hinweis zum Jahreswechsel sichtbar`); }
   await page.goto(BASE + "/pendlerrechner.html");
   check(/Kalenderjahr 2026, nicht für 2025/.test(await page.locator("form .jw").innerText()) && /2026/.test(await page.locator(".res-label").innerText()) && /nicht für 2025/.test(await page.locator(".way li").first().innerText()), "Pendler: Jahr 2026 an Formular und Ergebnis");

@@ -22,7 +22,13 @@
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preload" href="/assets/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css?v={{ v }}">
-{% for ld in jsonld %}<script type="application/ld+json">{{ ld | tojson }}</script>
+{% if ads %}<script>
+/* Freigehaltene Anzeigenplätze (.platz: unter der Kopfzeile, oben in der Seitenleiste): Der Platz steht von Anfang an fest, damit eine Anzeige den Inhalt nicht nach unten schiebt.
+   Kein Freihalten bei GPC (keine Anzeigen) und wenn der AdSense-Loader nicht lädt (z. B. Werbeblocker). */
+(function(d){if(navigator.globalPrivacyControl===true)return;d.classList.add("mit-anzeigen");
+addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="SCRIPT"&&/adsbygoogle\.js/.test(t.src||""))d.classList.remove("mit-anzeigen");},true);})(document.documentElement);
+</script>
+{% endif %}{% for ld in jsonld %}<script type="application/ld+json">{{ ld | tojson }}</script>
 {% endfor %}
 {% if ads %}<script>
 /* Consent-Mode-Grundwerte vor jedem Google-Skript: alles abgelehnt, bis die Google-CMP eine Einwilligung meldet. */
@@ -45,7 +51,8 @@ if(navigator.globalPrivacyControl===true){(window.adsbygoogle=window.adsbygoogle
     {% for href, label in nav %}<a href="{{ href }}"{% if href == active %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
   </nav>
 </div></header>
-<main id="inhalt">
+{% if ads %}<div class="wrap platz kopfplatz kopfplatz--{{ kopf }}"><div class="ad ad--kopf" data-ad="{{ kopf }}" role="complementary" aria-label="Werbung"></div></div>
+{% endif %}<main id="inhalt">
 {% block main %}{% endblock %}
 {% if ads %}<div class="wrap"><div class="ad ad--superbanner" data-ad="superbanner" role="complementary" aria-label="Werbung"></div><div class="ad ad--mbanner" data-ad="mbanner" role="complementary" aria-label="Werbung"></div></div>{% endif %}
 </main>

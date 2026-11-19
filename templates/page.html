@@ -5,11 +5,13 @@
   <article>
     <h1>{{ h1 }}</h1>{% if lead %}<p class="lead">{{ lead }}</p>{% endif %}
     {% if checked %}<p class="small muted">Geprüft am {{ checked }}{% if changed %} · zuletzt geändert am {{ changed }}{% endif %}</p>{% endif %}
-    {% if ads and not wide %}{{ m.ad("billboard") }}{% endif %}
-    <div class="prose{% if wide %} prose-wide{% endif %}">{{ body | safe }}</div>
-    {% if ads and wide %}{{ m.ad("billboard") }}{% endif %}{# breite Seiten mit Filterformular: Anzeige erst nach dem Inhalt, weit weg von den Bedienelementen #}
+    {# Der große Platz steht seit 19.11.2026 unter der Kopfzeile (base.html), vor der Überschrift – auf der Sätze-Seite damit weit über dem Filterformular.
+       Auf schmalen Bildschirmen (ohne Seitenleiste) folgt ein Rechteck erst nach dem ersten Abschnitt. #}
+    <div class="prose{% if wide %} prose-wide{% endif %}">{{ body_first | safe }}</div>
+    {% if body_rest %}{% if ads and not wide %}{{ m.ad("rect", "ad--schmal") }}{% endif %}
+    <div class="prose{% if wide %} prose-wide{% endif %}">{{ body_rest | safe }}</div>{% endif %}
     {% if related %}<h2>Weiterlesen</h2><ul class="cards">{% for a in related %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>{% endif %}
   </article>
-  {% if ads %}{{ m.sidebar(calcs, "", articles) }}{% else %}<aside></aside>{% endif %}
+  {% if ads %}{{ m.sidebar(calcs, "", articles, half_oben=not wide) }}{% else %}<aside></aside>{% endif %}
 </div>
 {% endblock %}

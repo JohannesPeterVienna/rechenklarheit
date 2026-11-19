@@ -2,7 +2,9 @@
    Ein Stub ersetzt adsbygoogle.js und liefert nie eine Anzeige.
    Prüft (AdSense-Hilfe 10762946): ohne data-ad-status bleibt das <ins> sichtbar und ungeschnitten (Breite > 0,
           kein overflow:hidden), nur „Werbung“, Mindesthöhe und Abstände fehlen; "unfilled" → ins display:none;
-          "filled"/"unfill-optimized" → Platz mit „Werbung“ – samt 150 px Abstand der Half-Page unter dem Verlauf-Kasten. */
+          "filled"/"unfill-optimized" → Platz mit „Werbung“ – samt 150 px Abstand des Skyscrapers unter dem Verlauf-Kasten (Lese-Seiten).
+   Seit 19.11.2026 steht der Verlauf-Kasten auf Rechner-Seiten oben in der Seitenleiste; die Abstände aller Plätze zu allen
+   Bedienelementen und die freigehaltenen Plätze im ersten Bildschirm prüft test_erster_bildschirm.js. */
 "use strict";
 const http = require("http"), fs = require("fs"), path = require("path");
 const { chromium } = require("playwright");
@@ -72,9 +74,16 @@ function insOk(l){
     const da = Object.fromEntries((await flaechen(page)).map(x => [x.art, x]));
     check(da.superbanner && da.superbanner.h >= 90 && da.superbanner.label, `${status}: Superbanner mit „Werbung“ sichtbar`);
     check(da.superbanner && da.superbanner.unten === 120, `${status}: Superbanner-Abstand zum Fußzeilen-Knopf bleibt`);
-    check(da.half && da.half.h >= 600 && da.half.oben === 150 && da.half.label, `${status}: Half-Page mit „Werbung“ und 150 px Abstand zum Verlauf-Kasten`);
+    check(da.half && da.half.h >= 600 && da.half.label, `${status}: Half-Page mit „Werbung“ sichtbar`);
+    check(da.kopfflach && da.kopfflach.h === 90 && da.kopfflach.label, `${status}: Kopfplatz mit „Werbung“ sichtbar`);
     check(await page.$$eval(".ad.on", l => l.every(b => b.classList.contains("ad--voll"))), `${status}: Rückfall-Klasse .ad--voll gesetzt`);
     await ctx.close();
+    const lesen = await oeffnen(1366, "/prozent-oder-prozentpunkte.html");
+    await lesen.page.$$eval(".ad.on ins.adsbygoogle", (l, st) => l.forEach(i => i.setAttribute("data-ad-status", st)), status);
+    const le = Object.fromEntries((await flaechen(lesen.page)).map(x => [x.art, x]));
+    check(le.sky && le.sky.h >= 600 && le.sky.oben === 150 && le.sky.label, `${status}: Lese-Seite – Skyscraper mit „Werbung“ und 150 px Abstand zum Verlauf-Kasten`);
+    check(le.half && le.half.h === 600 && le.half.label && le.kopf && le.kopf.h === 250 && le.kopf.label, `${status}: Lese-Seite – Kopfplatz 250 px und Half-Page 600 px mit „Werbung“`);
+    await lesen.ctx.close();
   }
   {
     const { ctx, page } = await oeffnen(390, "/prozentrechner.html");

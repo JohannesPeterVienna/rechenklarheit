@@ -34,7 +34,7 @@ for _c in CALCS:
 UMLEITUNG = {f'href="/{alt}.html"': f'href="/{ziel}.html"' for alt, (ziel, _) in MERGE.items()}
 
 ROOT = Path(__file__).parent; OUT = ROOT / "docs"
-SITE = "https://rechenklarheit.de"; V = "20261118a"; UPDATED = "November 2026"
+SITE = "https://rechenklarheit.de"; V = "20261119a"; UPDATED = "November 2026"
 CHECKED = "4. November 2026"; CHECKED_ISO = "2026-11-04"   # sichtbare Prüfzeile auf Rechner- und Ratgeberseiten
 CHANGED = "18. November 2026"; CHANGED_ISO = "2026-11-18"   # Seiten, die am 18.11.2026 geändert oder neu angelegt wurden (lastmod, dateModified)
 NEU_SLUGS = {c["slug"] for c in NEU}
@@ -52,10 +52,13 @@ def write(path, template, **ctx):
                 robots=None, og_title=None, calcs=CALCS, articles=ARTICLES, year=2027, checked=None, shop_live=SHOP_LIVE, n_tests=N_TESTS)
     base.update(ctx)
     base["path"] = "/" if path == "index.html" else "/" + path
-    if template == "calc.html":
-        # Erste Anzeige erst nach dem ersten Erklärabschnitt unter dem Rechner, nicht direkt unter Formular/Ergebnis
+    # Kopfplatz unter der Kopfzeile: Seiten mit Rechner oben bekommen das flache Format (90 px hoch), Lese-Seiten das Billboard (bis 970×250)
+    base["kopf"] = "kopf" if template == "page.html" else "kopfflach"
+    if template in ("calc.html", "page.html"):
+        # Rechner: erste Anzeige erst nach dem ersten Erklärabschnitt, nicht direkt unter Formular/Ergebnis.
+        # Lese-Seiten: Rechteck (nur schmale Bildschirme) ebenfalls erst nach dem ersten Abschnitt; breite Seiten (Tabelle mit Filter) und Seiten ohne Werbung bleiben ungeteilt.
         body = base["body"]
-        cut = body.find("<h2", body.find("<h2") + 1) if body.count("<h2") > 1 else -1
+        cut = body.find("<h2", body.find("<h2") + 1) if body.count("<h2") > 1 and not base.get("wide") and base["ads"] else -1
         base["body_first"], base["body_rest"] = (body[:cut], body[cut:]) if cut > 0 else (body, "")
     html = env.get_template(template).render(**base)
     for alt, neu in UMLEITUNG.items():      # Links auf zusammengelegte Ratgeber zeigen direkt auf die Zielseite

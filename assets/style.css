@@ -244,3 +244,38 @@ input[type=date]{min-width:0}
 }
 @media print{.no-print{display:none!important}.rf-h{color:#000}}
 .jw{border-left:3px solid var(--pen);padding:2px 0 2px 12px;margin:12px 0 4px;color:var(--ink)}
+
+/* Freigehaltene Anzeigenplätze im ersten Bildschirm (19.11.2026)
+   .kopfplatz: unter der Kopfzeile, vor Brotkrumen und Überschrift. Größe je Breite (setzt consent.js am <ins>, AdSense-Hilfe 9183363):
+     ab 1024 px Lese-Seiten bis 970×250, Seiten mit Rechner oben bis 970×90; 768–1023 px 728×90; 360–767 px 320×100; darunter kein Platz.
+   .seitenplatz: Half-Page 300×600 oben in der Seitenleiste der Lese-Seiten (nur mit Seitenleiste, ab 901 px).
+   Die Hülle .platz hält Höhe und Abstand von Anfang an frei (Klasse .mit-anzeigen aus dem <head>), damit weder das Einfügen noch das
+   Füllen Inhalt oder Links verschiebt. „Werbung“ steht im freigehaltenen Streifen über der Anzeige und erscheint erst, wenn sie gefüllt ist.
+   Meldet Google "unfilled", fällt die Hülle zusammen (.leer); lädt der Loader nicht (Werbeblocker) oder gilt GPC, wird nichts freigehalten. */
+.platz{display:none}
+.mit-anzeigen .platz{display:block;padding-top:20px}
+.mit-anzeigen .platz.leer{margin:0;padding-top:0;min-height:0}
+.platz>.ad{position:relative;margin:0 auto;line-height:0}
+.platz>.ad::before{position:absolute;left:0;right:0;top:-20px;height:16px;line-height:16px;margin:0}
+.mit-anzeigen .kopfplatz{margin-top:20px;min-height:120px}
+@media (min-width:768px){.mit-anzeigen .kopfplatz{min-height:110px}}
+@media (min-width:1024px){.mit-anzeigen .kopfplatz--kopf{min-height:270px}}
+@media (max-width:359px){.kopfplatz{display:none!important}}
+/* Abstand zwischen Kopfplatz und dem Brotkrumen-Link darunter */
+.mit-anzeigen .kopfplatz:not(.leer)+main>.crumbs{padding-top:40px}
+.mit-anzeigen .seitenplatz{width:300px;min-height:620px;margin:0 auto 30px}
+.side>.platz.leer{margin-bottom:-18px}
+@media (max-width:900px){.seitenplatz{display:none!important}}
+@media print{.platz{display:none!important}}
+/* Seiten mit Rechner oben: Überschrift und Einleitung über die ganze Breite – sie liegen zwischen Kopfplatz und Rechner (≥ 150 px Abstand).
+   Auf schmalen Bildschirmen folgt der Rechner direkt auf die Einleitung; Formel und Hinweise stehen danach. */
+.hero-kopf .lead{max-width:85ch}.hero-kopf h1{margin-bottom:.35em}
+/* Lese-Seiten: Überschrift etwas kleiner, damit unter dem Kopfplatz der Text im ersten Bildschirm beginnt */
+article>h1{font-size:clamp(2rem,4.4vw,3rem)}
+@media (min-width:901px){.hero-kopf h1 span{display:inline}}
+@media (max-width:900px){.hero-grid>.sheet{order:-1}.hero-grid{gap:24px}}
+/* Lese-Seiten (Half-Page oben): Skyscraper 150 px unter dem Verlauf-Kasten. Übrige Seiten: Verlauf-Kasten oben in der Seitenleiste, weg von den Anzeigen im Text. */
+.verlauf+.ad--sky{margin-top:150px}
+@media (max-width:900px){.side>.verlauf{order:5}}   /* einspaltig: Verlauf-Kasten am Ende, nicht direkt unter der letzten Anzeige im Text */
+/* Rechteck im Text nur ohne Seitenleiste */
+@media (min-width:901px){.ad--schmal{display:none!important}}

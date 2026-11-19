@@ -1,13 +1,17 @@
 {% extends "base.html" %}{% import "macros.html" as m %}
 {% block main %}
-<section class="hero"><div class="wrap hero-grid">
-  <div>
-    <h1><span>Rechnen,</span><span>bis es klar ist.</span></h1>
+<section class="hero"><div class="wrap">
+  <div class="hero-kopf">
+    <h1><span>Rechnen,</span> <span>bis es klar ist.</span></h1>
     <p class="lead">Jeder Rechner zeigt nicht nur das Ergebnis, sondern auch den Weg dorthin – Schritt für Schritt, zum Nachvollziehen und Selberrechnen.</p>
+  </div>
+  <div class="hero-grid">
+  <div>
     <p class="muted">Prozente, Mehrwertsteuer, Rabatte, Zinsen, Kredit, Pendlerpauschale, Verzugszinsen und mehr. Kostenlos, ohne Anmeldung, für Österreich und Deutschland.</p>
     <p class="small"><a href="/saetze-und-grenzwerte.html">Sätze und Grenzwerte aus dem Gesetz</a> · <a href="/pendlerrechner.html">Pendlerrechner</a> · <a href="/verzugszinsen-rechner.html">Verzugszinsen</a></p>
   </div>
   <div class="sheet">{{ hero_form | safe }}</div>
+  </div>
 </div></section>
 <div class="wrap">{{ m.vorteile() }}</div>
 <div class="wrap layout">
@@ -28,6 +32,6 @@
     <h2>Wer hinter Rechenklarheit steht</h2>
     <div class="prose">{{ publisher | safe }}</div>
   </div>
-  {{ m.sidebar(calcs, "", articles) }}
+  {{ m.sidebar(calcs, "", articles, verlauf_oben=True) }}
 </div>
 {% endblock %}

@@ -1,9 +1,12 @@
 {% extends "base.html" %}{% import "macros.html" as m %}
 {% block main %}
 {{ m.crumbs(crumbs) }}
-<section class="hero" style="padding-top:18px"><div class="wrap hero-grid">
-  <div><h1>{{ h1 }}</h1><p class="lead">{{ lead }}</p>{% if formula %}<p class="formula">{{ formula }}</p>{% endif %}{% if checked %}<p class="small muted">Geprüft am {{ checked }}{% if changed %} · zuletzt geändert am {{ changed }}{% endif %}</p>{% endif %}{{ m.vorteile(True) }}</div>
+<section class="hero" style="padding-top:18px"><div class="wrap">
+  <div class="hero-kopf"><h1>{{ h1 }}</h1><p class="lead">{{ lead }}</p></div>
+  <div class="hero-grid">
+  <div>{% if formula %}<p class="formula">{{ formula }}</p>{% endif %}{% if checked %}<p class="small muted">Geprüft am {{ checked }}{% if changed %} · zuletzt geändert am {{ changed }}{% endif %}</p>{% endif %}{{ m.vorteile(True) }}</div>
   <div class="sheet">{{ form | safe }}</div>
+  </div>
 </div></section>
 <div class="wrap layout">
   <div class="prose" style="max-width:none"><div class="prose">{{ body_first | safe }}</div>
@@ -12,6 +15,6 @@
   {{ m.ad("rect") }}
   {% if related %}<h2>Passend dazu</h2><ul class="cards">{% for a in related %}<li><a href="/{{ a.slug }}.html"><strong>{{ a.title }}</strong><span>{{ a.teaser }}</span></a></li>{% endfor %}</ul>{% endif %}
   </div>
-  {{ m.sidebar(calcs, slug, articles) }}
+  {{ m.sidebar(calcs, slug, articles, verlauf_oben=True) }}
 </div>
 {% endblock %}
